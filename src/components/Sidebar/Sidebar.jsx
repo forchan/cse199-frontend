@@ -2,17 +2,12 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
 
-// import HeaderLinks from "../Header/HeaderLinks.jsx";
-
 import logo from "../../styles/img/logo.svg";
 
 class Sidebar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      backgroundColor: "black",
-      activeColor: "info",
-    }
+  state = {
+    backgroundColor: "black",
+    activeColor: "info",
   }
 
   activeRoute = routeName => {
