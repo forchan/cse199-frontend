@@ -1,4 +1,5 @@
 import CreateReactApp from '../views/CreateReactApp/CreateReactApp.jsx';
+import Team from '../views/Team/Team.jsx';
 import Home from '../views/Home/Home.jsx';
 
 const appRoutes = [
@@ -7,6 +8,12 @@ const appRoutes = [
     name: "Home",
     icon: "nc-icon nc-world-2",
     component: Home
+  },
+  {
+    path: "/team",
+    name: "Team",
+    icon: "nc-icon nc-user-run",
+    component: Team
   },
   {
     path: "/create-react-app",
