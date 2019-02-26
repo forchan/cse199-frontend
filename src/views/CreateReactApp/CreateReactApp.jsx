@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import logo from '../../styles/img/logo.svg';
 import '../../styles/css/App.css';
 
-class React extends Component {
+class CreateReactApp extends Component {
   render() {
     return (
       <div className="wrapper">
@@ -26,4 +26,4 @@ class React extends Component {
   }
 }
 
-export default React;
+export default CreateReactApp;

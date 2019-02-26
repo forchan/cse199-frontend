@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {
   Collapse,
@@ -20,16 +20,16 @@ import {
 
 // import appRoutes from '../../routes/appRoutes.jsx';
 
-class Header extends React.Component {
+class Header extends Component {
   state = {
     isOpen: false,
     dropdownOpen: false,
-    color: "transparent"
+    color: "white"
   }
 
   toggle = () => {
     if (this.state.isOpen) {
-      this.setState({ color: "transparent" });
+      this.setState({ color: "white" });
     } else {
       this.setState({ color: "dark" });
     }
@@ -79,7 +79,7 @@ class Header extends React.Component {
       });
     } else {
       this.setState({
-        color: "transparent"
+        color: "white"
       });
     }
   }
@@ -157,7 +157,7 @@ class Header extends React.Component {
                 <Link to="#o________o" className="nav-link btn-magnify">
                   <i className="nc-icon nc-layout-11" />
                   <p>
-                    <span className="d-lg-none d-md-block">Stats</span>
+                    <span className="d-lg-none d-md-block">Stuff</span>
                   </p>
                 </Link>
               </NavItem>
