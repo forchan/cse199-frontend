@@ -34,7 +34,7 @@ class Sidebar extends Component {
             href="http://www-student.cse.buffalo.edu/CSE199/admin"
             className="simple-text logo-normal"
           >
-            CSE199 Admin
+            CSE 199 Admin
           </a>
         </div>
         <div className="sidebar-wrapper" ref="sidebar">

@@ -1,5 +1,6 @@
 import CreateReactApp from '../views/CreateReactApp/CreateReactApp.jsx';
 import Team from '../views/Team/Team.jsx';
+import Schedule from '../views/Schedule/Schedule.jsx';
 import Home from '../views/Home/Home.jsx';
 
 const appRoutes = [
@@ -8,6 +9,12 @@ const appRoutes = [
     name: "Home",
     icon: "nc-icon nc-world-2",
     component: Home
+  },
+  {
+    path: "/schedule",
+    name: "Schedule",
+    icon: "nc-icon nc-calendar-60",
+    component: Schedule
   },
   {
     path: "/team",

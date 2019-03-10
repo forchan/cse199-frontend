@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
-import indexRoutes from './routes/indexRoutes.jsx';
+import indexRoutes from './routes/indexRoutes.js';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/css/paper-dashboard.css'

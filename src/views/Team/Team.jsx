@@ -12,12 +12,13 @@ import {
   Row,
   Col
 } from 'reactstrap';
-
 import classnames from 'classnames';
+import { fetchAllInstructors } from '../../utils/ApiUtils.js';
 
 class Team extends Component {
   state = {
-    activeTab: '1'
+    activeTab: '1',
+    instructors: []
   }
 
   toggle = (tab) => {
@@ -28,8 +29,13 @@ class Team extends Component {
     }
   }
 
+  componentDidMount = async () => {
+    let { data } = await fetchAllInstructors();
+    this.setState({ instructors: data });
+  }
+
   render() {
-    console.log(classnames({ active: this.state.activeTab === '1' }));
+    console.log(JSON.stringify(this.state));
     return (
       <div className="content">
         <Nav tabs>
@@ -50,6 +56,7 @@ class Team extends Component {
             </NavLink>
           </NavItem>
         </Nav>
+        &nbsp;
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>

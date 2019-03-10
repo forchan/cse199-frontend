@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Header from '../../components/Header/Header.jsx'
 import Sidebar from '../../components/Sidebar/Sidebar.jsx'
-import appRoutes from '../../routes/appRoutes.jsx';
+import appRoutes from '../../routes/appRoutes.js';
 
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
           <Switch>
             {appRoutes.map((prop, key) => {
               if (prop.redirect) {
-                return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                return <Redirect from={prop.path} to={prop.path} key={key} />;
               }
               return (
                 <Route path={prop.path} component={prop.component} key={key} />
