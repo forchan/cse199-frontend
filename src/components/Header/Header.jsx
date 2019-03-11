@@ -11,11 +11,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Container,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  Input
+  Container
 } from "reactstrap";
 
 // import appRoutes from '../../routes/appRoutes.jsx';
@@ -142,16 +138,9 @@ class Header extends Component {
             navbar
             className="justify-content-end"
           >
-            <form>
-              <InputGroup className="no-border">
-                <Input placeholder="Search..." />
-                <InputGroupAddon addonType="append">
-                  <InputGroupText>
-                    <i className="nc-icon nc-zoom-split" />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </form>
+            <NavbarBrand>
+              Course ID - {this.props.currentCourseId}
+            </NavbarBrand>
             <Nav navbar>
               <NavItem>
                 <Link to="#o________o" className="nav-link btn-magnify">

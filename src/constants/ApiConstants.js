@@ -5,3 +5,4 @@ const VIEW_URL = '/viewcontroller.php';
 export const API_VIEW_URL = `${API_BASE_URL}${VIEW_URL}`;
 
 export const GET_INSTRUCTOR_LIST = 'getInstructorList';
+export const GET_ANNOUNCEMENTS = 'getAnnouncement';

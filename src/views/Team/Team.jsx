@@ -5,23 +5,14 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  CardColumns,
-  Button,
-  CardTitle,
-  CardText,
-  Row,
-  Col
+  CardColumns
 } from 'reactstrap';
 import classnames from 'classnames';
 import InstructorCard from '../../components/Instructor/InstructorCard.jsx'
-import { getStuff } from '../../utils/ApiUtils.js';
-import { GET_INSTRUCTOR_LIST } from '../../constants/ApiConstants.js';
 
 class Team extends Component {
   state = {
     activeTab: '1',
-    instructors: []
   }
   toggle = (tab) => {
     if (this.state.activeTab !== tab) {
@@ -30,14 +21,10 @@ class Team extends Component {
       });
     }
   }
-  componentDidMount = async () => {
-    let { data } = await getStuff({ action: GET_INSTRUCTOR_LIST });
-    this.setState({ instructors: data.instructors });
-  }
   render() {
     var instructorCards = [];
     var taCards = [];
-    this.state.instructors.forEach((instructor) => {
+    this.props.state.instructors.forEach((instructor) => {
       if (instructor.instructor_type !== 'INSTRUCTOR') {
         taCards.push(
           <InstructorCard instructor={instructor} key={instructor.instructor_id} />
@@ -67,6 +54,14 @@ class Team extends Component {
               Teaching Assistants
             </NavLink>
           </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === '3' })}
+              onClick={() => { this.toggle('3'); }}
+            >
+              Add New
+            </NavLink>
+          </NavItem>
         </Nav>
         &nbsp;
         <TabContent activeTab={this.state.activeTab}>
@@ -79,6 +74,9 @@ class Team extends Component {
             <CardColumns>
               {taCards}
             </CardColumns>
+          </TabPane>
+          <TabPane tabId="3">
+
           </TabPane>
         </TabContent>
       </div>
