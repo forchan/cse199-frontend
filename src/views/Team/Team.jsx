@@ -6,6 +6,7 @@ import {
   NavItem,
   NavLink,
   Card,
+  CardColumns,
   Button,
   CardTitle,
   CardText,
@@ -13,14 +14,15 @@ import {
   Col
 } from 'reactstrap';
 import classnames from 'classnames';
-import { fetchAllInstructors } from '../../utils/ApiUtils.js';
+import InstructorCard from '../../components/Instructor/InstructorCard.jsx'
+import { getStuff } from '../../utils/ApiUtils.js';
+import { GET_INSTRUCTOR_LIST } from '../../constants/ApiConstants.js';
 
 class Team extends Component {
   state = {
     activeTab: '1',
     instructors: []
   }
-
   toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -28,14 +30,24 @@ class Team extends Component {
       });
     }
   }
-
   componentDidMount = async () => {
-    let { data } = await fetchAllInstructors();
-    this.setState({ instructors: data });
+    let { data } = await getStuff({ action: GET_INSTRUCTOR_LIST });
+    this.setState({ instructors: data.instructors });
   }
-
   render() {
-    console.log(JSON.stringify(this.state));
+    var instructorCards = [];
+    var taCards = [];
+    this.state.instructors.forEach((instructor) => {
+      if (instructor.instructor_type !== 'INSTRUCTOR') {
+        taCards.push(
+          <InstructorCard instructor={instructor} key={instructor.instructor_id} />
+        );
+      } else {
+        instructorCards.push(
+          <InstructorCard instructor={instructor} key={instructor.instructor_id} />
+        );
+      }
+    })
     return (
       <div className="content">
         <Nav tabs>
@@ -59,29 +71,14 @@ class Team extends Component {
         &nbsp;
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Row>
-              <Col sm="12">
-                <h4>Tab 1 Contents</h4>
-              </Col>
-            </Row>
+            <CardColumns>
+              {instructorCards}
+            </CardColumns>
           </TabPane>
           <TabPane tabId="2">
-            <Row>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-            </Row>
+            <CardColumns>
+              {taCards}
+            </CardColumns>
           </TabPane>
         </TabContent>
       </div>

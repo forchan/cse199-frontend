@@ -7,7 +7,7 @@ class Schedule extends Component {
     return (
       <div className="content">
       <Card>
-        <Table bordered responsive>
+        <Table bordered>
           <thead>
             <tr>
               <th>Section</th>

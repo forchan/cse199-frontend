@@ -14,12 +14,12 @@ class App extends Component {
         <div className="main-panel" ref="mainPanel">
           <Header {...this.props} routes={appRoutes} />
           <Switch>
-            {appRoutes.map((prop, key) => {
-              if (prop.redirect) {
-                return <Redirect from={prop.path} to={prop.path} key={key} />;
+            {appRoutes.map((route, key) => {
+              if (route.redirect) {
+                return <Redirect from={route.path} to={route.to} key={key} />;
               }
               return (
-                <Route path={prop.path} component={prop.component} key={key} />
+                <Route path={route.path} component={route.component} key={key} />
               );
             })}
           </Switch>

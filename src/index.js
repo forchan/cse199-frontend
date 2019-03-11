@@ -15,8 +15,8 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <HashRouter>
     <Switch>
-      {indexRoutes.map((prop, key) => {
-        return <Route to={prop.path} component={prop.component} key={key} />
+      {indexRoutes.map((route, key) => {
+        return <Route to={route.path} component={route.component} key={key} />
       })}
     </Switch>
   </HashRouter>,
