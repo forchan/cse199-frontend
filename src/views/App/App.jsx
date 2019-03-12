@@ -14,34 +14,67 @@ import Team from '../Team/Team.jsx';
 import { getStuff } from '../../utils/ApiUtils.js';
 // Constants
 import {
+  GET_ANNOUNCEMENTS,
+  GET_CALENDAR,
   GET_INSTRUCTOR_LIST,
-  GET_ANNOUNCEMENTS
+  GET_MODULES,
+  GET_SECTION_GROUPS
 } from '../../constants/ApiConstants.js';
 
 
 class App extends Component {
   state = { // Main data related state in entire application
     courseId: 99,
+    calendar: [],
+    announcements: [],
     instructors: [],
-    announcements: []
+    modules: [],
+    sectionGroups: []
   }
   loadInstructors = async () => {
     let { data } = await getStuff({ action: GET_INSTRUCTOR_LIST });
-    if (data) {
-      this.setState({ instructors: data.instructors });
-    }
+    return (data) ? data.instructors : [];
   }
   loadAnnouncements = async () => {
     let { data } = await getStuff({ action: GET_ANNOUNCEMENTS,  courseId: this.state.courseId });
+    return (data) ? data.announcements : [];
+  }
+  loadModules = async () => {
+    const { data } = await getStuff({ action: GET_MODULES, courseId: this.state.courseId });
+    return (data) ? data.modules : [];
+  }
+  loadSectionGroups = async () => {
+    const { data } = await getStuff({ action: GET_SECTION_GROUPS, courseId: this.state.courseId });
+    return (data) ? data.section_groups : [];
+  }
+  loadCalendar = async () => {
+    const { data } = await getStuff({ action: GET_CALENDAR, courseId: this.state.courseId });
+    let calendar = [];
     if (data) {
-      this.setState({ announcements: data.announcements });
+      for (let num = 1; num <= 7; num++) {
+        const targetBlock = "block_" + num;
+        calendar.push(data[targetBlock]);
+      }
     }
+    return calendar;
   }
   componentDidMount = async () => {
-    await this.loadInstructors();
-    await this.loadAnnouncements();
+    const instructors = await this.loadInstructors();
+    const announcements = await this.loadAnnouncements();
+    const modules = await this.loadModules();
+    const calendar = await this.loadCalendar();
+    const sectionGroups = await this.loadSectionGroups();
+    this.setState({
+      instructors: instructors,
+      announcements: announcements,
+      modules: modules,
+      calendar: calendar,
+      sectionGroups: sectionGroups
+    });
   }
+
   render() {
+    console.log(this.state);
     const appRoutes = [
       {
         path: "/home",

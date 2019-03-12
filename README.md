@@ -1,3 +1,29 @@
+================================================================================
+CSE 199 Admin Site Notes
+================================================================================
+
+Component Heirarchy:
+- index.js contains entry point into application.
+- App.jsx is the main App component (view) - which is rendered in index.js
+- App.jsx is contained under views/App/App.jsx
+- All other view components under the views/ directory is rendered in App.jsx
+  using react-router's <Switch/>. So consider App.jsx a "main layout".
+
+State Heirarchy:
+- State will be contained in the views: App.jsx and Schedule.jsx
+- App.jsx contains:
+  - Instructors
+  - Announcements
+  - Modules
+- Schedule.jsx contains:
+
+
+
+
+================================================================================
+Create React App auto generated README
+================================================================================
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
