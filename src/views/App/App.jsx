@@ -51,9 +51,9 @@ class App extends Component {
     const { data } = await getStuff({ action: GET_CALENDAR, courseId: this.state.courseId });
     let calendar = [];
     if (data) {
-      for (let num = 1; num <= 7; num++) {
-        const targetBlock = "block_" + num;
-        calendar.push(data[targetBlock]);
+      for (let num = 1; num <= 7; num++) { // need to extract block values from json
+        let targetBlock = "block_" + num;
+        calendar.push(data[targetBlock][0]);
       }
     }
     return calendar;

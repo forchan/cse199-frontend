@@ -4,8 +4,7 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink,
-  Card
+  NavLink
 } from 'reactstrap';
 import classnames from 'classnames';
 import AnnouncementCard from '../../components/Announcements/AnnouncementCard.jsx';
