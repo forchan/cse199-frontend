@@ -46,33 +46,39 @@ class Schedule extends Component {
   render() {
     const calendarMap = this.configureCalendarMap(this.props.state.calendar);
     const moduleMap = this.configureModuleMap(this.props.state.modules, calendarMap);
+    const rotatingModuleColumns = ['1', '2', '3', '4', '5', '6'];
+    const textColors = [
+      "text-primary",
+      "text-secondary",
+      "text-success",
+      "text-danger",
+      "text-warning",
+      "text-info"
+    ];
     var rows = [];
 
-    this.props.state.sectionGroups.forEach((sectionGroup, key)=> {
+    this.props.state.sectionGroups.forEach((sectionGroup, rowKey)=> {
       rows.push(
-        <tr key={key}>
+        <tr key={rowKey}>
           <th scope="row">{sectionGroup.section_group_name}</th>
           <td className="text-primary" onClick={() => alert(sectionGroup.section_group_name)}>
             {moduleMap.get(INTRO_MODULE)}
           </td>
-          <td className="text-primary" onClick={() => alert('oh')}>
-            {moduleMap.get(this.joinValuesAsKey(sectionGroup.sg_id, '1'))}
-          </td>
-          <td className="text-primary" onClick={() => alert('oh')}>
-            {moduleMap.get(this.joinValuesAsKey(sectionGroup.sg_id, '2'))}
-          </td>
-          <td className="text-primary" onClick={() => alert('oh')}>
-            {moduleMap.get(this.joinValuesAsKey(sectionGroup.sg_id, '3'))}
-          </td>
-          <td className="text-primary" onClick={() => alert('oh')}>
-            {moduleMap.get(this.joinValuesAsKey(sectionGroup.sg_id, '4'))}
-          </td>
-          <td className="text-primary" onClick={() => alert('oh')}>
-            {moduleMap.get(this.joinValuesAsKey(sectionGroup.sg_id, '5'))}
-          </td>
-          <td className="text-primary" onClick={() => alert('oh')}>
-            {moduleMap.get(this.joinValuesAsKey(sectionGroup.sg_id, '6'))}
-          </td>
+          {rotatingModuleColumns.map((columnNumber, colKey) => {
+            return (
+              <td
+                key={colKey}
+                className={textColors[(6 + parseInt(colKey) - parseInt(rowKey)) % 6]}
+                onClick={() => alert('oh')}
+              >
+                {moduleMap.get(this.joinValuesAsKey(sectionGroup.sg_id, columnNumber)) ?
+                  moduleMap.get(this.joinValuesAsKey(sectionGroup.sg_id, columnNumber)) :
+                  "Empty"
+                }
+              </td>
+            );
+          })
+          }
         </tr>
       );
     });
