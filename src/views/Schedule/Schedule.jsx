@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { INTRO_MODULE } from '../../constants/ScheduleConstants.js'
 
 class Schedule extends Component {
+  removeYearOffDate = (dateString) => { // yyyy-mm-dd to mm-dd or m-dd
+    let monthStartIndex = (dateString.charAt(5) === '0') ? 6 : 5; // m vs. mm
+    return dateString.substring(monthStartIndex);
+  }
   /* calendarMap uses "start date : end date" as key and block number as value
    * moduleMap uses "section group id : calendar block number" as key and
    * module name as value
@@ -61,7 +65,7 @@ class Schedule extends Component {
       rows.push(
         <tr key={rowKey}>
           <th scope="row">{sectionGroup.section_group_name}</th>
-          <td className="text-primary" onClick={() => alert(sectionGroup.section_group_name)}>
+          <td className="text-dark" onClick={() => alert(sectionGroup.section_group_name)}>
             {moduleMap.get(INTRO_MODULE)}
           </td>
           {rotatingModuleColumns.map((columnNumber, colKey) => {
@@ -84,24 +88,36 @@ class Schedule extends Component {
     });
     return (
       <div className="content">
-      <Card>
-        <Table bordered>
-          <thead>
-            <tr>
-              <th>Section</th>
-              <th>Intro Weeks</th>
-              <th>Weeks 3 - 4</th>
-              <th>Weeks 5 - 6</th>
-              <th>Weeks 7 - 8</th>
-              <th>Weeks 9 - 10</th>
-              <th>Weeks 11 - 12</th>
-              <th>Weeks 13 - 14</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </Table>
+        <Card>
+          <Table bordered>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Intro Weeks</th>
+                <th>Weeks 3 - 4</th>
+                <th>Weeks 5 - 6</th>
+                <th>Weeks 7 - 8</th>
+                <th>Weeks 9 - 10</th>
+                <th>Weeks 11 - 12</th>
+                <th>Weeks 13 - 14</th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <th>Section</th>
+                {this.props.state.calendar.map((block, key) => {
+                  return (
+                    <td key={key}>
+                      {this.removeYearOffDate(block.start)} to {this.removeYearOffDate(block.end)}
+                    </td>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </Table>
         </Card>
       </div>
     );
