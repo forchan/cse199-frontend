@@ -15,9 +15,12 @@ import { getStuff } from '../../utils/ApiUtils.js';
 // Constants
 import {
   GET_ANNOUNCEMENTS,
+  GET_ACTIVITIES,
+  GET_ASSIGNMENTS,
   GET_CALENDAR,
   GET_INSTRUCTOR_LIST,
   GET_MODULES,
+  GET_LECTURE_NOTES,
   GET_SECTION_GROUPS
 } from '../../constants/ApiConstants.js';
 
@@ -29,7 +32,10 @@ class App extends Component {
     announcements: [],
     instructors: [],
     modules: [],
-    sectionGroups: []
+    sectionGroups: [],
+    activites: [],
+    assignments: [],
+    lectureNotes: []
   }
   loadInstructors = async () => {
     let { data } = await getStuff({ action: GET_INSTRUCTOR_LIST });
@@ -38,6 +44,18 @@ class App extends Component {
   loadAnnouncements = async () => {
     let { data } = await getStuff({ action: GET_ANNOUNCEMENTS,  courseId: this.state.courseId });
     return (data) ? data.announcements : [];
+  }
+  loadActivities = async () => {
+    let { data } = await getStuff({ action: GET_ACTIVITIES, courseId: this.state.courseId });
+    return (data) ? data.activities : [];
+  }
+  loadAssignments = async () => {
+    let { data } = await getStuff({ action: GET_ASSIGNMENTS, courseId: this.state.courseId });
+    return (data) ? data.assignments : [];
+  }
+  loadLectureNotes = async () => {
+    let { data } = await getStuff({ action: GET_LECTURE_NOTES, courseId: this.state.courseId });
+    return (data) ? data.lectureNotes : [];
   }
   loadModules = async () => {
     const { data } = await getStuff({ action: GET_MODULES, courseId: this.state.courseId });
@@ -58,19 +76,30 @@ class App extends Component {
     }
     return calendar;
   }
+  loadScheduleData = async () => {
+    const activites = await this.loadActivities();
+    const assignments = await this.loadAssignments();
+    const lectureNotes = await this.loadLectureNotes();
+    this.setState({
+      activities: activites,
+      assignments: assignments,
+      lectureNotes: lectureNotes
+    });
+  }
   componentDidMount = async () => {
     const instructors = await this.loadInstructors();
     const announcements = await this.loadAnnouncements();
     const modules = await this.loadModules();
     const calendar = await this.loadCalendar();
     const sectionGroups = await this.loadSectionGroups();
-    this.setState({
+    this.setState({ // this loads all the first layer data we need
       instructors: instructors,
       announcements: announcements,
       modules: modules,
       calendar: calendar,
-      sectionGroups: sectionGroups
+      sectionGroups: sectionGroups,
     });
+    this.loadScheduleData(); // loading schedule data after speeds up app launch
   }
 
   render() {
