@@ -7,7 +7,7 @@ import {
   NavLink
 } from 'reactstrap';
 import classnames from 'classnames';
-import AnnouncementCard from '../../components/Announcements/AnnouncementCard.jsx';
+import AnnouncementCard from '../../components/Cards/AnnouncementCard.jsx';
 
 class Announcements extends Component {
   state = {

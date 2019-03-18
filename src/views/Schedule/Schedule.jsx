@@ -2,27 +2,26 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import { Table, Card, Button, Nav, Modal, ModalHeader, ModalBody, ModalFooter,
 TabContent, TabPane, NavItem, NavLink, CardTitle, CardText, Row, Col } from 'reactstrap';
-import { Link } from "react-router-dom";
-import { INTRO_MODULE } from '../../constants/ScheduleConstants.js'
+import ModuleModal from '../../components/Modals/ModuleModal.jsx';
+import { INTRO_MODULE } from '../../constants/ScheduleConstants.js';
 
 class Schedule extends Component {
   state = {
     modal: false,
-    activeTab: '1',
-    openModalModuleName: '',
+    moduleModalHeaderTitle: '',
     modalHeaderClassName: ''
   }
   openModalWithValues = (moduleName, className) => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      openModalModuleName: moduleName,
+      moduleModalHeaderTitle: moduleName,
       modalHeaderClassName: className
     }));
   }
   closeModal = () => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      openModalModuleName: '',
+      moduleModalHeaderTitle: '',
       modalHeaderClassName: ''
     }));
   }
@@ -91,64 +90,14 @@ class Schedule extends Component {
 
     return (
       <div className="content">
-        <Modal isOpen={this.state.modal} toggle={this.closeModal} className="modal-lg">
-          <ModalHeader className={this.state.modalHeaderClassName} toggle={this.closeModal}>
-            {this.state.openModalModuleName}
-          </ModalHeader>
-          <ModalBody>
-            <Nav tabs>
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: this.state.activeTab === '1' })}
-                  onClick={() => { this.toggleTab('1'); }}
-                >
-                  Tab1
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: this.state.activeTab === '2' })}
-                  onClick={() => { this.toggleTab('2'); }}
-                >
-                  Moar Tabs
-                </NavLink>
-              </NavItem>
-            </Nav>
-            <TabContent activeTab={this.state.activeTab}>
-              <TabPane tabId="1">
-                <Row>
-                  <Col sm="12">
-                    <h4>Tab 1 Contents</h4>
-                  </Col>
-                </Row>
-              </TabPane>
-              <TabPane tabId="2">
-                <Row>
-                  <Col sm="6">
-                    <Card body>
-                      <CardTitle>Special Title Treatment</CardTitle>
-                      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                      <Button>Go somewhere</Button>
-                    </Card>
-                  </Col>
-                  <Col sm="6">
-                    <Card body>
-                      <CardTitle>Special Title Treatment</CardTitle>
-                      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                      <Button>Go somewhere</Button>
-                    </Card>
-                  </Col>
-                </Row>
-              </TabPane>
-            </TabContent>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.closeModal}>Do Something</Button>{' '}
-            <Button color="secondary" onClick={this.closeModal}>Cancel</Button>
-          </ModalFooter>
-        </Modal>
+        <ModuleModal
+          isOpen={this.state.modal}
+          toggleClose={this.closeModal}
+          modalHeaderClassName={this.state.modalHeaderClassName}
+          modalHeaderTitle={this.state.moduleModalHeaderTitle}
+        />
         <Card>
-          <Table bordered>
+          <Table bordered responsive>
             <thead>
               <tr>
                 <th></th>
@@ -175,10 +124,15 @@ class Schedule extends Component {
             </thead>
             <tbody>
               {this.props.state.sectionGroups.map((sectionGroup, rowKey)=> {
+                let introModuleName = moduleMap.get(INTRO_MODULE) ? moduleMap.get(INTRO_MODULE) : "Empty";
+                let introModuleClassName = "text-dark";
                 return (
                   <tr key={rowKey}>
                     <th scope="row">{sectionGroup.section_group_name}</th>
-                    <td className="text-dark" onClick={() => alert(sectionGroup.section_group_name)}>
+                    <td
+                      className={introModuleClassName}
+                      onClick={() => this.openModalWithValues(introModuleName, introModuleClassName)}
+                    >
                       {moduleMap.get(INTRO_MODULE)}
                     </td>
                     {rotatingModuleColumns.map((columnNumber, colKey) => {

@@ -8,7 +8,7 @@ import {
   CardColumns
 } from 'reactstrap';
 import classnames from 'classnames';
-import InstructorCard from '../../components/Instructor/InstructorCard.jsx'
+import InstructorCard from '../../components/Cards/InstructorCard.jsx'
 
 class Team extends Component {
   state = {

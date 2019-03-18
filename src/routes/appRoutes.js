@@ -1,5 +1,7 @@
-// MESSAGE: Due to the need to pass props into appRoutes - appRoutes is now
-// moved directly into App.jsx under views directory.
+/* MESSAGE: Due to the need to pass props into appRoutes - appRoutes is now
+ * moved directly into App.jsx under views directory and will no longer be
+ * updated here.
+ */
 
 
 // import CreateReactApp from '../views/CreateReactApp/CreateReactApp.jsx';
