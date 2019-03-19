@@ -8,3 +8,5 @@ export const TEXT_COLORS = [
   "text-warning",
   "text-info"
 ];
+export const LECTURE = 'LECTURE';
+export const RECITATION = 'REC';

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   Button,
@@ -34,6 +35,10 @@ const InstructorCard = (props) => {
       </CardBody>
     </Card>
   );
+}
+
+InstructorCard.propTypes = {
+  instructor: PropTypes.object
 }
 
 export default InstructorCard;

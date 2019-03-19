@@ -15,9 +15,12 @@ import {
   Button,
   CardTitle,
   CardText,
+  CardDeck,
   Row,
   Col
 } from 'reactstrap';
+import SectionCard from '../Cards/SectionCard.jsx';
+import { LECTURE, RECITATION } from '../../constants/ScheduleConstants.js';
 
 class SectionModal extends Component {
   state = {
@@ -59,10 +62,30 @@ class SectionModal extends Component {
             &nbsp;
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
-
+                <CardDeck>
+                  {this.props.sections.map((section, key) => {
+                    if (section.section_group_name === this.props.sectionGroup.section_group_name) {
+                      if (section.section_type === LECTURE) {
+                        return (
+                          <SectionCard key={key} section={section} />
+                        )
+                      }
+                    }
+                  })}
+                </CardDeck>
               </TabPane>
               <TabPane tabId="2">
-
+                <CardDeck>
+                  {this.props.sections.map((section, key) => {
+                    if (section.section_group_name === this.props.sectionGroup.section_group_name) {
+                      if (section.section_type === RECITATION) {
+                        return (
+                          <SectionCard key={key} section={section} />
+                        )
+                      }
+                    }
+                  })}
+                </CardDeck>
               </TabPane>
             </TabContent>
           </ModalBody>

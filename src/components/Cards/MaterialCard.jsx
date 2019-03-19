@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   Button,
@@ -23,6 +24,10 @@ const MaterialCard = (props) => {
       </CardBody>
     </Card>
   );
+}
+
+MaterialCard.propTypes = {
+  material: PropTypes.object
 }
 
 export default MaterialCard;

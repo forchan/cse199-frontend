@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   Button,
@@ -21,6 +22,10 @@ const AnnouncementCard = (props) => {
       </CardBody>
     </Card>
   );
+}
+
+AnnouncementCard.propTypes = {
+  announcement: PropTypes.object
 }
 
 export default AnnouncementCard;
