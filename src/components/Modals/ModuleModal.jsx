@@ -36,9 +36,9 @@ class ModuleModal extends Component {
       <Fragment>
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} className={"modal-lg"}>
           <ModalHeader className={this.props.modalHeaderClassName} toggle={this.props.toggleClose}>
-            {this.props.module.text}&nbsp;&nbsp;
-            {prettyFormatDate(this.props.module.date_start)} to {''}
-            {prettyFormatDate(this.props.module.date_end)}
+            {this.props.module.text}&nbsp;
+            [{prettyFormatDate(this.props.module.date_start)} to {''}
+            {prettyFormatDate(this.props.module.date_end)}]
           </ModalHeader>
           <ModalBody style={{ backgroundColor: '#f4f3ef' }}>
             <Nav tabs>
@@ -47,7 +47,7 @@ class ModuleModal extends Component {
                   className={classnames({ active: this.state.activeTab === '1' })}
                   onClick={() => { this.toggleTab('1'); }}
                 >
-                  Assignments
+                  Activities
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -63,7 +63,7 @@ class ModuleModal extends Component {
                   className={classnames({ active: this.state.activeTab === '3' })}
                   onClick={() => { this.toggleTab('3'); }}
                 >
-                  Activities
+                  Assignments
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -78,12 +78,14 @@ class ModuleModal extends Component {
             &nbsp;
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
-                {this.props.assignments.map((assignment, key) => {
-                  if (assignment.date_start === this.props.module.date_start) {
-                    if (assignment.date_end === this.props.module.date_end) {
-                      return (
-                        <MaterialCard key={key} material={assignment} />
-                      )
+                {this.props.activities.map((activity, key) => {
+                  if (activity.date_start === this.props.module.date_start) {
+                    if (activity.date_end === this.props.module.date_end) {
+                      if (activity.section_group_id === this.props.module.section_group_id) {
+                        return (
+                          <MaterialCard key={key} material={activity} />
+                        )
+                      }
                     }
                   }
                 })}
@@ -92,20 +94,24 @@ class ModuleModal extends Component {
                 {this.props.lectureNotes.map((lectureNote, key) => {
                   if (lectureNote.date_start === this.props.module.date_start) {
                     if (lectureNote.date_end === this.props.module.date_end) {
-                      return (
-                        <MaterialCard key={key} material={lectureNote} />
-                      )
+                      if (lectureNote.section_group_id === this.props.module.section_group_id) {
+                        return (
+                          <MaterialCard key={key} material={lectureNote} />
+                        )
+                      }
                     }
                   }
                 })}
               </TabPane>
               <TabPane tabId="3">
-                {this.props.activities.map((activity, key) => {
-                  if (activity.date_start === this.props.module.date_start) {
-                    if (activity.date_end === this.props.module.date_end) {
-                      return (
-                        <MaterialCard key={key} material={activity} />
-                      )
+                {this.props.assignments.map((assignment, key) => {
+                  if (assignment.date_start === this.props.module.date_start) {
+                    if (assignment.date_end === this.props.module.date_end) {
+                      if (assignment.section_group_id === this.props.module.section_group_id) {
+                        return (
+                          <MaterialCard key={key} material={assignment} />
+                        )
+                      }
                     }
                   }
                 })}
@@ -113,7 +119,7 @@ class ModuleModal extends Component {
               <TabPane tabId="4">
                 <Row>
                   <Col sm="12">
-                    <h4>Tab 4 Contents</h4>
+                    <h4>Insert staff here @_@</h4>
                   </Col>
                 </Row>
               </TabPane>
