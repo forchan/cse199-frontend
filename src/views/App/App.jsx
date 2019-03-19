@@ -33,7 +33,7 @@ class App extends Component {
     instructors: [],
     modules: [],
     sectionGroups: [],
-    activites: [],
+    activities: [],
     assignments: [],
     lectureNotes: []
   }
@@ -77,11 +77,11 @@ class App extends Component {
     return calendar;
   }
   loadScheduleData = async () => {
-    const activites = await this.loadActivities();
+    const activities = await this.loadActivities();
     const assignments = await this.loadAssignments();
     const lectureNotes = await this.loadLectureNotes();
     this.setState({
-      activities: activites,
+      activities: activities,
       assignments: assignments,
       lectureNotes: lectureNotes
     });

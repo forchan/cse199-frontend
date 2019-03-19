@@ -54,6 +54,7 @@ class Announcements extends Component {
         &nbsp;
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
+
             {announcementCards}
           </TabPane>
           <TabPane tabId="2">

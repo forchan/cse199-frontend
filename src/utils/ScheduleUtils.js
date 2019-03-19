@@ -1,8 +1,10 @@
 import { INTRO_MODULE } from '../constants/ScheduleConstants.js';
 
 export const prettyFormatDate = (dateString) => { // yyyy-mm-dd to mm-dd or m-dd
+  if (dateString === undefined) return "";
   let monthStartIndex = (dateString.charAt(5) === '0') ? 6 : 5; // m vs. mm
-  return dateString.substring(monthStartIndex);
+
+  return dateString.substring(monthStartIndex).replace(/-/g, '/');
 }
 /* calendarMap uses "start date : end date" as key and block number as value
  * moduleMap uses "section group id : calendar block number" as key and
@@ -27,19 +29,19 @@ export const configureCalendarMap = (calendar) => {
   return calendarMap;
 }
 /* moduleMap uses key as "section group id : calendar block number"
- * and the corresponding module name, which is module.text, as value
+ * and the corresponding module as value
  */
 export const configureModuleMap = (modules, calendarMap) => {
   let moduleMap = new Map();
   modules.forEach((module) => {
     if (module.section_group_id === null) {
-      moduleMap.set(INTRO_MODULE, module.text);
+      moduleMap.set(INTRO_MODULE, module);
       return;
     }
     let moduleSectionGroup = module.section_group_id;
     let calendarBlockNumber = calendarMap.get(joinValuesAsKey(module.date_start, module.date_end))
     let moduleKey = joinValuesAsKey(moduleSectionGroup, calendarBlockNumber);
-    moduleMap.set(moduleKey, module.text);
+    moduleMap.set(moduleKey, module);
   });
   return moduleMap;
 }

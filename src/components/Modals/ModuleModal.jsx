@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import classnames from 'classnames';
 import {
   Modal,
   ModalHeader,
@@ -16,7 +17,8 @@ import {
   Row,
   Col
 } from 'reactstrap';
-import classnames from 'classnames';
+import MaterialCard from '../Cards/MaterialCard.jsx';
+import { prettyFormatDate } from '../../utils/ScheduleUtils.js';
 
 class ModuleModal extends Component {
   state = {
@@ -32,11 +34,13 @@ class ModuleModal extends Component {
   render() {
     return (
       <Fragment>
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} className="modal-lg">
-          <ModalHeader className={this.props.modalHeaderClassName} toggle={this.toggleClose}>
-            {this.props.modalHeaderTitle}
+        <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} className={"modal-lg"}>
+          <ModalHeader className={this.props.modalHeaderClassName} toggle={this.props.toggleClose}>
+            {this.props.module.text}&nbsp;&nbsp;
+            {prettyFormatDate(this.props.module.date_start)} to {''}
+            {prettyFormatDate(this.props.module.date_end)}
           </ModalHeader>
-          <ModalBody>
+          <ModalBody style={{ backgroundColor: '#f4f3ef' }}>
             <Nav tabs>
               <NavItem>
                 <NavLink
@@ -71,38 +75,40 @@ class ModuleModal extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
+            &nbsp;
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
-                <Row>
-                  <Col sm="12">
-                    <h4>Tab 1 Contents</h4>
-                  </Col>
-                </Row>
+                {this.props.assignments.map((assignment, key) => {
+                  if (assignment.date_start === this.props.module.date_start) {
+                    if (assignment.date_end === this.props.module.date_end) {
+                      return (
+                        <MaterialCard key={key} material={assignment} />
+                      )
+                    }
+                  }
+                })}
               </TabPane>
               <TabPane tabId="2">
-                <Row>
-                  <Col sm="6">
-                    <Card body>
-                      <CardTitle>Special Title Treatment</CardTitle>
-                      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                      <Button>Go somewhere</Button>
-                    </Card>
-                  </Col>
-                  <Col sm="6">
-                    <Card body>
-                      <CardTitle>Special Title Treatment</CardTitle>
-                      <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                      <Button>Go somewhere</Button>
-                    </Card>
-                  </Col>
-                </Row>
+                {this.props.lectureNotes.map((lectureNote, key) => {
+                  if (lectureNote.date_start === this.props.module.date_start) {
+                    if (lectureNote.date_end === this.props.module.date_end) {
+                      return (
+                        <MaterialCard key={key} material={lectureNote} />
+                      )
+                    }
+                  }
+                })}
               </TabPane>
               <TabPane tabId="3">
-                <Row>
-                  <Col sm="12">
-                    <h4>Tab 3 Contents</h4>
-                  </Col>
-                </Row>
+                {this.props.activities.map((activity, key) => {
+                  if (activity.date_start === this.props.module.date_start) {
+                    if (activity.date_end === this.props.module.date_end) {
+                      return (
+                        <MaterialCard key={key} material={activity} />
+                      )
+                    }
+                  }
+                })}
               </TabPane>
               <TabPane tabId="4">
                 <Row>

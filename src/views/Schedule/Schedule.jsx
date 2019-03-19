@@ -18,20 +18,20 @@ import {
 class Schedule extends Component {
   state = {
     modal: false,
-    moduleModalHeaderTitle: '',
-    modalHeaderClassName: ''
+    module: [], // this is the target module that the modal opens
+    modalHeaderClassName: '' // this determines the header color of the module
   }
-  openModalWithValues = (moduleName, className) => {
+  openModalWithValues = (module, className) => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      moduleModalHeaderTitle: moduleName,
+      module: module, // this sets the target module to open modal with
       modalHeaderClassName: className
     }));
   }
   closeModal = () => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      moduleModalHeaderTitle: '',
+      module: [],
       modalHeaderClassName: ''
     }));
   }
@@ -52,7 +52,7 @@ class Schedule extends Component {
           isOpen={this.state.modal}
           toggleClose={this.closeModal}
           modalHeaderClassName={this.state.modalHeaderClassName}
-          modalHeaderTitle={this.state.moduleModalHeaderTitle}
+          module={this.state.module}
           activities={this.props.state.activities}
           assignments={this.props.state.assignments}
           lectureNotes={this.props.state.lectureNotes}
@@ -85,26 +85,29 @@ class Schedule extends Component {
             </thead>
             <tbody>
               {this.props.state.sectionGroups.map((sectionGroup, rowKey)=> {
-                let introModuleName = moduleMap.get(INTRO_MODULE) ? moduleMap.get(INTRO_MODULE) : "Empty";
                 let introModuleClassName = "text-dark";
+                let introModuleName = moduleMap.get(INTRO_MODULE) ? moduleMap.get(INTRO_MODULE).text : "Empty";
+                let introModule = moduleMap.get(INTRO_MODULE) ? moduleMap.get(INTRO_MODULE) : [];
                 return (
                   <tr key={rowKey}>
                     <th scope="row">{sectionGroup.section_group_name}</th>
                     <td
                       className={introModuleClassName}
-                      onClick={() => this.openModalWithValues(introModuleName, introModuleClassName)}
+                      onClick={() => this.openModalWithValues(introModule, introModuleClassName)}
                     >
-                      {moduleMap.get(INTRO_MODULE)}
+                      {introModuleName}
                     </td>
                     {ROTATING_COLUMNS.map((columnNumber, colKey) => {
-                      let moduleName = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)) ?
-                            moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)) : "Empty";
                       let className = TEXT_COLORS[(6 + parseInt(colKey) - parseInt(rowKey)) % 6];
+                      let moduleName = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)) ?
+                            moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)).text : "Empty";
+                      let module = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)) ?
+                            moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)) : [];
                       return (
                         <td
                           key={colKey}
                           className={className}
-                          onClick={() => this.openModalWithValues(moduleName, className)}
+                          onClick={() => this.openModalWithValues(module, className)}
                         >
                           {moduleName}
                         </td>
