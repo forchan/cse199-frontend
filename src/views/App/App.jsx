@@ -21,6 +21,7 @@ import {
   GET_INSTRUCTOR_LIST,
   GET_MODULES,
   GET_LECTURE_NOTES,
+  GET_SECTIONS,
   GET_SECTION_GROUPS
 } from '../../constants/ApiConstants.js';
 
@@ -32,6 +33,7 @@ class App extends Component {
     announcements: [],
     instructors: [],
     modules: [],
+    sections: [],
     sectionGroups: [],
     activities: [],
     assignments: [],
@@ -61,6 +63,10 @@ class App extends Component {
     const { data } = await getStuff({ action: GET_MODULES, courseId: this.state.courseId });
     return (data) ? data.modules : [];
   }
+  loadSections = async () => {
+    const { data } = await getStuff({ action: GET_SECTIONS, courseId: this.state.courseId });
+    return (data) ? data.sections : [];
+  }
   loadSectionGroups = async () => {
     const { data } = await getStuff({ action: GET_SECTION_GROUPS, courseId: this.state.courseId });
     return (data) ? data.section_groups : [];
@@ -80,10 +86,12 @@ class App extends Component {
     const activities = await this.loadActivities();
     const assignments = await this.loadAssignments();
     const lectureNotes = await this.loadLectureNotes();
+    const sections = await this.loadSections();
     this.setState({
       activities: activities,
       assignments: assignments,
-      lectureNotes: lectureNotes
+      lectureNotes: lectureNotes,
+      sections: sections
     });
   }
   componentDidMount = async () => {

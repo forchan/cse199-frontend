@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { Table, Card, Button, Nav, Modal, ModalHeader, ModalBody, ModalFooter,
 TabContent, TabPane, NavItem, NavLink, CardTitle, CardText, Row, Col } from 'reactstrap';
 import ModuleModal from '../../components/Modals/ModuleModal.jsx';
+import SectionModal from '../../components/Modals/SectionModal.jsx';
 import {
   configureCalendarMap,
   configureModuleMap,
@@ -17,22 +18,36 @@ import {
 
 class Schedule extends Component {
   state = {
-    modal: false,
-    module: [], // this is the target module that the modal opens
-    modalHeaderClassName: '' // this determines the header color of the module
+    moduleModal: false,
+    module: {}, // this is the target module that the module-modal opens
+    moduleModalHeaderClassName: '', // determines the header color of the modal
+    sectionModal: false,
+    sectionGroup: {} // this is the target section group the section-modal opens
   }
-  openModalWithValues = (module, className) => {
+  openModuleModalWithValues = (module, className) => {
     this.setState(prevState => ({
-      modal: !prevState.modal,
-      module: module, // this sets the target module to open modal with
-      modalHeaderClassName: className
+      moduleModal: !prevState.moduleModal,
+      module: module, // this sets the target module
+      moduleModalHeaderClassName: className
     }));
   }
-  closeModal = () => {
+  closeModuleModal = () => {
     this.setState(prevState => ({
-      modal: !prevState.modal,
-      module: [],
-      modalHeaderClassName: ''
+      moduleModal: !prevState.moduleModal,
+      module: {},
+      modulemoduleModalHeaderClassName: ''
+    }));
+  }
+  openSectionModalWithValues = (sectionGroup) => {
+    this.setState(prevState => ({
+      sectionModal: !prevState.sectionModal,
+      sectionGroup: sectionGroup // this sets the sectionGroup
+    }));
+  }
+  closeSectionModal = () => {
+    this.setState(prevState => ({
+      sectionModal: !prevState.sectionModal,
+      sectionGroup: {} // this sets the sectionGroup
     }));
   }
   toggleTab = (tab) => {
@@ -48,10 +63,16 @@ class Schedule extends Component {
 
     return (
       <div className="content">
+        <SectionModal
+          isOpen={this.state.sectionModal}
+          toggleClose={this.closeSectionModal}
+          sectionGroup={this.state.sectionGroup}
+          sections={this.props.state.sections}
+        />
         <ModuleModal
-          isOpen={this.state.modal}
-          toggleClose={this.closeModal}
-          modalHeaderClassName={this.state.modalHeaderClassName}
+          isOpen={this.state.moduleModal}
+          toggleClose={this.closeModuleModal}
+          modalHeaderClassName={this.state.moduleModalHeaderClassName}
           module={this.state.module}
           activities={this.props.state.activities}
           assignments={this.props.state.assignments}
@@ -90,10 +111,12 @@ class Schedule extends Component {
                 let introModule = moduleMap.get(INTRO_MODULE) ? moduleMap.get(INTRO_MODULE) : [];
                 return (
                   <tr key={rowKey}>
-                    <th scope="row">{sectionGroup.section_group_name}</th>
+                    <th scope="row" onClick={() => this.openSectionModalWithValues(sectionGroup)}>
+                      {sectionGroup.section_group_name}
+                    </th>
                     <td
                       className={introModuleClassName}
-                      onClick={() => this.openModalWithValues(introModule, introModuleClassName)}
+                      onClick={() => this.openModuleModalWithValues(introModule, introModuleClassName)}
                     >
                       {introModuleName}
                     </td>
@@ -107,7 +130,7 @@ class Schedule extends Component {
                         <td
                           key={colKey}
                           className={className}
-                          onClick={() => this.openModalWithValues(module, className)}
+                          onClick={() => this.openModuleModalWithValues(module, className)}
                         >
                           {moduleName}
                         </td>

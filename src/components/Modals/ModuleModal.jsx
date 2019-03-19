@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {
   Modal,
@@ -34,7 +35,7 @@ class ModuleModal extends Component {
   render() {
     return (
       <Fragment>
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} className={"modal-lg"}>
+        <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} size="lg" centered>
           <ModalHeader className={this.props.modalHeaderClassName} toggle={this.props.toggleClose}>
             {this.props.module.text}&nbsp;
             [{prettyFormatDate(this.props.module.date_start)} to {''}
@@ -133,6 +134,16 @@ class ModuleModal extends Component {
       </Fragment>
     );
   }
+}
+
+ModuleModal.propTypes = {
+  isOpen:  PropTypes.bool,
+  toggleClose: PropTypes.func,
+  modalHeaderClassName: PropTypes.string,
+  module: PropTypes.object,
+  activities: PropTypes.array,
+  assignments: PropTypes.array,
+  lectureNotes: PropTypes.array
 }
 
 export default ModuleModal;

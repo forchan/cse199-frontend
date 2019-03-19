@@ -32,8 +32,8 @@ Copyright (c) 2015 Daniel Eden
 .nav-link {
   cursor: pointer; }
 
-.modal-lg {
-  max-width: 63% !important; }
+/* .modal-lg {
+  max-width: 63% !important; } */
 
 .animated {
   -webkit-animation-duration: 1s;

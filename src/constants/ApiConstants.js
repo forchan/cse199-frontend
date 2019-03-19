@@ -11,4 +11,5 @@ export const GET_CALENDAR = 'getCalendar';
 export const GET_INSTRUCTOR_LIST = 'getInstructorList';
 export const GET_MODULES = 'getModules';
 export const GET_LECTURE_NOTES = 'getLectureNotes';
+export const GET_SECTIONS = 'getCourse';
 export const GET_SECTION_GROUPS = 'getSectionGroups';
