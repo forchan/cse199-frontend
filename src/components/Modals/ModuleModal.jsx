@@ -35,13 +35,13 @@ class ModuleModal extends Component {
   render() {
     return (
       <Fragment>
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} size="lg" centered>
+        <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} size="lg">
           <ModalHeader className={this.props.modalHeaderClassName} toggle={this.props.toggleClose}>
             {this.props.module.text}&nbsp;
             [{prettyFormatDate(this.props.module.date_start)} to {''}
             {prettyFormatDate(this.props.module.date_end)}]
           </ModalHeader>
-          <ModalBody style={{ backgroundColor: '#f4f3ef' }}>
+          <ModalBody>
             <Nav tabs>
               <NavItem>
                 <NavLink

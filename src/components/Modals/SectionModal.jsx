@@ -36,11 +36,11 @@ class SectionModal extends Component {
   render() {
     return (
       <Fragment>
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} size="lg" centered>
+        <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} size="lg">
           <ModalHeader toggle={this.props.toggleClose}>
             Section {this.props.sectionGroup.section_group_name}
           </ModalHeader>
-          <ModalBody style={{ backgroundColor: '#f4f3ef' }}>
+          <ModalBody>
             <Nav tabs>
               <NavItem>
                 <NavLink

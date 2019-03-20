@@ -27,7 +27,7 @@ Copyright (c) 2015 Daniel Eden
   =========================================================
 */
 .jumbotron {
-  background-color:white !important; }
+  background-color: white !important; }
 
 .nav-link {
   cursor: pointer; }
@@ -35,7 +35,9 @@ Copyright (c) 2015 Daniel Eden
 /* .modal-lg {
   max-width: 63% !important; } */
 .modal-body {
-  min-height:275px !important; }
+  background-color: #f4f3ef;
+  height: calc(100vh - 250px);
+  overflow-y: auto; }
 
 .animated {
   -webkit-animation-duration: 1s;

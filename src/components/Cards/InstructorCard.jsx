@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -6,7 +6,8 @@ import {
   CardImg,
   CardTitle,
   CardSubtitle,
-  CardBody
+  CardBody,
+  CardText
 } from 'reactstrap';
 import { optional } from '../../utils/StringUtils.js';
 import { BASE_URL } from '../../constants/ApiConstants.js';
@@ -17,7 +18,7 @@ const InstructorCard = (props) => {
     BASE_URL + '/' + props.instructor.instructor_picture_url;
 
   return (
-    <Card style={{ maxWidth: '300px' }}>
+    <Card style={{ width: '300px', height: '500px' }}>
       <CardImg
         top
         height="300px"
@@ -26,11 +27,31 @@ const InstructorCard = (props) => {
       />
       <CardBody>
         <CardTitle>
-          {optional(props.instructor.instructor_title)} {props.instructor.instructor_firstname} {props.instructor.instructor_lastname}
+          <b>
+            {optional(props.instructor.instructor_title)}{' '}
+            {props.instructor.instructor_firstname} {props.instructor.instructor_lastname}
+          </b>
         </CardTitle>
         <CardSubtitle>
-          {optional(props.instructor.instructor_contact, "No contact info")}
+          Email: {optional(props.instructor.instructor_contact, "N/A")}
         </CardSubtitle>
+        <CardText>
+          {(props.officeHour) ?
+            <Fragment>
+              Office Hours: {optional(props.officeHour.weekday, "No day")}{' '}
+              {optional(props.officeHour.time_start, "no start")} to{' '}
+              {optional(props.officeHour.time_end, "no end")}{' '}
+              <br/>
+              Location: {optional(props.officeHour.location, "N/A")}
+            </Fragment>
+            :
+            <Fragment>
+              Office Hours: N/A
+              <br/>
+              Location: N/A
+            </Fragment>
+          }
+        </CardText>
         <Button>Button</Button>
       </CardBody>
     </Card>
@@ -38,7 +59,8 @@ const InstructorCard = (props) => {
 }
 
 InstructorCard.propTypes = {
-  instructor: PropTypes.object
+  instructor: PropTypes.object,
+  officeHour: PropTypes.object
 }
 
 export default InstructorCard;

@@ -20,17 +20,7 @@ class Announcements extends Component {
       });
     }
   }
-  createAnnouncementCards = () => {
-    let announcementCards = [];
-    this.props.state.announcements.forEach((announcement) => {
-      announcementCards.push(
-        <AnnouncementCard announcement={announcement} key={announcement.materials_id} />
-      )
-    })
-    return announcementCards;
-  }
   render() {
-    const announcementCards = this.createAnnouncementCards();
     return (
       <div className="content">
         <Nav tabs>
@@ -54,8 +44,11 @@ class Announcements extends Component {
         &nbsp;
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-
-            {announcementCards}
+            {this.props.state.announcements.map((announcement, key) => {
+              return (
+                <AnnouncementCard announcement={announcement} key={key} />
+              )
+            })}
           </TabPane>
           <TabPane tabId="2">
 

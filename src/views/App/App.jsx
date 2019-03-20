@@ -20,6 +20,7 @@ import {
   GET_CALENDAR,
   GET_INSTRUCTOR_LIST,
   GET_MODULES,
+  GET_OFFICE_HOURS,
   GET_LECTURE_NOTES,
   GET_SECTIONS,
   GET_SECTION_GROUPS
@@ -32,6 +33,7 @@ class App extends Component {
     calendar: [],
     announcements: [],
     instructors: [],
+    officeHours: [],
     modules: [],
     sections: [],
     sectionGroups: [],
@@ -43,9 +45,13 @@ class App extends Component {
     let { data } = await getStuff({ action: GET_INSTRUCTOR_LIST });
     return (data) ? data.instructors : [];
   }
+  loadOfficeHours = async () => {
+    let { data } = await getStuff({ action: GET_OFFICE_HOURS, courseId: this.state.courseId });
+    return (data) ? data.officehours : [];
+  }
   loadAnnouncements = async () => {
     let { data } = await getStuff({ action: GET_ANNOUNCEMENTS,  courseId: this.state.courseId });
-    return (data) ? data.announcements : [];
+    return (data) ? data.announcements.reverse() : []; // most recent first
   }
   loadActivities = async () => {
     let { data } = await getStuff({ action: GET_ACTIVITIES, courseId: this.state.courseId });
@@ -100,12 +106,14 @@ class App extends Component {
     const modules = await this.loadModules();
     const calendar = await this.loadCalendar();
     const sectionGroups = await this.loadSectionGroups();
+    const officeHours = await this.loadOfficeHours();
     this.setState({ // this loads all the first layer data we need
       instructors: instructors,
+      officeHours: officeHours,
       announcements: announcements,
       modules: modules,
       calendar: calendar,
-      sectionGroups: sectionGroups,
+      sectionGroups: sectionGroups
     });
     this.loadScheduleData(); // loading schedule data after speeds up app launch
   }

@@ -22,19 +22,31 @@ class Team extends Component {
     }
   }
   render() {
+    var officeHourMap = new Map();
     var instructorCards = [];
     var taCards = [];
+    this.props.state.officeHours.forEach((officeHour) => {
+      officeHourMap.set(officeHour.instructor_id, officeHour);
+    });
     this.props.state.instructors.forEach((instructor) => {
       if (instructor.instructor_type !== 'INSTRUCTOR') {
         taCards.push(
-          <InstructorCard instructor={instructor} key={instructor.instructor_id} />
+          <InstructorCard
+            key={instructor.instructor_id}
+            instructor={instructor}
+            officeHour={officeHourMap.get(instructor.instructor_id)}
+          />
         );
       } else {
         instructorCards.push(
-          <InstructorCard instructor={instructor} key={instructor.instructor_id} />
+          <InstructorCard
+            key={instructor.instructor_id}
+            instructor={instructor}
+            officeHour={officeHourMap.get(instructor.instructor_id)}
+          />
         );
       }
-    })
+    });
     return (
       <div className="content">
         <Nav tabs>
