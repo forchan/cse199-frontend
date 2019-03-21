@@ -8,12 +8,19 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import AnnouncementCard from '../../components/Cards/AnnouncementCard.jsx';
+import SendAnnouncementModal from '../../components/Modals/SendAnnouncementModal';
 
 class Announcements extends Component {
   state = {
-    activeTab: '1',
+    sendAnnouncementModal: false,
+    activeTab: '1'
   }
-  toggle = (tab) => {
+  toggleModal = () => {
+    this.setState(prevState => ({
+      sendAnnouncementModal: !prevState.sendAnnouncementModal
+    }));
+  }
+  toggleTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab
@@ -23,35 +30,37 @@ class Announcements extends Component {
   render() {
     return (
       <div className="content">
+        <SendAnnouncementModal
+          isOpen={this.state.sendAnnouncementModal}
+          toggle={this.toggleModal}
+        />
         <Nav tabs>
           <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === '1' })}
-              onClick={() => { this.toggle('1'); }}
+              onClick={() => { this.toggleTab('1'); }}
             >
               Previous
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
-              onClick={() => { this.toggle('2'); }}
-            >
-              Send New
+            <NavLink onClick={() => { this.toggleModal(); }}>
+              Send New{' '}
+              <span data-notify="icon" className="nc-icon nc-send" />
             </NavLink>
           </NavItem>
         </Nav>
         &nbsp;
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            {this.props.state.announcements.map((announcement, key) => {
+            {this.props.state.announcements.map((announcement, index) => {
               return (
-                <AnnouncementCard announcement={announcement} key={key} />
+                <AnnouncementCard announcement={announcement} key={index} />
               )
             })}
           </TabPane>
           <TabPane tabId="2">
-
+            This wont't show lol.
           </TabPane>
         </TabContent>
       </div>

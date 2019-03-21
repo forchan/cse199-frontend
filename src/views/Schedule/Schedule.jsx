@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
-import { Table, Card, Button, Nav, Modal, ModalHeader, ModalBody, ModalFooter,
-TabContent, TabPane, NavItem, NavLink, CardTitle, CardText, Row, Col } from 'reactstrap';
+import {
+  Table,
+  Card
+} from 'reactstrap';
 import ModuleModal from '../../components/Modals/ModuleModal.jsx';
 import SectionModal from '../../components/Modals/SectionModal.jsx';
 import {
@@ -95,9 +96,9 @@ class Schedule extends Component {
             <thead>
               <tr>
                 <th>Section</th>
-                {this.props.state.calendar.map((block, key) => {
+                {this.props.state.calendar.map((block, index) => {
                   return (
-                    <td key={key}>
+                    <td key={index}>
                       {prettyFormatDate(block.start)} to {prettyFormatDate(block.end)}
                     </td>
                   );
@@ -105,38 +106,43 @@ class Schedule extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.state.sectionGroups.map((sectionGroup, rowKey)=> {
+              {this.props.state.sectionGroups.map((sectionGroup, rowIndex) => {
                 let introModuleClassName = "text-dark";
-                let introModuleName = moduleMap.get(INTRO_MODULE) ? moduleMap.get(INTRO_MODULE).text : "Empty";
-                let introModule = moduleMap.get(INTRO_MODULE) ? moduleMap.get(INTRO_MODULE) : [];
+                let introModuleName = moduleMap.get(INTRO_MODULE)
+                  ? moduleMap.get(INTRO_MODULE).text
+                  : "Empty";
+                let introModule = moduleMap.get(INTRO_MODULE)
+                  ? moduleMap.get(INTRO_MODULE)
+                  : [];
                 return (
-                  <tr key={rowKey}>
-                    <th scope="row" onClick={() => this.openSectionModalWithValues(sectionGroup)}>
+                  <tr key={rowIndex}>
+                    <th scope="row" onClick={() => { this.openSectionModalWithValues(sectionGroup) }}>
                       {sectionGroup.section_group_name}
                     </th>
                     <td
                       className={introModuleClassName}
-                      onClick={() => this.openModuleModalWithValues(introModule, introModuleClassName)}
+                      onClick={() => { this.openModuleModalWithValues(introModule, introModuleClassName) }}
                     >
                       {introModuleName}
                     </td>
-                    {ROTATING_COLUMNS.map((columnNumber, colKey) => {
-                      let className = TEXT_COLORS[(6 + parseInt(colKey) - parseInt(rowKey)) % 6];
-                      let moduleName = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)) ?
-                            moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)).text : "Empty";
-                      let module = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)) ?
-                            moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)) : [];
+                    {ROTATING_COLUMNS.map((columnNumber, colIndex) => {
+                      let className = TEXT_COLORS[(6 + parseInt(colIndex) - parseInt(rowIndex)) % 6];
+                      let moduleName = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber))
+                        ? moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)).text
+                        : "Empty";
+                      let module = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber))
+                        ? moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber))
+                        : [];
                       return (
                         <td
-                          key={colKey}
+                          key={colIndex}
                           className={className}
-                          onClick={() => this.openModuleModalWithValues(module, className)}
+                          onClick={() => { this.openModuleModalWithValues(module, className) }}
                         >
                           {moduleName}
                         </td>
                       );
-                    })
-                    }
+                    })}
                   </tr>
                 );
               })}

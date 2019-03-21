@@ -11,10 +11,7 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
   Button,
-  CardTitle,
-  CardText,
   Row,
   Col
 } from 'reactstrap';
@@ -79,43 +76,46 @@ class ModuleModal extends Component {
             &nbsp;
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
-                {this.props.activities.map((activity, key) => {
-                  if (activity.date_start === this.props.module.date_start) {
-                    if (activity.date_end === this.props.module.date_end) {
-                      if (activity.section_group_id === this.props.module.section_group_id) {
-                        return (
-                          <MaterialCard key={key} material={activity} />
-                        )
-                      }
-                    }
-                  }
-                })}
+                {this.props.activities
+                  .filter((activity) => (
+                    (activity.section_group_id === this.props.module.section_group_id)
+                    && (activity.date_start === this.props.module.date_start)
+                    && (activity.date_end === this.props.module.date_end)
+                  ))
+                  .map((activity, index) => {
+                    return (
+                      <MaterialCard key={index} material={activity} />
+                    )
+                  })
+                }
               </TabPane>
               <TabPane tabId="2">
-                {this.props.lectureNotes.map((lectureNote, key) => {
-                  if (lectureNote.date_start === this.props.module.date_start) {
-                    if (lectureNote.date_end === this.props.module.date_end) {
-                      if (lectureNote.section_group_id === this.props.module.section_group_id) {
-                        return (
-                          <MaterialCard key={key} material={lectureNote} />
-                        )
-                      }
-                    }
-                  }
-                })}
+                {this.props.lectureNotes
+                  .filter((lectureNote) => (
+                    (lectureNote.section_group_id === this.props.module.section_group_id)
+                    && (lectureNote.date_start === this.props.module.date_start)
+                    && (lectureNote.date_end === this.props.module.date_end)
+                  ))
+                  .map((lectureNote, index) => {
+                    return (
+                      <MaterialCard key={index} material={lectureNote} />
+                    )
+                  })
+                }
               </TabPane>
               <TabPane tabId="3">
-                {this.props.assignments.map((assignment, key) => {
-                  if (assignment.date_start === this.props.module.date_start) {
-                    if (assignment.date_end === this.props.module.date_end) {
-                      if (assignment.section_group_id === this.props.module.section_group_id) {
-                        return (
-                          <MaterialCard key={key} material={assignment} />
-                        )
-                      }
-                    }
-                  }
-                })}
+                {this.props.assignments
+                  .filter((assignment) => (
+                    (assignment.section_group_id === this.props.module.section_group_id)
+                    && (assignment.date_start === this.props.module.date_start)
+                    && (assignment.date_end === this.props.module.date_end)
+                  ))
+                  .map((assignment, index) => {
+                    return (
+                      <MaterialCard key={index} material={assignment} />
+                    )
+                  })
+                }
               </TabPane>
               <TabPane tabId="4">
                 <Row>

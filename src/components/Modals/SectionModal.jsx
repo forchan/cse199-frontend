@@ -11,13 +11,8 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
   Button,
-  CardTitle,
-  CardText,
-  CardDeck,
-  Row,
-  Col
+  CardDeck
 } from 'reactstrap';
 import SectionCard from '../Cards/SectionCard.jsx';
 import { LECTURE, RECITATION } from '../../constants/ScheduleConstants.js';
@@ -63,28 +58,32 @@ class SectionModal extends Component {
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
                 <CardDeck>
-                  {this.props.sections.map((section, key) => {
-                    if (section.section_group_name === this.props.sectionGroup.section_group_name) {
-                      if (section.section_type === LECTURE) {
-                        return (
-                          <SectionCard key={key} section={section} />
-                        )
-                      }
-                    }
-                  })}
+                  {this.props.sections
+                    .filter((section) => (
+                      (section.section_group_name === this.props.sectionGroup.section_group_name)
+                      && (section.section_type === LECTURE)
+                    ))
+                    .map((section, index) => {
+                      return (
+                        <SectionCard key={index} section={section} />
+                      )
+                    })
+                  }
                 </CardDeck>
               </TabPane>
               <TabPane tabId="2">
                 <CardDeck>
-                  {this.props.sections.map((section, key) => {
-                    if (section.section_group_name === this.props.sectionGroup.section_group_name) {
-                      if (section.section_type === RECITATION) {
-                        return (
-                          <SectionCard key={key} section={section} />
-                        )
-                      }
-                    }
-                  })}
+                  {this.props.sections
+                    .filter((section) => (
+                      (section.section_group_name === this.props.sectionGroup.section_group_name)
+                      && (section.section_type === RECITATION)
+                    ))
+                    .map((section, index) => {
+                      return (
+                        <SectionCard key={index} section={section} />
+                      )
+                    })
+                  }
                 </CardDeck>
               </TabPane>
             </TabContent>
@@ -100,7 +99,7 @@ class SectionModal extends Component {
 }
 
 SectionModal.propTypes = {
-  isOpen:  PropTypes.bool,
+  isOpen: PropTypes.bool,
   toggleClose: PropTypes.func,
   sectionGroup: PropTypes.object,
   sections: PropTypes.array

@@ -6,8 +6,7 @@ import {
   CardTitle,
   CardText,
   CardBody,
-  CardSubtitle,
-  CardLink
+  CardSubtitle
 } from 'reactstrap';
 
 const SectionCard = (props) => {
