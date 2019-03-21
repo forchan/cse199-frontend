@@ -1,23 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import {
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Card,
   Button,
-  CardTitle,
-  CardText,
-  CardDeck,
-  Row,
   Col,
   Form,
   FormGroup,
   Label,
-  Input,
-  FormText
+  Input
 } from 'reactstrap';
 
 class SendAnnouncementModal extends Component {

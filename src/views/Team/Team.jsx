@@ -8,13 +8,20 @@ import {
   CardColumns
 } from 'reactstrap';
 import classnames from 'classnames';
-import InstructorCard from '../../components/Cards/InstructorCard.jsx'
+import InstructorCard from '../../components/Cards/InstructorCard.jsx';
+import AddInstructorModal from '../../components/Modals/AddInstructorModal.jsx';
 
 class Team extends Component {
   state = {
-    activeTab: '1',
+    addInstructorModal: false,
+    activeTab: '1'
   }
-  toggle = (tab) => {
+  toggleModal = () => {
+    this.setState(prevState => ({
+      addInstructorModal: !prevState.addInstructorModal
+    }));
+  }
+  toggleTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab
@@ -49,11 +56,15 @@ class Team extends Component {
     });
     return (
       <div className="content">
+        <AddInstructorModal
+          isOpen={this.state.addInstructorModal}
+          toggle={this.toggleModal}
+        />
         <Nav tabs>
           <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === '1' })}
-              onClick={() => { this.toggle('1'); }}
+              onClick={() => { this.toggleTab('1'); }}
             >
               Instructors
             </NavLink>
@@ -61,17 +72,17 @@ class Team extends Component {
           <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === '2' })}
-              onClick={() => { this.toggle('2'); }}
+              onClick={() => { this.toggleTab('2'); }}
             >
               Teaching Assistants
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '3' })}
-              onClick={() => { this.toggle('3'); }}
+              onClick={() => { this.toggleModal(); }}
             >
-              Add New
+              Add New{' '}
+              <span data-notify="icon" className="nc-icon nc-user-run" />
             </NavLink>
           </NavItem>
         </Nav>
@@ -88,7 +99,7 @@ class Team extends Component {
             </CardColumns>
           </TabPane>
           <TabPane tabId="3">
-
+            This message is hidden lol.
           </TabPane>
         </TabContent>
       </div>
