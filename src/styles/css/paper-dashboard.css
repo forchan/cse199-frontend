@@ -34,6 +34,7 @@ Copyright (c) 2015 Daniel Eden
 
 /* .modal-lg {
   max-width: 63% !important; } */
+/* you could do regular modal body, then modal-lg/md for other stuff */
 .modal-body {
   background-color: #f4f3ef;
   height: calc(100vh - 250px);

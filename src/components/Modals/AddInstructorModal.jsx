@@ -18,7 +18,7 @@ class AddInstructorModal extends Component {
   render() {
     return (
       <Fragment>
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md">
+        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md" autoFocus={false}>
           <ModalHeader toggle={this.props.toggle}>
             Another one?
           </ModalHeader>
@@ -40,7 +40,7 @@ class AddInstructorModal extends Component {
                 <Col md={9}>
                   <FormGroup>
                     <Label for="firstname">First name</Label>
-                    <Input type="text" name="firstname" id="firstname" />
+                    <Input type="text" name="firstname" id="firstname" autoFocus />
                   </FormGroup>
                 </Col>
               </Row>

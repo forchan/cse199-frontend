@@ -17,7 +17,7 @@ class SendAnnouncementModal extends Component {
   render() {
     return (
       <Fragment>
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="lg">
+        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="lg" autoFocus={false}>
           <ModalHeader toggle={this.props.toggle}>
             What's on your mind?
           </ModalHeader>
@@ -26,7 +26,7 @@ class SendAnnouncementModal extends Component {
               <FormGroup row>
                 <Label for="title" sm={2}><b>Title</b></Label>
                 <Col sm={10}>
-                  <Input type="text" name="title" id="title" placeholder="Enter title" />
+                  <Input type="text" name="title" id="title" placeholder="Enter title" autoFocus />
                 </Col>
               </FormGroup>
               <FormGroup row>

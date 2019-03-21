@@ -12,7 +12,9 @@ import {
   prettyFormatDate
 } from '../../utils/ScheduleUtils.js';
 import {
+  EMPTY,
   INTRO_MODULE,
+  INTRO_MODULE_TEXT_COLOR,
   ROTATING_COLUMNS,
   TEXT_COLORS
 } from '../../constants/ScheduleConstants.js';
@@ -21,22 +23,22 @@ class Schedule extends Component {
   state = {
     moduleModal: false,
     module: {}, // this is the target module that the module-modal opens
-    moduleModalHeaderClassName: '', // determines the header color of the modal
+    moduleModalHeaderTextColor: '', // determines the header color of the modal
     sectionModal: false,
     sectionGroup: {} // this is the target section group the section-modal opens
   }
-  openModuleModalWithValues = (module, className) => {
+  openModuleModalWithValues = (module, textColor) => {
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
       module: module, // this sets the target module
-      moduleModalHeaderClassName: className
+      moduleModalHeaderTextColor: textColor
     }));
   }
   closeModuleModal = () => {
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
       module: {},
-      modulemoduleModalHeaderClassName: ''
+      modulemoduleModalHeaderTextColor: ''
     }));
   }
   openSectionModalWithValues = (sectionGroup) => {
@@ -73,7 +75,7 @@ class Schedule extends Component {
         <ModuleModal
           isOpen={this.state.moduleModal}
           toggleClose={this.closeModuleModal}
-          modalHeaderClassName={this.state.moduleModalHeaderClassName}
+          headerTextColor={this.state.moduleModalHeaderTextColor}
           module={this.state.module}
           activities={this.props.state.activities}
           assignments={this.props.state.assignments}
@@ -107,39 +109,29 @@ class Schedule extends Component {
             </thead>
             <tbody>
               {this.props.state.sectionGroups.map((sectionGroup, rowIndex) => {
-                let introModuleClassName = "text-dark";
-                let introModuleName = moduleMap.get(INTRO_MODULE)
-                  ? moduleMap.get(INTRO_MODULE).text
-                  : "Empty";
-                let introModule = moduleMap.get(INTRO_MODULE)
-                  ? moduleMap.get(INTRO_MODULE)
-                  : [];
+                let introModule = moduleMap.get(INTRO_MODULE); // undefined if no module
                 return (
                   <tr key={rowIndex}>
                     <th scope="row" onClick={() => { this.openSectionModalWithValues(sectionGroup) }}>
                       {sectionGroup.section_group_name}
                     </th>
                     <td
-                      className={introModuleClassName}
-                      onClick={() => { this.openModuleModalWithValues(introModule, introModuleClassName) }}
+                      className={INTRO_MODULE_TEXT_COLOR}
+                      onClick={() => { this.openModuleModalWithValues(introModule, INTRO_MODULE_TEXT_COLOR) }}
                     >
-                      {introModuleName}
+                      {(introModule) ? introModule.text : EMPTY}
                     </td>
                     {ROTATING_COLUMNS.map((columnNumber, colIndex) => {
-                      let className = TEXT_COLORS[(6 + parseInt(colIndex) - parseInt(rowIndex)) % 6];
-                      let moduleName = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber))
-                        ? moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber)).text
-                        : "Empty";
-                      let module = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber))
-                        ? moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber))
-                        : [];
+                      let moduleTextColor = TEXT_COLORS[(6 + parseInt(colIndex) - parseInt(rowIndex)) % 6];
+                      // undefined if no module
+                      let module = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber));
                       return (
                         <td
                           key={colIndex}
-                          className={className}
-                          onClick={() => { this.openModuleModalWithValues(module, className) }}
+                          className={moduleTextColor}
+                          onClick={() => { this.openModuleModalWithValues(module, moduleTextColor) }}
                         >
-                          {moduleName}
+                          {(module) ? module.text : EMPTY}
                         </td>
                       );
                     })}

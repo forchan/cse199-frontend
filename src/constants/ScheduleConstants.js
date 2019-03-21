@@ -1,5 +1,6 @@
 export const INTRO_MODULE = "#first2weeks";
 export const ROTATING_COLUMNS = ['1', '2', '3', '4', '5', '6'];
+export const INTRO_MODULE_TEXT_COLOR = "text-dark";
 export const TEXT_COLORS = [
   "text-primary",
   "text-secondary",
@@ -10,3 +11,4 @@ export const TEXT_COLORS = [
 ];
 export const LECTURE = 'LECTURE';
 export const RECITATION = 'REC';
+export const EMPTY = 'Empty';
