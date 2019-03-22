@@ -52,7 +52,7 @@ const InstructorCard = (props) => {
             </Fragment>
           }
         </CardText>
-        <Button>Button</Button>
+        <Button className="float-right">beepboop</Button>
       </CardBody>
     </Card>
   );

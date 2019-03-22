@@ -18,11 +18,11 @@ import {
   GET_ACTIVITIES,
   GET_ASSIGNMENTS,
   GET_CALENDAR,
+  GET_COURSE_AND_SECTIONS,
   GET_INSTRUCTOR_LIST,
   GET_MODULES,
   GET_OFFICE_HOURS,
   GET_LECTURE_NOTES,
-  GET_SECTIONS,
   GET_SECTION_GROUPS
 } from '../../constants/ApiConstants.js';
 
@@ -30,6 +30,8 @@ import {
 class App extends Component {
   state = { // Main data related state in entire application
     courseId: 99,
+    courseSemester: 'Fall',
+    courseYear: '2018',
     calendar: [],
     announcements: [],
     instructors: [],
@@ -70,7 +72,7 @@ class App extends Component {
     return (data) ? data.modules : [];
   }
   loadSections = async () => {
-    const { data } = await getStuff({ action: GET_SECTIONS, courseId: this.state.courseId });
+    const { data } = await getStuff({ action: GET_COURSE_AND_SECTIONS, courseId: this.state.courseId });
     return (data) ? data.sections : [];
   }
   loadSectionGroups = async () => {
@@ -125,7 +127,7 @@ class App extends Component {
         path: "/home",
         name: "Home",
         icon: "nc-icon nc-world-2",
-        component: props => (<Home state={this.state}/>)
+        component: props => (<Home />)
       },
       {
         path: "/schedule",
@@ -137,19 +139,19 @@ class App extends Component {
         path: "/team",
         name: "Team",
         icon: "nc-icon nc-user-run",
-        component: props => (<Team state={this.state} />)
+        component: props => (<Team instructors={this.state.instructors} officeHours={this.state.officeHours} />)
       },
       {
         path: "/announcements",
         name: "Announcements",
         icon: "nc-icon nc-send",
-        component: props => (<Announcements state={this.state}/>)
+        component: props => (<Announcements announcements={this.state.announcements} />)
       },
       {
         path: "/semester",
         name: "Semester",
         icon: "nc-icon nc-tile-56",
-        component: props => (<Semester state={this.state}/>)
+        component: props => (<Semester />)
       },
       {
         path: "/create-react-app",
@@ -167,7 +169,8 @@ class App extends Component {
           <Header
             {...this.props}
             routes={appRoutes}
-            currentCourseId={this.state.courseId}
+            currentSemester={this.state.courseSemester}
+            currentYear={this.state.courseYear}
           />
           <Switch>
             {appRoutes.map((route, key) => {

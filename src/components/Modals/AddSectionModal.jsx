@@ -20,7 +20,7 @@ class AddSectionModal extends Component {
       <Fragment>
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md" autoFocus={false} centered>
           <ModalHeader toggle={this.props.toggle}>
-            Another section?
+            Too many students?
           </ModalHeader>
           <ModalBody style={{ height: 'auto' }}>
             <Form>

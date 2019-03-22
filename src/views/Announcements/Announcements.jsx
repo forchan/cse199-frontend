@@ -58,7 +58,7 @@ class Announcements extends Component {
         &nbsp;
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            {this.props.state.announcements.map((announcement, index) => {
+            {this.props.announcements.map((announcement, index) => {
               return (
                 <AnnouncementCard announcement={announcement} key={index} />
               )

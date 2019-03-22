@@ -20,7 +20,7 @@ const MaterialCard = (props) => {
           {props.material.url}
         </CardLink>
         {''}
-        <Button className="float-right">Beepboop</Button>
+        <Button className="float-right">beepboop</Button>
       </CardBody>
     </Card>
   );

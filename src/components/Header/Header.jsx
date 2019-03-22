@@ -139,7 +139,7 @@ class Header extends Component {
             className="justify-content-end"
           >
             <NavbarBrand>
-              Course ID - {this.props.currentCourseId}
+              {this.props.currentSemester} {this.props.currentYear}
             </NavbarBrand>
             <Nav navbar>
               <NavItem>

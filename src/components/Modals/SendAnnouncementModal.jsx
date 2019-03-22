@@ -10,7 +10,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Jumbotron
 } from 'reactstrap';
 
 class SendAnnouncementModal extends Component {
@@ -22,6 +23,11 @@ class SendAnnouncementModal extends Component {
             What's on your mind?
           </ModalHeader>
           <ModalBody>
+            <Jumbotron>
+              <p className="lead">
+                Wait.. how does sending to specific sections work again?
+              </p>
+            </Jumbotron>
             <Form>
               <FormGroup row>
                 <Label for="title" sm={2}><b>Title</b></Label>

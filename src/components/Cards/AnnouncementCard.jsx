@@ -18,7 +18,7 @@ const AnnouncementCard = (props) => {
         <CardText>
           {props.announcement.text}
         </CardText>
-        <Button>Button</Button>
+        <Button className="float-right">beepboop</Button>
       </CardBody>
     </Card>
   );

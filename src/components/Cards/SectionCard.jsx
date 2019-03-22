@@ -22,7 +22,7 @@ const SectionCard = (props) => {
         <CardText>
           {props.section.section_location}
         </CardText>
-        <Button className="float-right">Beepboop</Button>
+        <Button className="float-right">beepboop</Button>
       </CardBody>
     </Card>
   );

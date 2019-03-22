@@ -1,26 +1,18 @@
-================================================================================
 CSE 199 Admin Site Notes
 ================================================================================
 
-Component Heirarchy:
+Component Hierarchy:
 - index.js contains entry point into application.
-- App.jsx is the main App component (view) - which is rendered in index.js
+- index.js renders the main app component, App.jsx (the main view/layout)
 - App.jsx is contained under views/App/App.jsx
-- All other view components under the views/ directory is rendered in App.jsx
-  using react-router's <Switch/>. So consider App.jsx a "main layout".
+- All other "view" components under the views/ directory is rendered in App.jsx
+  using react-router's <Switch/> component.
 
-State Heirarchy:
-- State will be contained in the views: App.jsx and Schedule.jsx
-- App.jsx contains:
-  - Instructors
-  - Announcements
-  - Modules
-- Schedule.jsx contains:
+State Hierarchy:
+- All data retrieved through API get calls are stored as the main state in
+  App.jsx and passed down to other views as props
 
 
-
-
-================================================================================
 Create React App auto generated README
 ================================================================================
 

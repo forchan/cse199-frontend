@@ -32,10 +32,10 @@ class Team extends Component {
     var officeHourMap = new Map();
     var instructorCards = [];
     var taCards = [];
-    this.props.state.officeHours.forEach((officeHour) => {
+    this.props.officeHours.forEach((officeHour) => {
       officeHourMap.set(officeHour.instructor_id, officeHour);
     });
-    this.props.state.instructors.forEach((instructor) => {
+    this.props.instructors.forEach((instructor) => {
       if (instructor.instructor_type !== 'INSTRUCTOR') {
         taCards.push(
           <InstructorCard
