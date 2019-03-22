@@ -20,7 +20,7 @@ class AddInstructorModal extends Component {
       <Fragment>
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md" autoFocus={false}>
           <ModalHeader toggle={this.props.toggle}>
-            Another one?
+            Who's the new guy?
           </ModalHeader>
           <ModalBody style={{ height: 'auto' }}>
             <Form>

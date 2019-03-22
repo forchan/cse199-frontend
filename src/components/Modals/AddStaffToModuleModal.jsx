@@ -14,13 +14,13 @@ import {
   Input
 } from 'reactstrap';
 
-class AddMaterialModal extends Component {
+class AddStaffToModuleModal extends Component {
   render() {
     return (
       <Fragment>
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md" autoFocus={false} centered>
           <ModalHeader toggle={this.props.toggle}>
-            Another obstacle for the students?
+            Assign staff to this module
           </ModalHeader>
           <ModalBody style={{ height: 'auto' }}>
             <Form>
@@ -35,7 +35,7 @@ class AddMaterialModal extends Component {
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button disabled color="primary" onClick={this.props.toggle}>Add</Button>{' '}
+            <Button disabled color="info" onClick={this.props.toggle}>Assign</Button>{' '}
             <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
@@ -44,9 +44,9 @@ class AddMaterialModal extends Component {
   }
 }
 
-AddMaterialModal.propTypes = {
+AddStaffToModuleModal.propTypes = {
   isOpen: PropTypes.bool,
   toggle: PropTypes.func
 }
 
-export default AddMaterialModal;
+export default AddStaffToModuleModal;

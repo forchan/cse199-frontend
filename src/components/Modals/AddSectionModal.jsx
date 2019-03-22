@@ -18,7 +18,7 @@ class AddSectionModal extends Component {
   render() {
     return (
       <Fragment>
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md" autoFocus={false}>
+        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md" autoFocus={false} centered>
           <ModalHeader toggle={this.props.toggle}>
             Another section?
           </ModalHeader>
@@ -27,7 +27,7 @@ class AddSectionModal extends Component {
               <Row form>
                 <Col md={12}>
                   <FormGroup>
-                    <Label for="placeholder">Form goes here</Label>
+                    <Label for="placeholder">Form goes here @_@</Label>
                     <Input type="text" name="placeholder" id="placeholder" placeholder="some input" disabled />
                   </FormGroup>
                 </Col>
