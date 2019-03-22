@@ -28,7 +28,7 @@ import {
 
 
 class App extends Component {
-  state = { // Main data related state in entire application
+  state = { // Main data/state used in entire application
     courseId: 99,
     courseSemester: 'Fall',
     courseYear: '2018',

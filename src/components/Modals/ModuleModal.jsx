@@ -49,7 +49,7 @@ class ModuleModal extends Component {
   }
   render() {
     // if the module passed in is undefined, we need to create a new one
-    if (this.props.module === undefined) {
+    if (this.props.courseModule === undefined) {
       return (
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} size="md" autoFocus={false}>
           <ModalHeader className={this.props.headerTextColor} toggle={this.props.toggleClose}>
@@ -86,9 +86,9 @@ class ModuleModal extends Component {
         />
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} size="lg">
           <ModalHeader className={this.props.headerTextColor} toggle={this.props.toggleClose}>
-            {this.props.module.text}&nbsp;
-            [{prettyFormatDate(this.props.module.date_start)} to {''}
-            {prettyFormatDate(this.props.module.date_end)}]
+            {this.props.courseModule.text}&nbsp;
+            [{prettyFormatDate(this.props.courseModule.date_start)} to {''}
+            {prettyFormatDate(this.props.courseModule.date_end)}]
           </ModalHeader>
           <ModalBody>
             <Nav tabs>
@@ -130,9 +130,9 @@ class ModuleModal extends Component {
               <TabPane tabId="1">
                 {this.props.activities
                   .filter((activity) => (
-                    (activity.section_group_id === this.props.module.section_group_id)
-                    && (activity.date_start === this.props.module.date_start)
-                    && (activity.date_end === this.props.module.date_end)
+                    (activity.section_group_id === this.props.courseModule.section_group_id)
+                    && (activity.date_start === this.props.courseModule.date_start)
+                    && (activity.date_end === this.props.courseModule.date_end)
                   ))
                   .map((activity, index) => {
                     return (
@@ -144,9 +144,9 @@ class ModuleModal extends Component {
               <TabPane tabId="2">
                 {this.props.lectureNotes
                   .filter((lectureNote) => (
-                    (lectureNote.section_group_id === this.props.module.section_group_id)
-                    && (lectureNote.date_start === this.props.module.date_start)
-                    && (lectureNote.date_end === this.props.module.date_end)
+                    (lectureNote.section_group_id === this.props.courseModule.section_group_id)
+                    && (lectureNote.date_start === this.props.courseModule.date_start)
+                    && (lectureNote.date_end === this.props.courseModule.date_end)
                   ))
                   .map((lectureNote, index) => {
                     return (
@@ -158,9 +158,9 @@ class ModuleModal extends Component {
               <TabPane tabId="3">
                 {this.props.assignments
                   .filter((assignment) => (
-                    (assignment.section_group_id === this.props.module.section_group_id)
-                    && (assignment.date_start === this.props.module.date_start)
-                    && (assignment.date_end === this.props.module.date_end)
+                    (assignment.section_group_id === this.props.courseModule.section_group_id)
+                    && (assignment.date_start === this.props.courseModule.date_start)
+                    && (assignment.date_end === this.props.courseModule.date_end)
                   ))
                   .map((assignment, index) => {
                     return (
@@ -193,7 +193,7 @@ ModuleModal.propTypes = {
   isOpen:  PropTypes.bool,
   toggleClose: PropTypes.func,
   headerTextColor: PropTypes.string,
-  module: PropTypes.object,
+  courseModule: PropTypes.object,
   activities: PropTypes.array,
   assignments: PropTypes.array,
   lectureNotes: PropTypes.array

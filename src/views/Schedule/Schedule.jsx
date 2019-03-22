@@ -22,22 +22,22 @@ import {
 class Schedule extends Component {
   state = {
     moduleModal: false,
-    module: {}, // this is the target module that the module-modal opens
+    courseModule: {}, // this is the target module that the module-modal opens, also "module" is reserved for webpack use
     moduleModalHeaderTextColor: '', // determines the header color of the modal
     sectionModal: false,
     sectionGroup: {} // this is the target section group the section-modal opens
   }
-  openModuleModalWithValues = (module, textColor) => {
+  openModuleModalWithValues = (courseModule, textColor) => {
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
-      module: module, // this sets the target module
+      courseModule: courseModule, // this sets the target module
       moduleModalHeaderTextColor: textColor
     }));
   }
   closeModuleModal = () => {
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
-      module: {},
+      courseModule: {},
       modulemoduleModalHeaderTextColor: ''
     }));
   }
@@ -76,7 +76,7 @@ class Schedule extends Component {
           isOpen={this.state.moduleModal}
           toggleClose={this.closeModuleModal}
           headerTextColor={this.state.moduleModalHeaderTextColor}
-          module={this.state.module}
+          courseModule={this.state.courseModule}
           activities={this.props.state.activities}
           assignments={this.props.state.assignments}
           lectureNotes={this.props.state.lectureNotes}
@@ -124,14 +124,14 @@ class Schedule extends Component {
                     {ROTATING_COLUMNS.map((columnNumber, colIndex) => {
                       let moduleTextColor = TEXT_COLORS[(6 + parseInt(colIndex) - parseInt(rowIndex)) % 6];
                       // undefined if no module
-                      let module = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber));
+                      let courseModule = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber));
                       return (
                         <td
                           key={colIndex}
                           className={moduleTextColor}
-                          onClick={() => { this.openModuleModalWithValues(module, moduleTextColor) }}
+                          onClick={() => { this.openModuleModalWithValues(courseModule, moduleTextColor) }}
                         >
-                          {(module) ? module.text : EMPTY}
+                          {(courseModule) ? courseModule.text : EMPTY}
                         </td>
                       );
                     })}
