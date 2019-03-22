@@ -4,7 +4,8 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  UncontrolledTooltip
 } from 'reactstrap';
 import classnames from 'classnames';
 import AnnouncementCard from '../../components/Cards/AnnouncementCard.jsx';
@@ -27,6 +28,7 @@ class Announcements extends Component {
       });
     }
   }
+  toggleTool
   render() {
     return (
       <div className="content">
@@ -40,7 +42,10 @@ class Announcements extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => { this.toggleTab('1'); }}
             >
-              Previous
+              <span id="PreviousTooltip" href="#">Previous</span>
+              <UncontrolledTooltip placement="top" target="PreviousTooltip">
+                Filtered by most recent
+              </UncontrolledTooltip>
             </NavLink>
           </NavItem>
           <NavItem>

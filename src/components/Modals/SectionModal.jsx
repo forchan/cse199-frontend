@@ -15,11 +15,18 @@ import {
   CardDeck
 } from 'reactstrap';
 import SectionCard from '../Cards/SectionCard.jsx';
+import AddSectionModal from '../Modals/AddSectionModal.jsx';
 import { LECTURE, RECITATION } from '../../constants/ScheduleConstants.js';
 
 class SectionModal extends Component {
   state = {
+    addSectionModal: false,
     activeTab: '1'
+  }
+  toggleAddSectionModal = () => {
+    this.setState(prevState => ({
+      addSectionModal: !prevState.addSectionModal
+    }));
   }
   toggleTab = (tab) => {
     if (this.state.activeTab !== tab) {
@@ -31,6 +38,10 @@ class SectionModal extends Component {
   render() {
     return (
       <Fragment>
+        <AddSectionModal
+          isOpen={this.state.addSectionModal}
+          toggle={this.toggleAddSectionModal}
+        />
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggleClose} size="lg">
           <ModalHeader toggle={this.props.toggleClose}>
             Section {this.props.sectionGroup.section_group_name}
@@ -89,8 +100,8 @@ class SectionModal extends Component {
             </TabContent>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.props.toggleClose}>Do Something</Button>{' '}
-            <Button color="secondary" onClick={this.props.toggleClose}>Cancel</Button>
+            <Button color="primary" onClick={this.toggleAddSectionModal}>Add Section</Button>{' '}
+            <Button color="secondary" onClick={this.props.toggleClose}>Exit</Button>
           </ModalFooter>
         </Modal>
       </Fragment>
