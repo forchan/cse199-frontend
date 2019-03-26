@@ -1,8 +1,9 @@
 export const BASE_URL = 'http://www-student.cse.buffalo.edu/CSE199/admin';
-const API_BASE_URL = BASE_URL + '/api';
-const VIEW_URL = '/viewcontroller.php';
+const API_BASE_URL = `${BASE_URL}/api`;
 
-export const API_VIEW_URL = `${API_BASE_URL}${VIEW_URL}`;
+const VIEW_PATH = '/viewcontroller.php';
+
+export const API_VIEW_URL = `${API_BASE_URL}${VIEW_PATH}`;
 
 export const GET_ANNOUNCEMENTS = 'getAnnouncement';
 export const GET_ACTIVITIES = 'getActivities';

@@ -9,13 +9,16 @@ import {
   CardBody,
   CardText
 } from 'reactstrap';
-import { optional } from '../../utils/StringUtils.js';
-import { BASE_URL } from '../../constants/ApiConstants.js';
+import {
+  replaceIfNull,
+  isNullOrEmpty
+} from '../../utils/StringUtils.js';
+import { DEFAULT_IMAGE_PATH } from '../../constants/ImageConstants.js';
 
 const InstructorCard = (props) => {
-  const image = (props.instructor.instructor_picture_url === null || props.instructor.instructor_picture_url === '') ?
-    BASE_URL + '/images/default.jpg' :
-    BASE_URL + '/' + props.instructor.instructor_picture_url;
+  const image = (isNullOrEmpty(props.instructor.instructor_picture_url))
+    ? DEFAULT_IMAGE_PATH
+    : props.instructor.instructor_picture_url;
 
   return (
     <Card style={{ width: '300px', height: '500px' }}>
@@ -28,21 +31,21 @@ const InstructorCard = (props) => {
       <CardBody>
         <CardTitle>
           <b>
-            {optional(props.instructor.instructor_title)}{' '}
+            {replaceIfNull(props.instructor.instructor_title)}{' '}
             {props.instructor.instructor_firstname} {props.instructor.instructor_lastname}
           </b>
         </CardTitle>
         <CardSubtitle>
-          Email: {optional(props.instructor.instructor_contact, "N/A")}
+          Email: {replaceIfNull(props.instructor.instructor_contact, "N/A")}
         </CardSubtitle>
         <CardText>
           {(props.officeHour) ?
             <Fragment>
-              Office Hours: {optional(props.officeHour.weekday, "No day")}{' '}
-              {optional(props.officeHour.time_start, "no start")} to{' '}
-              {optional(props.officeHour.time_end, "no end")}{' '}
+              Office Hours: {replaceIfNull(props.officeHour.weekday, "No day")}{' '}
+              {replaceIfNull(props.officeHour.time_start, "no start")} to{' '}
+              {replaceIfNull(props.officeHour.time_end, "no end")}{' '}
               <br/>
-              Location: {optional(props.officeHour.location, "N/A")}
+              Location: {replaceIfNull(props.officeHour.location, "N/A")}
             </Fragment>
             :
             <Fragment>
