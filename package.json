@@ -2,6 +2,7 @@
   "name": "cse199-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://www-student.cse.buffalo.edu/CSE199/admin",
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",

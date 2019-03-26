@@ -20,7 +20,7 @@ class AddStaffToModuleModal extends Component {
       <Fragment>
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md" autoFocus={false} centered>
           <ModalHeader toggle={this.props.toggle}>
-            Call for backup
+            Requesting backup
           </ModalHeader>
           <ModalBody style={{ height: 'auto' }}>
             <Form>

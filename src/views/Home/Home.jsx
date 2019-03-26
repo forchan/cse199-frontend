@@ -15,7 +15,7 @@ class Home extends Component {
             (hopefully this is the one that works..)
           </p>
           <p className="text-warning">
-            - currently under constuction -
+            - Currently under constuction -- Chris -
           </p>
         </Jumbotron>
       </div>
