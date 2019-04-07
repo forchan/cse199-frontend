@@ -14,8 +14,21 @@ const MaterialCard = (props) => {
     <Card>
       <CardBody>
         <CardText>
-          <b>{props.material.description}</b>
+          <b>Title: </b>{props.material.title}
         </CardText>
+        <CardText>
+          <b>Description: </b>{props.material.description}
+        </CardText>
+        <CardText>
+          <b>Text: </b>{props.material.text}
+        </CardText>
+        <CardText>
+          <b>Format: </b>{props.material.materials_format}
+        </CardText>
+        <CardText>
+          <b>Due date: </b>{props.material.due_date}
+        </CardText>
+        <b>URL: </b>
         <CardLink href={props.material.url} target="_blank">
           {props.material.url}
         </CardLink>
