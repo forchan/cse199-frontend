@@ -22,7 +22,7 @@ import {
 class Schedule extends Component {
   state = {
     moduleModal: false,
-    courseModule: {}, // this is the target module that the module-modal opens, also "module" is reserved for webpack use
+    courseModule: {}, // this is the target module that the module-modal opens, also "module" is reserved for webpack use I think
     moduleModalHeaderTextColor: '', // determines the header color of the modal
     sectionModal: false,
     sectionGroup: {} // this is the target section group the section-modal opens
