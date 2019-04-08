@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import InstructorCard from '../../components/Cards/InstructorCard.jsx';
-import AddInstructorModal from '../../components/Modals/AddInstructorModal.jsx';
+import AddInstructorModal from '../../components/Modals/AddOrEditInstructorModal.jsx';
 
 class Team extends Component {
   state = {
