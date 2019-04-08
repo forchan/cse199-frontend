@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   TabContent,
   TabPane,
@@ -10,6 +11,11 @@ import {
 import classnames from 'classnames';
 import InstructorCard from '../../components/Cards/InstructorCard.jsx';
 import AddInstructorModal from '../../components/Modals/AddOrEditInstructorModal.jsx';
+
+const propTypes = {
+  instructors: PropTypes.array.isRequired,
+  officeHours: PropTypes.array.isRequired
+};
 
 class Team extends Component {
   state = {
@@ -29,13 +35,17 @@ class Team extends Component {
     }
   }
   render() {
-    var officeHourMap = new Map();
-    var instructorCards = [];
-    var taCards = [];
-    this.props.officeHours.forEach((officeHour) => {
+    const { instructors, officeHours } = this.props;
+    const { addInstructorModal, activeTab } = this.state;
+    const officeHourMap = new Map();
+    const instructorCards = [];
+    const taCards = [];
+
+    officeHours.forEach((officeHour) => {
       officeHourMap.set(officeHour.instructor_id, officeHour);
     });
-    this.props.instructors.forEach((instructor) => {
+
+    instructors.forEach((instructor) => {
       if (instructor.instructor_type !== 'INSTRUCTOR') {
         taCards.push(
           <InstructorCard
@@ -54,16 +64,17 @@ class Team extends Component {
         );
       }
     });
+
     return (
       <div className="content">
         <AddInstructorModal
-          isOpen={this.state.addInstructorModal}
+          isOpen={addInstructorModal}
           toggle={this.toggleModal}
         />
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
+              className={classnames({ active: activeTab === '1' })}
               onClick={() => { this.toggleTab('1'); }}
             >
               Instructors
@@ -71,7 +82,7 @@ class Team extends Component {
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
+              className={classnames({ active: activeTab === '2' })}
               onClick={() => { this.toggleTab('2'); }}
             >
               Teaching Assistants
@@ -87,7 +98,7 @@ class Team extends Component {
           </NavItem>
         </Nav>
         &nbsp;
-        <TabContent activeTab={this.state.activeTab}>
+        <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
             <CardColumns>
               {instructorCards}
@@ -106,5 +117,7 @@ class Team extends Component {
     );
   }
 }
+
+Team.propTypes = propTypes;
 
 export default Team;

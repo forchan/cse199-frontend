@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  NotificationContainer,
-  NotificationManager
-} from 'react-notifications';
+import { NotificationContainer } from 'react-notifications';
 import {
   Modal,
   ModalHeader,
