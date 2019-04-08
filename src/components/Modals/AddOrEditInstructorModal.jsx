@@ -120,8 +120,17 @@ class AddOrEditInstructorModal extends Component {
   };
 
   render() {
+    console.log(this.state);
     const { isOpen } = this.props;
-    const { title, firstName, lastName, type, email, photoURL, displayRequiredPrompt } = this.state;
+    const {
+      title,
+      firstName,
+      lastName,
+      type,
+      email,
+      photoURL,
+      displayRequiredPrompt
+    } = this.state;
 
     return (
       <Modal isOpen={isOpen} toggle={this.handleToggle} size="md" autoFocus={false}>
@@ -130,7 +139,9 @@ class AddOrEditInstructorModal extends Component {
           Who's the new guy?
         </ModalHeader>
         <ModalBody style={{ height: 'auto' }}>
-          {displayRequiredPrompt && <p className="text-danger">Missing required* inputs</p>}
+          {displayRequiredPrompt
+            && <p className="text-danger">Missing required* inputs</p>
+          }
           <Form>
             <Row form>
               <Col sm={3}>
@@ -232,8 +243,8 @@ class AddOrEditInstructorModal extends Component {
         </ModalFooter>
       </Modal>
     );
-  }
-}
+  };
+};
 
 AddOrEditInstructorModal.defaultProps = defaultProps;
 AddOrEditInstructorModal.propTypes = propTypes;

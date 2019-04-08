@@ -9,16 +9,18 @@ import {
   CardBody,
   CardText
 } from 'reactstrap';
-import {
-  replaceIfNull,
-  isNullOrEmpty
-} from '../../utils/StringUtils.js';
+import { replaceIfNull, isNullOrEmpty } from '../../utils/StringUtils.js';
 import { DEFAULT_IMAGE_PATH } from '../../constants/ImageConstants.js';
 
-const InstructorCard = (props) => {
-  const image = (isNullOrEmpty(props.instructor.instructor_picture_url))
+const propTypes = {
+  instructor: PropTypes.object.isRequired,
+  officeHour: PropTypes.object
+};
+
+const InstructorCard = ({ instructor, officeHour }) => {
+  const image = (isNullOrEmpty(instructor.instructor_picture_url))
     ? DEFAULT_IMAGE_PATH
-    : props.instructor.instructor_picture_url;
+    : instructor.instructor_picture_url;
 
   return (
     <Card style={{ width: '300px', height: '500px' }}>
@@ -31,21 +33,21 @@ const InstructorCard = (props) => {
       <CardBody>
         <CardTitle>
           <b>
-            {replaceIfNull(props.instructor.instructor_title)}{' '}
-            {props.instructor.instructor_firstname} {props.instructor.instructor_lastname}
+            {replaceIfNull(instructor.instructor_title)}{' '}
+            {instructor.instructor_firstname} {instructor.instructor_lastname}
           </b>
         </CardTitle>
         <CardSubtitle>
-          Email: {replaceIfNull(props.instructor.instructor_contact, "N/A")}
+          Email: {replaceIfNull(instructor.instructor_contact, "N/A")}
         </CardSubtitle>
         <CardText>
-          {(props.officeHour) ?
+          {(officeHour) ?
             <Fragment>
-              Office Hours: {replaceIfNull(props.officeHour.weekday, "No day")}{' '}
-              {replaceIfNull(props.officeHour.time_start, "no start")} to{' '}
-              {replaceIfNull(props.officeHour.time_end, "no end")}{' '}
+              Office Hours: {replaceIfNull(officeHour.weekday, "No day")}{' '}
+              {replaceIfNull(officeHour.time_start, "no start")} to{' '}
+              {replaceIfNull(officeHour.time_end, "no end")}{' '}
               <br/>
-              Location: {replaceIfNull(props.officeHour.location, "N/A")}
+              Location: {replaceIfNull(officeHour.location, "N/A")}
             </Fragment>
             :
             <Fragment>
@@ -55,15 +57,12 @@ const InstructorCard = (props) => {
             </Fragment>
           }
         </CardText>
-        <Button className="float-right">beepboop</Button>
+        <Button className="float-right">Edit</Button>
       </CardBody>
     </Card>
   );
 }
 
-InstructorCard.propTypes = {
-  instructor: PropTypes.object,
-  officeHour: PropTypes.object
-}
+InstructorCard.propTypes = propTypes;
 
 export default InstructorCard;

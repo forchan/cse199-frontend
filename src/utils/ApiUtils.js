@@ -16,12 +16,13 @@ export const getStuff = async (params) => {
 export const postApiStuff = async (url, params) => {
   try {
     let { data } = await axios.post(url, JSON.stringify(params));
-    return data.Status;
+    return data.Status; // returns string
   } catch (error) {
     return `${error}`; // template literal converts error from some weird object to string
   }
 }
 
+// used to validate if data.Status has good news or bad news
 export const validateResponse = response => {
   if (!response || !isString(response)) return false; // empty or not string
 
