@@ -7,6 +7,7 @@ import indexRoutes from './routes/indexRoutes.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/css/paper-dashboard.css'
 import './styles/css/demo.css'
+import 'react-notifications/lib/notifications.css';
 // import './styles/css/App.css';
 // import './assets/css/index.css';
 

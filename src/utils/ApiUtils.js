@@ -15,7 +15,7 @@ export const getStuff = async (params) => {
 // returns a string that describes success or error
 export const postApiStuff = async (url, params) => {
   try {
-    let { data } = await axios.post(url, params);
+    let { data } = await axios.post(url, JSON.stringify(params));
     return data.Status;
   } catch (error) {
     return `${error}`; // template literal converts error from some weird object to string
@@ -29,7 +29,7 @@ export const validateResponse = response => {
   if (response.toLowerCase().includes('error')) return false;
 
   // we must look for "success" inorder to be 100% sure
-  if (response.towerLowerCase().includes('success')) return true;
+  if (response.toLowerCase().includes('success')) return true;
 
   // defaults to false
   return false;

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  NotificationContainer,
+  NotificationManager
+} from 'react-notifications';
+import {
   Modal,
   ModalHeader,
   ModalBody,
@@ -17,8 +21,13 @@ import {
   POST_INSTRUCTOR,
   API_INSTRUCTOR_URL
 } from '../../constants/ApiConstants.js';
+import {
+  createNotification,
+  SUCCESS,
+  ERROR
+} from '../../utils/NotificationUtils.js';
 import { postApiStuff, validateResponse } from '../../utils/ApiUtils.js';
-import { isNullOrEmpty } from '../../utils/StringUtils.js';
+import { isNullOrEmpty, replaceIfNull } from '../../utils/StringUtils.js';
 
 const defaultProps = {
   edit: false
@@ -89,17 +98,17 @@ class AddOrEditInstructorModal extends Component {
       this.setState({ displayRequiredPrompt: true });
       return;
     }
+
     this.setState({ displayRequiredPrompt: false });
 
     const formToSubmit = this.prepareFormToSubmit();
-    console.log(formToSubmit);
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
+
     if (validateResponse(response)) {
-      console.log("worked");
       this.newForm();
-      // do a popup message saying success
+      this.displayNotification(response, SUCCESS);
     } else {
-      alert("Something went wrong " + response); // this can be a popup message
+      this.displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
     }
   };
 
@@ -108,12 +117,18 @@ class AddOrEditInstructorModal extends Component {
     this.props.toggle();
   };
 
+  displayNotification = (message, type) => {
+    const displayFunction = createNotification(message, type);
+    displayFunction();
+  };
+
   render() {
     const { isOpen } = this.props;
     const { title, firstName, lastName, type, email, photoURL, displayRequiredPrompt } = this.state;
 
     return (
       <Modal isOpen={isOpen} toggle={this.handleToggle} size="md" autoFocus={false}>
+        <NotificationContainer />
         <ModalHeader toggle={this.handleToggle}>
           Who's the new guy?
         </ModalHeader>
