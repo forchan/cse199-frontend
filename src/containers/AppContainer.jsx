@@ -6,8 +6,9 @@ import {
 } from '../actions/ContentActions.js';
 
 const mapStateToProps = state => ({
-  course: state.course,
-  content: state.content
+  courseId: state.course.courseId,
+  courseSemester: state.course.courseSemester,
+  courseYear: state.course.courseYear
 });
 
 const mapActionsToProps = ({

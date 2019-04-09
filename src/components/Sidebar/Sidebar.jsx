@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
-
 import logo from "../../styles/img/logo.svg";
 
 class Sidebar extends Component {

@@ -14,8 +14,6 @@ import {
   Container
 } from "reactstrap";
 
-// import appRoutes from '../../routes/appRoutes.jsx';
-
 class Header extends Component {
   state = {
     isOpen: false,

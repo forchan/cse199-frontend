@@ -1,5 +1,5 @@
 const initialCourseState = ({
-  courseId: 99,
+  courseId: '99',
   courseSemester: 'Fall',
   courseYear: '2018'
 });
