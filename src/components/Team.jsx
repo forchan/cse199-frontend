@@ -9,8 +9,8 @@ import {
   CardColumns
 } from 'reactstrap';
 import classnames from 'classnames';
-import InstructorCard from '../../components/Cards/InstructorCard.jsx';
-import AddInstructorModal from '../../components/Modals/AddOrEditInstructorModal.jsx';
+import InstructorCard from './Cards/InstructorCard.jsx';
+import AddInstructorModal from './Modals/AddOrEditInstructorModal.jsx';
 
 const propTypes = {
   instructors: PropTypes.array.isRequired,

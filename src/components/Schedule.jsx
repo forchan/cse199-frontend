@@ -3,21 +3,21 @@ import {
   Table,
   Card
 } from 'reactstrap';
-import ModuleModal from '../../components/Modals/ModuleModal.jsx';
-import SectionModal from '../../components/Modals/SectionModal.jsx';
+import ModuleModal from './Modals/ModuleModal.jsx';
+import SectionModal from './Modals/SectionModal.jsx';
 import {
   configureCalendarMap,
   configureModuleMap,
   joinValuesAsKey,
   prettyFormatDate
-} from '../../utils/ScheduleUtils.js';
+} from '../utils/ScheduleUtils.js';
 import {
   EMPTY,
   INTRO_MODULE,
   INTRO_MODULE_TEXT_COLOR,
   ROTATING_COLUMNS,
   TEXT_COLORS
-} from '../../constants/ScheduleConstants.js';
+} from '../constants/ScheduleConstants.js';
 
 class Schedule extends Component {
   state = {

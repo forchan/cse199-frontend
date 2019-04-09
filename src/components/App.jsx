@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 // Components
-import Header from '../Header/Header.jsx'
-import Sidebar from '../Sidebar/Sidebar.jsx'
-// View Components
-import Announcements from '../Announcements/Announcements.jsx';
-import CreateReactApp from '../CreateReactApp/CreateReactApp.jsx';
-import Home from '../Home/Home.jsx';
-import Schedule from '../Schedule/Schedule.jsx';
-import Semester from '../Semester/Semester.jsx';
-import Team from '../Team/Team.jsx';
+import Header from './Header/Header.jsx'
+import Sidebar from './Sidebar/Sidebar.jsx'
+// Main Page Components
+import Announcements from './Announcements.jsx';
+import CreateReactApp from './CreateReactApp.jsx';
+import Home from './Home.jsx';
+import Schedule from './Schedule.jsx';
+import Semester from './Semester.jsx';
+import Team from './Team.jsx';
 // Utils
-import { getStuff } from '../../utils/ApiUtils.js';
+import { getStuff } from '../utils/ApiUtils.js';
 // Constants
 import {
   GET_ANNOUNCEMENTS,
@@ -24,7 +24,7 @@ import {
   GET_OFFICE_HOURS,
   GET_LECTURE_NOTES,
   GET_SECTION_GROUPS
-} from '../../constants/ApiConstants.js';
+} from '../constants/ApiConstants.js';
 
 
 class App extends Component {

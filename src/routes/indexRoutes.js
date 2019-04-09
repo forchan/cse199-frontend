@@ -1,4 +1,4 @@
-import App from '../components/App/App.jsx';
+import App from '../components/App.jsx';
 
 var indexRoutes = [{ path: "/", name: "Home", component: App }];
 

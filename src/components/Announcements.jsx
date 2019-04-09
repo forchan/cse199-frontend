@@ -8,8 +8,8 @@ import {
   UncontrolledTooltip
 } from 'reactstrap';
 import classnames from 'classnames';
-import AnnouncementCard from '../../components/Cards/AnnouncementCard.jsx';
-import SendAnnouncementModal from '../../components/Modals/SendAnnouncementModal';
+import AnnouncementCard from './Cards/AnnouncementCard.jsx';
+import SendAnnouncementModal from './Modals/SendAnnouncementModal.jsx';
 
 class Announcements extends Component {
   state = {
