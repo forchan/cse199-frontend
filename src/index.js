@@ -13,7 +13,7 @@ import indexRoutes from './routes/indexRoutes.js';
 
 // Redux Store
 import { Provider } from 'react-redux';
-import configureStore from './store/ConfigureStore.js';
+import configureStore from './store/configureStore.js';
 
 // Service Worker - not sure what it does, included in create-react-app
 import * as serviceWorker from './serviceWorker';
