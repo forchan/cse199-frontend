@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Table,
   Card
@@ -18,6 +19,16 @@ import {
   ROTATING_COLUMNS,
   TEXT_COLORS
 } from '../constants/ScheduleConstants.js';
+
+const propTypes = {
+  calendar: PropTypes.array.isRequired,
+  modules: PropTypes.array.isRequired,
+  sections: PropTypes.array.isRequired,
+  activities: PropTypes.array.isRequired,
+  assignments: PropTypes.array.isRequired,
+  lectureNotes: PropTypes.array.isRequired,
+  sectionGroups: PropTypes.array.isRequired
+};
 
 class Schedule extends Component {
   state = {
@@ -61,8 +72,18 @@ class Schedule extends Component {
     }
   }
   render() {
-    const calendarMap = configureCalendarMap(this.props.state.calendar);
-    const moduleMap = configureModuleMap(this.props.state.modules, calendarMap);
+    const {
+      calendar,
+      modules,
+      sections,
+      activities,
+      assignments,
+      lectureNotes,
+      sectionGroups
+    } = this.props;
+
+    const calendarMap = configureCalendarMap(calendar);
+    const moduleMap = configureModuleMap(modules, calendarMap);
 
     return (
       <div className="content">
@@ -70,16 +91,16 @@ class Schedule extends Component {
           isOpen={this.state.sectionModal}
           toggleClose={this.closeSectionModal}
           sectionGroup={this.state.sectionGroup}
-          sections={this.props.state.sections}
+          sections={sections}
         />
         <ModuleModal
           isOpen={this.state.moduleModal}
           toggleClose={this.closeModuleModal}
           headerTextColor={this.state.moduleModalHeaderTextColor}
           courseModule={this.state.courseModule}
-          activities={this.props.state.activities}
-          assignments={this.props.state.assignments}
-          lectureNotes={this.props.state.lectureNotes}
+          activities={activities}
+          assignments={assignments}
+          lectureNotes={lectureNotes}
         />
         <Card>
           <Table bordered responsive>
@@ -98,7 +119,7 @@ class Schedule extends Component {
             <thead>
               <tr>
                 <th>Section</th>
-                {this.props.state.calendar.map((block, index) => {
+                {calendar.map((block, index) => {
                   return (
                     <td key={index}>
                       {prettyFormatDate(block.start)} to {prettyFormatDate(block.end)}
@@ -108,11 +129,11 @@ class Schedule extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.state.sectionGroups.map((sectionGroup, rowIndex) => {
+              {sectionGroups.map((sectionGroup, rowIndex) => {
                 let introModule = moduleMap.get(INTRO_MODULE); // undefined if no module
                 return (
                   <tr key={rowIndex}>
-                    <th scope="row" onClick={() => { this.openSectionModalWithValues(sectionGroup) }}>
+                    <th scope="row" onClick={() => this.openSectionModalWithValues(sectionGroup)}>
                       {sectionGroup.section_group_name}
                     </th>
                     <td
@@ -129,7 +150,7 @@ class Schedule extends Component {
                         <td
                           key={colIndex}
                           className={moduleTextColor}
-                          onClick={() => { this.openModuleModalWithValues(courseModule, moduleTextColor) }}
+                          onClick={() => this.openModuleModalWithValues(courseModule, moduleTextColor)}
                         >
                           {(courseModule) ? courseModule.text : EMPTY}
                         </td>
@@ -143,7 +164,9 @@ class Schedule extends Component {
         </Card>
       </div>
     );
-  }
-}
+  };
+};
+
+Schedule.propTypes = propTypes;
 
 export default Schedule;

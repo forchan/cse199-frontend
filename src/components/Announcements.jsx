@@ -24,7 +24,8 @@ const Announcements = ({ announcements }) => {
     if (activeTab !== tab) {
       setTab(tab);
     }
-  }
+  };
+  
   return (
     <div className="content">
       <SendAnnouncementModal
