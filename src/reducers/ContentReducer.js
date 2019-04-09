@@ -1,3 +1,8 @@
+import {
+  SET_GENERAL_CONTENT,
+  SET_SCHEDULE_CONTENT,
+} from '../actions/ContentActions.js';
+
 const initialContentState = ({
   calendar: [],
   announcements: [],
@@ -13,9 +18,23 @@ const initialContentState = ({
 
 const courseReducer = (state = initialContentState, action) => {
   switch (action.type) {
-    case 'none':
+    case SET_GENERAL_CONTENT:
       return {
-        ...state
+        ...state,
+        announcements: action.announcements,
+        calendar: action.calendar,
+        instructors: action.instructors,
+        modules: action.modules,
+        officeHours: action.officeHours,
+        sectionGroups: action.sectionGroups
+      };
+    case SET_SCHEDULE_CONTENT:
+      return {
+        ...state,
+        activites: action.activities,
+        assignments: action.assignments,
+        lectureNotes: action.lectureNotes,
+        sections: action.sections
       };
     default:
       return state;
