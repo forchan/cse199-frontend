@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 // Components
-import Header from '../../components/Header/Header.jsx'
-import Sidebar from '../../components/Sidebar/Sidebar.jsx'
+import Header from '../Header/Header.jsx'
+import Sidebar from '../Sidebar/Sidebar.jsx'
 // View Components
 import Announcements from '../Announcements/Announcements.jsx';
 import CreateReactApp from '../CreateReactApp/CreateReactApp.jsx';
