@@ -28,7 +28,6 @@ class Announcements extends Component {
       });
     }
   }
-  toggleTool
   render() {
     return (
       <div className="content">

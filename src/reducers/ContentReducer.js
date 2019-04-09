@@ -31,7 +31,7 @@ const courseReducer = (state = initialContentState, action) => {
     case SET_SCHEDULE_CONTENT:
       return {
         ...state,
-        activites: action.activities,
+        activities: action.activities,
         assignments: action.assignments,
         lectureNotes: action.lectureNotes,
         sections: action.sections

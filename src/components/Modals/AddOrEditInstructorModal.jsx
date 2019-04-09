@@ -120,7 +120,6 @@ class AddOrEditInstructorModal extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { isOpen } = this.props;
     const {
       title,

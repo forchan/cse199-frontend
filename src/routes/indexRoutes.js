@@ -1,5 +1,5 @@
-import App from '../components/App.jsx';
+import AppContainer from '../containers/AppContainer.jsx';
 
-var indexRoutes = [{ path: "/", name: "Home", component: App }];
+var indexRoutes = [{ path: "/", name: "Home", component: AppContainer }];
 
 export default indexRoutes;

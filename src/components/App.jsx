@@ -4,12 +4,12 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './Header/Header.jsx'
 import Sidebar from './Sidebar/Sidebar.jsx'
 // Main Page Components
-import Announcements from './Announcements.jsx';
+import Announcements from '../containers/AnnouncementsContainer.jsx';
 import CreateReactApp from './CreateReactApp.jsx';
 import Home from './Home.jsx';
-import Schedule from './Schedule.jsx';
+import Schedule from '../containers/ScheduleContainer.jsx';
 import Semester from './Semester.jsx';
-import Team from './Team.jsx';
+import Team from '../containers/TeamContainer.jsx';
 // Utils
 import { getStuff } from '../utils/ApiUtils.js';
 // Constants
@@ -118,10 +118,14 @@ class App extends Component {
       sectionGroups: sectionGroups
     });
     this.loadScheduleData(); // loading schedule data after speeds up app launch
+    this.props.loadGeneralContent(this.props.course.courseId);
+    this.props.loadScheduleContent(this.props.course.courseId);
   }
 
   render() {
     console.log(this.state);
+    console.log(this.props.course);
+    console.log(this.props.content);
     const appRoutes = [
       {
         path: "/home",
@@ -133,19 +137,19 @@ class App extends Component {
         path: "/schedule",
         name: "Schedule",
         icon: "nc-icon nc-calendar-60",
-        component: props => (<Schedule state={this.state} />)
+        component: props => (<Schedule />)
       },
       {
         path: "/team",
         name: "Team",
         icon: "nc-icon nc-user-run",
-        component: props => (<Team instructors={this.state.instructors} officeHours={this.state.officeHours} />)
+        component: props => (<Team />)
       },
       {
         path: "/announcements",
         name: "Announcements",
         icon: "nc-icon nc-send",
-        component: props => (<Announcements announcements={this.state.announcements} />)
+        component: props => (<Announcements />)
       },
       {
         path: "/semester",

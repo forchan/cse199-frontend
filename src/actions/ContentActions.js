@@ -47,7 +47,7 @@ export const loadGeneralContent = courseId => async (dispatch) => {
 
 const setScheduleContent = contentObject => ({
   type: SET_SCHEDULE_CONTENT,
-  activites: contentObject.activities,
+  activities: contentObject.activities,
   assignments: contentObject.assignments,
   lectureNotes: contentObject.lectureNotes,
   sections: contentObject.sections
