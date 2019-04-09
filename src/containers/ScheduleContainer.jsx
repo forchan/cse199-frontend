@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import Schedule from '../components/Schedule.jsx';
 
 const mapStateToProps = state => ({
-  state: state.content,
   calendar: state.content.calendar,
   modules: state.content.modules,
   sections: state.content.sections,

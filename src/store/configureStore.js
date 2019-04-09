@@ -4,7 +4,6 @@ import rootReducer from '../reducers/index.js';
 
 const configureStore = () => {
   let store = createStore(rootReducer, applyMiddleware(thunk));
-  console.log(store.getState());
   return store;
 };
 
