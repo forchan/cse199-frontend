@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-// Components
 import Header from './Header/Header.jsx'
 import Sidebar from './Sidebar/Sidebar.jsx'
-// Main Page Components
-import Announcements from '../containers/AnnouncementsContainer.jsx';
-import CreateReactApp from './CreateReactApp.jsx';
-import Home from './Home.jsx';
-import Schedule from '../containers/ScheduleContainer.jsx';
-import Semester from './Semester.jsx';
-import Team from '../containers/TeamContainer.jsx';
-// Utils
+import appRoutes from '../routes/appRoutes.js';
 import { getStuff } from '../utils/ApiUtils.js';
-// Constants
 import {
   GET_ANNOUNCEMENTS,
   GET_ACTIVITIES,
@@ -126,45 +117,6 @@ class App extends Component {
     console.log(this.state);
     console.log(this.props.course);
     console.log(this.props.content);
-    const appRoutes = [
-      {
-        path: "/home",
-        name: "Home",
-        icon: "nc-icon nc-world-2",
-        component: props => (<Home />)
-      },
-      {
-        path: "/schedule",
-        name: "Schedule",
-        icon: "nc-icon nc-calendar-60",
-        component: props => (<Schedule />)
-      },
-      {
-        path: "/team",
-        name: "Team",
-        icon: "nc-icon nc-user-run",
-        component: props => (<Team />)
-      },
-      {
-        path: "/announcements",
-        name: "Announcements",
-        icon: "nc-icon nc-send",
-        component: props => (<Announcements />)
-      },
-      {
-        path: "/semester",
-        name: "Semester",
-        icon: "nc-icon nc-tile-56",
-        component: props => (<Semester />)
-      },
-      {
-        path: "/create-react-app",
-        name: "Create React App",
-        icon: "nc-icon nc-atom",
-        component: props => (<CreateReactApp />)
-      },
-      { redirect: true, path: "/", to: "/home", name: "Home" }
-    ];
 
     return (
       <div className="wrapper">
@@ -182,7 +134,7 @@ class App extends Component {
                 return <Redirect from={route.path} to={route.to} key={key} />;
               }
               return (
-                <Route path={route.path} render={route.component} key={key} />
+                <Route path={route.path} component={route.component} key={key} />
               );
             })}
           </Switch>
