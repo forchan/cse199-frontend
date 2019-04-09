@@ -34,7 +34,9 @@ const propTypes = {
   instructorId: PropTypes.number,
   edit: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired
+  toggle: PropTypes.func.isRequired,
+  courseId: PropTypes.string.isRequired,
+  reloadInstructors: PropTypes.func.isRequired
 };
 
 class AddOrEditInstructorModal extends Component {
@@ -103,6 +105,7 @@ class AddOrEditInstructorModal extends Component {
 
     if (validateResponse(response)) {
       this.newForm();
+      this.props.reloadInstructors(this.props.courseId);
       this.displayNotification(response, SUCCESS);
     } else {
       this.displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);

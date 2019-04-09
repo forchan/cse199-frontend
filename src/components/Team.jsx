@@ -13,11 +13,13 @@ import InstructorCard from './Cards/InstructorCard.jsx';
 import AddInstructorModal from './Modals/AddOrEditInstructorModal.jsx';
 
 const propTypes = {
+  courseId: PropTypes.string.isRequired,
   instructors: PropTypes.array.isRequired,
-  officeHours: PropTypes.array.isRequired
+  officeHours: PropTypes.array.isRequired,
+  reloadInstructors: PropTypes.func.isRequired
 };
 
-const Team = ({ instructors, officeHours }) => {
+const Team = ({ instructors, officeHours, courseId, reloadInstructors }) => {
   const [addInstructorModal, setModal] = useState(false);
   const [activeTab, setTab] = useState('1');
   const toggleModal = () => setModal(!addInstructorModal);
@@ -60,6 +62,8 @@ const Team = ({ instructors, officeHours }) => {
       <AddInstructorModal
         isOpen={addInstructorModal}
         toggle={toggleModal}
+        courseId={courseId}
+        reloadInstructors={reloadInstructors}
       />
       <Nav tabs>
         <NavItem>

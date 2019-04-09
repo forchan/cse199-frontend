@@ -1,4 +1,19 @@
-import { getStuff } from '../utils/ApiUtils.js';
+/* There are 2 types of functions here - "load Stuff" and "set Stuff".
+ *
+ * "Load" functions are exported to be used throughout the app. They contain API
+ * GET calls, and therefore need to wait for an API response. Once all responses
+ * are retrieved,
+ * - the "load" functions will finally call their corresponding "set" functions
+ * - to pass the "action" object to the "reducers"
+ * - then the reducers update the redux store accordingly.
+ *
+ * Notes:
+ * - Some load functions are named reload to avoid variable collisions from
+ *   the load utils being imported. Also, reload functions are actually used
+ *   for reloading the redux store, after making API POST calls.
+ * - Using these functions described above is part of redux and thunk logic.
+ * - Actions and reducers and dispatch are part of just plain redux logic.
+ */
 import {
   loadActivities,
   loadAnnouncements,
@@ -11,9 +26,11 @@ import {
   loadSections,
   loadSectionGroups
 } from '../utils/ApiHelperUtils.js';
+// Action constants are used here and the corresponding Reducer
+export const SET_GENERAL_CONTENT = '#setGeneralContent';
+export const SET_SCHEDULE_CONTENT = '#setScheduleContent';
+export const SET_INSTRUCTORS = '#setInstructors';
 
-export const SET_GENERAL_CONTENT = '#loadGeneralContent';
-export const SET_SCHEDULE_CONTENT = '#loadScheduleContent';
 
 const setGeneralContent = contentObject => ({
   type: SET_GENERAL_CONTENT,
@@ -67,4 +84,14 @@ export const loadScheduleContent = courseId => async (dispatch) => {
   };
 
   dispatch(setScheduleContent(contentObject));
+};
+
+const setInstructors = instructors => ({
+  type: SET_INSTRUCTORS,
+  instructors
+});
+
+export const reloadInstructors = courseId => async (dispatch) => {
+  const instructors = await loadInstructors(courseId);
+  dispatch(setInstructors(instructors));
 };
