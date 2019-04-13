@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { NotificationContainer } from 'react-notifications';
 import Header from './Header/Header.jsx'
 import Sidebar from './Sidebar/Sidebar.jsx'
 import appRoutes from '../routes/appRoutes.js';
@@ -25,6 +26,7 @@ class App extends Component {
 
     return (
       <div className="wrapper">
+        <NotificationContainer />
         <Sidebar {...this.props} routes={appRoutes} />
         <div className="main-panel" ref="mainPanel">
           <Header

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NotificationContainer } from 'react-notifications';
 import {
   Modal,
   ModalHeader,
@@ -27,11 +26,12 @@ import { postApiStuff, validateResponse } from '../../utils/ApiUtils.js';
 import { isNullOrEmpty, replaceIfNull } from '../../utils/StringUtils.js';
 
 const defaultProps = {
+  instructor: {},
   edit: false
 };
 
 const propTypes = {
-  instructorId: PropTypes.number,
+  instructor: PropTypes.object,
   edit: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
@@ -44,6 +44,30 @@ class AddOrEditInstructorModal extends Component {
     this.newForm();
   };
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.edit !== this.props.edit) {
+      if (this.props.edit) {
+        const { edit, instructor } = this.props;
+        // do some replace if nulls here, but also discuss standardizing data
+        const title = replaceIfNull(instructor.instructor_title);
+        const email = replaceIfNull(instructor.instructor_contact);
+        const photoURL = replaceIfNull(instructor.instructor_picture_url);
+        this.setState({
+          title: title,
+          firstName: instructor.instructor_firstname,
+          lastName: instructor.instructor_lastname,
+          type: instructor.instructor_type,
+          email: email,
+          photoURL: photoURL,
+          displayRequiredPrompt: false,
+          edit: edit
+        });
+      } else {
+        this.newForm();
+      }
+    }
+  }
+
   newForm = () => { // this is the initial state of this component / form
     this.setState({
       title: '',
@@ -52,7 +76,8 @@ class AddOrEditInstructorModal extends Component {
       type: '',
       email: '',
       photoURL: '',
-      displayRequiredPrompt: false
+      displayRequiredPrompt: false,
+      edit: false
     });
   };
 
@@ -64,7 +89,7 @@ class AddOrEditInstructorModal extends Component {
 
   prepareFormToSubmit = () => {
     const { title, firstName, lastName, type, email, photoURL } = this.state;
-    const { edit, instructorId } = this.props;
+    const { edit, instructor } = this.props;
 
     // these key values are what the API expects as the json payload
     const formToSubmit = {
@@ -78,7 +103,7 @@ class AddOrEditInstructorModal extends Component {
     };
 
     if (edit) {
-      formToSubmit['instructorid'] = instructorId;
+      formToSubmit['instructorid'] = instructor.instructor_id;
     }
 
     return formToSubmit;
@@ -93,6 +118,8 @@ class AddOrEditInstructorModal extends Component {
   }
 
   submitForm = async () => {
+    const { edit } = this.props;
+
     if (this.invalidForm()) {
       this.setState({ displayRequiredPrompt: true });
       return;
@@ -104,11 +131,15 @@ class AddOrEditInstructorModal extends Component {
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
 
     if (validateResponse(response)) {
-      this.newForm();
+      if (!edit) {
+        this.newForm();
+      }
       this.props.reloadInstructors(this.props.courseId);
       this.displayNotification(response, SUCCESS);
+      console.log("a success");
     } else {
       this.displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
+      console.log("a fail")
     }
   };
 
@@ -136,12 +167,11 @@ class AddOrEditInstructorModal extends Component {
 
     return (
       <Modal isOpen={isOpen} toggle={this.handleToggle} size="md" autoFocus={false}>
-        <NotificationContainer />
         <ModalHeader toggle={this.handleToggle}>
           Who's the new guy?
         </ModalHeader>
         <ModalBody style={{ height: 'auto' }}>
-          {displayRequiredPrompt
+          {(displayRequiredPrompt)
             && <p className="text-danger">Missing required* inputs</p>
           }
           <Form>

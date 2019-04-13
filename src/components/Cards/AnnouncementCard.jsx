@@ -8,15 +8,15 @@ import {
   CardBody
 } from 'reactstrap';
 
-const AnnouncementCard = (props) => {
+const AnnouncementCard = ({ announcement }) => {
   return (
     <Card>
       <CardBody>
         <CardTitle>
-          <b>{props.announcement.title}</b>
+          <b>Title:</b> {announcement.title}
         </CardTitle>
         <CardText>
-          {props.announcement.text}
+          <b>Description:</b> {announcement.text}
         </CardText>
         <Button className="float-right">beepboop</Button>
       </CardBody>
@@ -25,7 +25,7 @@ const AnnouncementCard = (props) => {
 }
 
 AnnouncementCard.propTypes = {
-  announcement: PropTypes.object
+  announcement: PropTypes.object.isRequired
 }
 
 export default AnnouncementCard;

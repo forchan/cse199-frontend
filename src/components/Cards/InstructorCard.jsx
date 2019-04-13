@@ -14,10 +14,11 @@ import { DEFAULT_IMAGE_PATH } from '../../constants/ImageConstants.js';
 
 const propTypes = {
   instructor: PropTypes.object.isRequired,
-  officeHour: PropTypes.object
+  officeHour: PropTypes.object,
+  toggleEdit: PropTypes.func.isRequired
 };
 
-const InstructorCard = ({ instructor, officeHour }) => {
+const InstructorCard = ({ instructor, officeHour, toggleEdit }) => {
   const image = (isNullOrEmpty(instructor.instructor_picture_url))
     ? DEFAULT_IMAGE_PATH
     : instructor.instructor_picture_url;
@@ -57,7 +58,12 @@ const InstructorCard = ({ instructor, officeHour }) => {
             </Fragment>
           }
         </CardText>
-        <Button className="float-right">Edit</Button>
+        <Button
+          className="float-right"
+          onClick={() => toggleEdit(instructor)}
+        >
+          Edit
+        </Button>
       </CardBody>
     </Card>
   );
