@@ -42,20 +42,19 @@ const InstructorCard = ({ instructor, officeHour, toggleEdit }) => {
           Email: {replaceIfNull(instructor.instructor_contact, "N/A")}
         </CardSubtitle>
         <CardText>
-          {(officeHour) ?
-            <Fragment>
-              Office Hours: {replaceIfNull(officeHour.weekday, "No day")}{' '}
-              {replaceIfNull(officeHour.time_start, "no start")} to{' '}
-              {replaceIfNull(officeHour.time_end, "no end")}{' '}
-              <br/>
-              Location: {replaceIfNull(officeHour.location, "N/A")}
-            </Fragment>
-            :
-            <Fragment>
-              Office Hours: N/A
-              <br/>
-              Location: N/A
-            </Fragment>
+          {(officeHour)
+            ? <Fragment>
+                Office Hours: {replaceIfNull(officeHour.weekday, "No day")}{' '}
+                {replaceIfNull(officeHour.time_start, "no start")} to{' '}
+                {replaceIfNull(officeHour.time_end, "no end")}{' '}
+                <br/>
+                Location: {replaceIfNull(officeHour.location, "N/A")}
+              </Fragment>
+            : <Fragment>
+                Office Hours: N/A
+                <br/>
+                Location: N/A
+              </Fragment>
           }
         </CardText>
         <Button

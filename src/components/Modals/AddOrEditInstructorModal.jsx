@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -136,12 +136,19 @@ class AddOrEditInstructorModal extends Component {
       }
       this.props.reloadInstructors(this.props.courseId);
       this.displayNotification(response, SUCCESS);
-      console.log("a success");
     } else {
-      this.displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
-      console.log("a fail")
+      let errorMessage = replaceIfNull(response, 'Unknown error')
+      if (edit) {
+        errorMessage += ' - or you may not have made any changes.';
+      }
+      this.displayNotification(errorMessage, ERROR);
     }
   };
+
+  submitFormAndCloseModal = async () => {
+    this.submitForm();
+    this.props.toggle();
+  }
 
   handleToggle = () => {
     this.newForm();
@@ -154,7 +161,7 @@ class AddOrEditInstructorModal extends Component {
   };
 
   render() {
-    const { isOpen } = this.props;
+    const { isOpen, edit } = this.props;
     const {
       title,
       firstName,
@@ -168,7 +175,10 @@ class AddOrEditInstructorModal extends Component {
     return (
       <Modal isOpen={isOpen} toggle={this.handleToggle} size="md" autoFocus={false}>
         <ModalHeader toggle={this.handleToggle}>
-          Who's the new guy?
+          {(edit)
+            ? <Fragment>Edit Instructor</Fragment>
+            : <Fragment>Who's the new guy?</Fragment>
+          }
         </ModalHeader>
         <ModalBody style={{ height: 'auto' }}>
           {(displayRequiredPrompt)
@@ -270,8 +280,20 @@ class AddOrEditInstructorModal extends Component {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.submitForm}>Add</Button>{' '}
-          <Button color="secondary" onClick={this.handleToggle}>Cancel</Button>
+          {(edit)
+            ? <Button color="primary" onClick={this.submitForm}>
+                Save
+              </Button>
+            : <Fragment>
+                <Button color="primary" onClick={this.submitForm}>
+                  Add
+                </Button>{' '}
+                <Button color="primary" onClick={this.submitFormAndCloseModal}>
+                  Add/Close
+                </Button>
+              </Fragment>
+          }{' '}
+          <Button color="secondary" onClick={this.handleToggle}>Close</Button>
         </ModalFooter>
       </Modal>
     );

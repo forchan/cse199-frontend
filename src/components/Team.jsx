@@ -20,31 +20,6 @@ const propTypes = {
 };
 
 class Team extends Component {
-// const Team = ({ instructors, officeHours, courseId, reloadInstructors }) => {
-//   const [addOrEditInstructorModal, setModal] = useState(false);
-//   const [editOption, setEditOption] = useState(false);
-//   const [instructorToEdit, setInstructorToEdit] = useState({});
-//   const [activeTab, setTab] = useState('1');
-//
-//   const toggleEditOption = () => setEditOption(!editOption);
-//   const toggleModal = () => setModal(!addOrEditInstructorModal);
-//   const toggleModalWithEdit = async (instructor) => {
-//     await toggleEditOption();
-//     await setInstructorToEdit(instructor);
-//     toggleModal();
-//   };
-//   const closeModal = () => {
-//     toggleModal();
-//     if (editOption !== false) {
-//       setEditOption(false);
-//       setInstructorToEdit({});
-//     }
-//   };
-//   const toggleTab = tab => {
-//     if (activeTab !== tab) {
-//       setTab(tab);
-//     }
-//   };
   state = {
     addOrEditInstructorModal: false,
     editOption: false,
