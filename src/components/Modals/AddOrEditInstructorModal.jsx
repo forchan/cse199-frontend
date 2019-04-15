@@ -31,7 +31,8 @@ import {
 } from '../../utils/StringUtils.js';
 
 const defaultProps = {
-  edit: false
+  edit: false,
+  instructor: {}
 };
 
 const propTypes = {
@@ -109,7 +110,7 @@ class AddOrEditInstructorModal extends Component {
 
   invalidForm = () => { // returns true if form is invalid
     const { firstName, lastName, type, email } = this.state;
-    const { edit, currentInstructors  } = this.props;
+    const { currentInstructors, instructor  } = this.props;
     // required info
     if (isNullOrEmpty(firstName)
           || isNullOrEmpty(lastName)
@@ -118,16 +119,15 @@ class AddOrEditInstructorModal extends Component {
       this.setState({ displayRequiredPrompt: true });
       return true;
     }
-    // duplicate emails are not allowed, this only checks for new instructor
-    if (!edit) {
-      const matchingInstructor = currentInstructors.find(current => (
-        current.instructor_contact === email
-        && current.instructor_type !== INACTIVE_INSTRUCTOR
-      ));
-      if (matchingInstructor) {
-        this.setState({ displayDuplicateEmailPrompt: true });
-        return true;
-      }
+    // duplicate emails are not allowed
+    const matchingInstructor = currentInstructors.find(current => (
+      current.instructor_contact === email
+      && current.instructor_type !== INACTIVE_INSTRUCTOR
+      && current.instructor_id !== instructor.instructor_id
+    ));
+    if (matchingInstructor) {
+      this.setState({ displayDuplicateEmailPrompt: true });
+      return true;
     }
     return false;
   };
@@ -155,7 +155,7 @@ class AddOrEditInstructorModal extends Component {
     } else {
       let errorMessage = replaceIfNull(response, 'Unknown error')
       if (edit) {
-        errorMessage += ' - or you may not have made any changes.';
+        errorMessage += ' (you may not have made any changes).';
       }
       displayNotification(errorMessage, ERROR);
     }
