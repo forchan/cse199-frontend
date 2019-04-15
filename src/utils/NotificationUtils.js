@@ -6,7 +6,7 @@ export const WARNING = 'warning';
 export const ERROR = 'error';
 
 // returns a function that can be called
-export const createNotification = (message, type) => {
+const createNotification = (message, type) => {
   return () => {
     switch (type) {
       case INFO:
@@ -25,4 +25,10 @@ export const createNotification = (message, type) => {
         console.log('Wrong message type');
     }
   };
+};
+
+// displays notification onto screen
+export const displayNotification = (message, type) => {
+  const displayFunction = createNotification(message, type);
+  displayFunction();
 };

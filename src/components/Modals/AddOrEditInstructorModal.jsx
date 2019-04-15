@@ -18,12 +18,16 @@ import {
   API_INSTRUCTOR_URL
 } from '../../constants/ApiConstants.js';
 import {
-  createNotification,
+  displayNotification,
   SUCCESS,
   ERROR
 } from '../../utils/NotificationUtils.js';
-import { postApiStuff, validateResponse } from '../../utils/ApiUtils.js';
-import { isNullOrEmpty, replaceIfNull } from '../../utils/StringUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
+import {
+  validateResponseString,
+  isNullOrEmpty,
+  replaceIfNull
+} from '../../utils/StringUtils.js';
 
 const defaultProps = {
   edit: false
@@ -93,47 +97,51 @@ class AddOrEditInstructorModal extends Component {
       instructorcontact: email,
       instructorpicture: photoURL,
     };
-
     if (edit) {
       formToSubmit['instructorid'] = instructor.instructor_id;
     }
-
     return formToSubmit;
-  }
+  };
 
   invalidForm = () => { // returns true if form is invalid
-    const { firstName, lastName, type } = this.state;
-    if (isNullOrEmpty(firstName) || isNullOrEmpty(lastName) || isNullOrEmpty(type)) {
+    const { firstName, lastName, type, email } = this.state;
+    if (isNullOrEmpty(firstName)
+          || isNullOrEmpty(lastName)
+          || isNullOrEmpty(type)
+          || isNullOrEmpty(email)) {
+
       return true;
     }
     return false;
-  }
+  };
 
   submitForm = async () => {
-    const { edit } = this.props;
-
     if (this.invalidForm()) {
       this.setState({ displayRequiredPrompt: true });
       return;
     }
-
     this.setState({ displayRequiredPrompt: false });
 
     const formToSubmit = this.prepareFormToSubmit();
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
+    this.validateResponse(response);
+  };
 
-    if (validateResponse(response)) {
+  validateResponse = response => {
+    const { courseId, edit, reloadInstructors } = this.props;
+
+    if (validateResponseString(response)) {
       if (!edit) {
         this.newForm();
       }
-      this.props.reloadInstructors(this.props.courseId);
-      this.displayNotification(response, SUCCESS);
+      reloadInstructors(courseId);
+      displayNotification(response, SUCCESS);
     } else {
       let errorMessage = replaceIfNull(response, 'Unknown error')
       if (edit) {
         errorMessage += ' - or you may not have made any changes.';
       }
-      this.displayNotification(errorMessage, ERROR);
+      displayNotification(errorMessage, ERROR);
     }
   };
 
@@ -142,16 +150,11 @@ class AddOrEditInstructorModal extends Component {
     if (!this.state.displayRequiredPrompt) {
       this.props.toggle();
     }
-  }
+  };
 
   handleToggle = () => {
     this.newForm();
     this.props.toggle();
-  };
-
-  displayNotification = (message, type) => {
-    const displayFunction = createNotification(message, type);
-    displayFunction();
   };
 
   render() {
@@ -246,7 +249,7 @@ class AddOrEditInstructorModal extends Component {
               </Col>
               <Col md={9}>
                 <FormGroup>
-                  <Label for="email">Email</Label>
+                  <Label for="email">Email<b>*</b></Label>
                   <Input
                     type="email"
                     name="email"

@@ -10,6 +10,7 @@ import {
   CardText
 } from 'reactstrap';
 import EditInstructorModal from '../../containers/modals/AddOrEditInstructorModalContainer.jsx';
+import DeleteInstructorModal from '../../containers/modals/DeleteInstructorModalContainer.jsx';
 import { replaceIfNull, isNullOrEmpty } from '../../utils/StringUtils.js';
 import { DEFAULT_IMAGE_PATH } from '../../constants/ImageConstants.js';
 
@@ -36,6 +37,13 @@ const InstructorCard = ({ instructor, officeHour }) => {
           instructor={instructor}
           isOpen={editModal}
           toggle={toggleEditModal}
+        />
+      }
+      {(deleteModal) &&
+        <DeleteInstructorModal
+          instructor={instructor}
+          isOpen={deleteModal}
+          toggle={toggleDeleteModal}
         />
       }
       <Card style={{ width: '300px', height: '500px' }}>
@@ -71,6 +79,12 @@ const InstructorCard = ({ instructor, officeHour }) => {
                 </Fragment>
             }
           </CardText>
+          <Button
+            className="float-right"
+            onClick={toggleDeleteModal}
+          >
+            Remove
+          </Button>
           <Button
             className="float-right"
             onClick={toggleEditModal}
