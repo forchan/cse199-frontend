@@ -17,6 +17,7 @@ import {
   POST_INSTRUCTOR,
   API_INSTRUCTOR_URL
 } from '../../constants/ApiConstants.js';
+import { INACTIVE_INSTRUCTOR } from '../../constants/InstructorConstants.js';
 import {
   displayNotification,
   SUCCESS,
@@ -39,7 +40,8 @@ const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   courseId: PropTypes.string.isRequired,
-  reloadInstructors: PropTypes.func.isRequired
+  reloadInstructors: PropTypes.func.isRequired,
+  currentInstructors: PropTypes.array.isRequired
 };
 
 class AddOrEditInstructorModal extends Component {
@@ -58,7 +60,8 @@ class AddOrEditInstructorModal extends Component {
         type: instructor.instructor_type,
         email: email,
         photoURL: photoURL,
-        displayRequiredPrompt: false
+        displayRequiredPrompt: false,
+        displayDuplicateEmailPrompt: false
       });
     } else {
       this.newForm();
@@ -73,7 +76,8 @@ class AddOrEditInstructorModal extends Component {
       type: '',
       email: '',
       photoURL: '',
-      displayRequiredPrompt: false
+      displayRequiredPrompt: false,
+      displayDuplicateEmailPrompt: false
     });
   };
 
@@ -105,23 +109,35 @@ class AddOrEditInstructorModal extends Component {
 
   invalidForm = () => { // returns true if form is invalid
     const { firstName, lastName, type, email } = this.state;
+    const { edit, currentInstructors  } = this.props;
+    // required info
     if (isNullOrEmpty(firstName)
           || isNullOrEmpty(lastName)
           || isNullOrEmpty(type)
           || isNullOrEmpty(email)) {
-
+      this.setState({ displayRequiredPrompt: true });
       return true;
+    }
+    // duplicate emails are not allowed, this only checks for new instructor
+    if (!edit) {
+      const matchingInstructor = currentInstructors.find(current => (
+        current.instructor_contact === email
+        && current.instructor_type !== INACTIVE_INSTRUCTOR
+      ));
+      if (matchingInstructor) {
+        this.setState({ displayDuplicateEmailPrompt: true });
+        return true;
+      }
     }
     return false;
   };
 
   submitForm = async () => {
-    if (this.invalidForm()) {
-      this.setState({ displayRequiredPrompt: true });
-      return;
-    }
-    this.setState({ displayRequiredPrompt: false });
-
+    if (this.invalidForm()) return;
+    this.setState({
+      displayRequiredPrompt: false,
+      displayDuplicateEmailPrompt: false
+    });
     const formToSubmit = this.prepareFormToSubmit();
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
     this.validateResponse(response);
@@ -147,7 +163,7 @@ class AddOrEditInstructorModal extends Component {
 
   submitFormAndCloseModal = async () => {
     await this.submitForm();
-    if (!this.state.displayRequiredPrompt) {
+    if (!this.state.displayRequiredPrompt && !this.state.displayDuplicateEmailPrompt) {
       this.props.toggle();
     }
   };
@@ -166,7 +182,8 @@ class AddOrEditInstructorModal extends Component {
       type,
       email,
       photoURL,
-      displayRequiredPrompt
+      displayRequiredPrompt,
+      displayDuplicateEmailPrompt
     } = this.state;
 
     return (
@@ -178,8 +195,13 @@ class AddOrEditInstructorModal extends Component {
           }
         </ModalHeader>
         <ModalBody style={{ height: 'auto' }}>
-          {(displayRequiredPrompt)
-            && <p className="text-danger">Missing required* inputs</p>
+          {(displayRequiredPrompt) &&
+            <p className="text-danger">Missing required* inputs</p>
+          }
+          {(displayDuplicateEmailPrompt) &&
+            <p className="text-danger">
+              This email already exists, emails must be unique.
+            </p>
           }
           <Form>
             <Row form>
