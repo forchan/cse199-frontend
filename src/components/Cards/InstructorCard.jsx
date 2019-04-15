@@ -61,21 +61,21 @@ const InstructorCard = ({ instructor, officeHour }) => {
             </b>
           </CardTitle>
           <CardSubtitle>
-            Email: {replaceIfNull(instructor.instructor_contact, "N/A")}
+            <b>Email:</b> {replaceIfNull(instructor.instructor_contact, "N/A")}
           </CardSubtitle>
-          <CardText>
+          <CardText style={{ height: '55px' }}>
             {(officeHour)
               ? <Fragment>
-                  Office Hours: {replaceIfNull(officeHour.weekday, "No day")}{' '}
+                  <b>Office Hours:</b> {replaceIfNull(officeHour.weekday, "No day")}{' '}
                   {replaceIfNull(officeHour.time_start, "no start")} to{' '}
                   {replaceIfNull(officeHour.time_end, "no end")}{' '}
                   <br/>
-                  Location: {replaceIfNull(officeHour.location, "N/A")}
+                  <b>Location:</b> {replaceIfNull(officeHour.location, "N/A")}
                 </Fragment>
               : <Fragment>
-                  Office Hours: N/A
+                  <b>Office Hours:</b> N/A
                   <br/>
-                  Location: N/A
+                  <b>Location:</b> N/A
                 </Fragment>
             }
           </CardText>

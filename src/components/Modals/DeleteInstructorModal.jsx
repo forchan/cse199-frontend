@@ -70,7 +70,7 @@ const DeleteInstructorModal = ({ instructor, courseId, reloadInstructors, isOpen
         {instructor.instructor_lastname}</b>?
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={submitFormAndCloseModal}>
+        <Button color="warning" onClick={submitFormAndCloseModal}>
           Remove
         </Button>
         <Button color="secondary" onClick={() => toggle()}>Cancel</Button>
