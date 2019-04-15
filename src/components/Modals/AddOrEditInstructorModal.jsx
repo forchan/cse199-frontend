@@ -26,7 +26,6 @@ import { postApiStuff, validateResponse } from '../../utils/ApiUtils.js';
 import { isNullOrEmpty, replaceIfNull } from '../../utils/StringUtils.js';
 
 const defaultProps = {
-  instructor: {},
   edit: false
 };
 
@@ -41,32 +40,26 @@ const propTypes = {
 
 class AddOrEditInstructorModal extends Component {
   componentWillMount = () => {
-    this.newForm();
-  };
+    const { edit, instructor } = this.props;
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevProps.edit !== this.props.edit) {
-      if (this.props.edit) {
-        const { edit, instructor } = this.props;
-        // do some replace if nulls here, but also discuss standardizing data
-        const title = replaceIfNull(instructor.instructor_title);
-        const email = replaceIfNull(instructor.instructor_contact);
-        const photoURL = replaceIfNull(instructor.instructor_picture_url);
-        this.setState({
-          title: title,
-          firstName: instructor.instructor_firstname,
-          lastName: instructor.instructor_lastname,
-          type: instructor.instructor_type,
-          email: email,
-          photoURL: photoURL,
-          displayRequiredPrompt: false,
-          edit: edit
-        });
-      } else {
-        this.newForm();
-      }
+    if (edit) {
+      // do some replace if nulls here, but also discuss standardizing data
+      const title = replaceIfNull(instructor.instructor_title);
+      const email = replaceIfNull(instructor.instructor_contact);
+      const photoURL = replaceIfNull(instructor.instructor_picture_url);
+      this.setState({
+        title: title,
+        firstName: instructor.instructor_firstname,
+        lastName: instructor.instructor_lastname,
+        type: instructor.instructor_type,
+        email: email,
+        photoURL: photoURL,
+        displayRequiredPrompt: false
+      });
+    } else {
+      this.newForm();
     }
-  }
+  };
 
   newForm = () => { // this is the initial state of this component / form
     this.setState({
@@ -76,8 +69,7 @@ class AddOrEditInstructorModal extends Component {
       type: '',
       email: '',
       photoURL: '',
-      displayRequiredPrompt: false,
-      edit: false
+      displayRequiredPrompt: false
     });
   };
 
@@ -109,7 +101,7 @@ class AddOrEditInstructorModal extends Component {
     return formToSubmit;
   }
 
-  invalidForm = () => {
+  invalidForm = () => { // returns true if form is invalid
     const { firstName, lastName, type } = this.state;
     if (isNullOrEmpty(firstName) || isNullOrEmpty(lastName) || isNullOrEmpty(type)) {
       return true;
@@ -146,8 +138,10 @@ class AddOrEditInstructorModal extends Component {
   };
 
   submitFormAndCloseModal = async () => {
-    this.submitForm();
-    this.props.toggle();
+    await this.submitForm();
+    if (!this.state.displayRequiredPrompt) {
+      this.props.toggle();
+    }
   }
 
   handleToggle = () => {
