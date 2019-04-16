@@ -46,7 +46,7 @@ const InstructorCard = ({ instructor, officeHour }) => {
           toggle={toggleDeleteModal}
         />
       }
-      <Card style={{ width: '300px', height: '500px' }}>
+      <Card>
         <CardImg
           top
           height="300px"

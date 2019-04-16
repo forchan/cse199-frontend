@@ -6,7 +6,7 @@ import {
   Nav,
   NavItem,
   NavLink,
-  CardColumns
+  CardDeck
 } from 'reactstrap';
 import classnames from 'classnames';
 import InstructorCard from './Cards/InstructorCard.jsx';
@@ -90,14 +90,14 @@ const Team = ({ instructors, officeHours, courseId, reloadInstructors }) => {
       &nbsp;
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
-          <CardColumns>
+          <CardDeck>
             {instructorCards}
-          </CardColumns>
+          </CardDeck>
         </TabPane>
         <TabPane tabId="2">
-          <CardColumns>
+          <CardDeck>
             {taCards}
-          </CardColumns>
+          </CardDeck>
         </TabPane>
         <TabPane tabId="3">
           This message is hidden lol.
