@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import AnnouncementCard from './Cards/AnnouncementCard.jsx';
-import SendAnnouncementModal from './Modals/SendAnnouncementModal.jsx';
+import SendAnnouncementModal from '../containers/modals/SendAnnouncementModalContainer.jsx';
 
 const propTypes = {
   announcements: PropTypes.array.isRequired
@@ -25,7 +25,7 @@ const Announcements = ({ announcements }) => {
       setTab(tab);
     }
   };
-  
+
   return (
     <div className="content">
       <SendAnnouncementModal
