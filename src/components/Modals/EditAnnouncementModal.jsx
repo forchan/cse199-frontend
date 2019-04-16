@@ -19,7 +19,7 @@ const EditAnnouncementModal = ({ isOpen, toggle }) => {
       <ModalHeader toggle={toggle}>
         What should this do?
       </ModalHeader>
-      <ModalBody style={{ height: 'auto' }}>
+      <ModalBody className='normal-height-modal-body'>
         How should editing announcements work in general?
       </ModalBody>
       <ModalFooter>

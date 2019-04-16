@@ -46,7 +46,7 @@ const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
       <ModalHeader toggle={toggle}>
         What's on your mind?
       </ModalHeader>
-      <ModalBody>
+      <ModalBody className='normal-height-modal-body'>
         <Form>
           <FormGroup row>
             <Label for="sendOption" sm={2}><b>Send To</b></Label>

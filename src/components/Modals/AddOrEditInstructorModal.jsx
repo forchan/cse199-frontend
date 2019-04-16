@@ -194,7 +194,7 @@ class AddOrEditInstructorModal extends Component {
             : <Fragment>Who's the new guy?</Fragment>
           }
         </ModalHeader>
-        <ModalBody style={{ height: 'auto' }}>
+        <ModalBody className='normal-height-modal-body'>
           {(displayRequiredPrompt) &&
             <p className="text-danger">Missing required* inputs</p>
           }

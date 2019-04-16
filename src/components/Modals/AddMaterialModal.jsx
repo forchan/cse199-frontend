@@ -22,7 +22,7 @@ class AddMaterialModal extends Component {
           <ModalHeader toggle={this.props.toggle}>
             Another obstacle for the students?
           </ModalHeader>
-          <ModalBody style={{ height: 'auto' }}>
+          <ModalBody className='normal-height-modal-body'>
             <Form>
               <Row form>
                 <Col md={12}>

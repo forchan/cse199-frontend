@@ -22,7 +22,7 @@ class AddStaffToModuleModal extends Component {
           <ModalHeader toggle={this.props.toggle}>
             Requesting backup
           </ModalHeader>
-          <ModalBody style={{ height: 'auto' }}>
+          <ModalBody className='normal-height-modal-body'>
             <Form>
               <Row form>
                 <Col md={12}>
