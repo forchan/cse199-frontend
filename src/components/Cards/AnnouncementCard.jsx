@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -7,25 +7,39 @@ import {
   CardText,
   CardBody
 } from 'reactstrap';
+import EditAnnouncementModal from '../Modals/EditAnnouncementModal.jsx';
+
+const propTypes = {
+  announcement: PropTypes.object.isRequired
+};
 
 const AnnouncementCard = ({ announcement }) => {
-  return (
-    <Card>
-      <CardBody>
-        <CardTitle>
-          <b>Title:</b> {announcement.title}
-        </CardTitle>
-        <CardText>
-          <b>Description:</b> {announcement.text}
-        </CardText>
-        <Button className="float-right">beepboop</Button>
-      </CardBody>
-    </Card>
-  );
-}
+  const [editModal, setEditModal] = useState(false);
+  const toggleEditModal = () => setEditModal(!editModal);
 
-AnnouncementCard.propTypes = {
-  announcement: PropTypes.object.isRequired
-}
+  return (
+    <Fragment>
+      {(editModal) &&
+        <EditAnnouncementModal
+          isOpen={editModal}
+          toggle={toggleEditModal}
+        />
+      }
+      <Card>
+        <CardBody>
+          <CardTitle>
+            <b>Title:</b> {announcement.title}
+          </CardTitle>
+          <CardText>
+            <b>Description:</b> {announcement.text}
+          </CardText>
+          <Button className="float-right" onClick={toggleEditModal}>Edit</Button>
+        </CardBody>
+      </Card>
+    </Fragment>
+  );
+};
+
+AnnouncementCard.propTypes = propTypes;
 
 export default AnnouncementCard;
