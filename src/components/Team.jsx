@@ -11,6 +11,7 @@ import {
 import classnames from 'classnames';
 import InstructorCard from './Cards/InstructorCard.jsx';
 import AddInstructorModal from '../containers/modals/AddOrEditInstructorModalContainer.jsx';
+import { INSTRUCTOR, TA } from '../constants/InstructorConstants.js';
 
 const propTypes = {
   instructors: PropTypes.array.isRequired,
@@ -36,16 +37,17 @@ const Team = ({ instructors, officeHours, courseId, reloadInstructors }) => {
   });
 
   instructors.forEach((instructor) => {
-    if (instructor.instructor_type !== 'INSTRUCTOR') {
-      taCards.push(
+    if (instructor.instructor_type === INSTRUCTOR){
+      instructorCards.push(
         <InstructorCard
           key={instructor.instructor_id}
           instructor={instructor}
           officeHour={officeHourMap.get(instructor.instructor_id)}
         />
       );
-    } else {
-      instructorCards.push(
+    }
+    if (instructor.instructor_type === TA) {
+      taCards.push(
         <InstructorCard
           key={instructor.instructor_id}
           instructor={instructor}

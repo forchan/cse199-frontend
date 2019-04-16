@@ -46,7 +46,7 @@ const InstructorCard = ({ instructor, officeHour }) => {
           toggle={toggleDeleteModal}
         />
       }
-      <Card>
+      <Card className="instructor-card">
         <CardImg
           top
           height="300px"
@@ -95,7 +95,7 @@ const InstructorCard = ({ instructor, officeHour }) => {
       </Card>
     </Fragment>
   );
-}
+};
 
 InstructorCard.propTypes = propTypes;
 

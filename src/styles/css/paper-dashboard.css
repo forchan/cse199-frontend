@@ -27,10 +27,12 @@ Copyright (c) 2015 Daniel Eden
   =========================================================
 */
 .jumbotron {
-  background-color: white !important; }
+  background-color: white !important;
+}
 
 .nav-link {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 /* .modal-lg {
   max-width: 63% !important; } */
@@ -39,26 +41,42 @@ Copyright (c) 2015 Daniel Eden
 .modal-body {
   background-color: #f4f3ef;
   height: calc(100vh - 250px);
-  overflow-y: auto; }
+  overflow-y: auto;
+}
 
 .normal-height-modal-body {
-  height: auto; }
+  height: auto;
+}
 
 /* these card-deck properties is what aligns the instructor cards by row */
 .card-deck {
   display: flex !important;
   justify-content: flex-start !important;
   flex-flow: row wrap !important;
-  align-items: stretch !important; }
+  align-items: stretch !important;
+}
 
-.card-deck .card {
+.instructor-card {
   display: block !important;
   flex-basis: 25% !important;
   min-width: 300px !important;
   min-height: 500px !important;
   max-width: 300px !important;
   max-height: 500px !important;
-  margin-bottom: 17px; }
+  margin-bottom: 17px !important;
+}
+
+.section-card {
+  display: block !important;
+  flex-basis: 25% !important;
+  min-width: 300px !important;
+  min-height: 170px !important;
+  max-width: 300px !important;
+  max-height: 170px !important;
+  margin-bottom: 17px !important;
+}
+
+/* all the css below came with the template paper-dashboard.css tempalte */
 
 .animated {
   -webkit-animation-duration: 1s;

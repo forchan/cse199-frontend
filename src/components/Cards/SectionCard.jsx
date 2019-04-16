@@ -11,7 +11,7 @@ import {
 
 const SectionCard = (props) => {
   return (
-    <Card>
+    <Card className="section-card">
       <CardBody>
         <CardTitle>
           <b>{props.section.section_type} {props.section.section_name}</b>
@@ -26,10 +26,10 @@ const SectionCard = (props) => {
       </CardBody>
     </Card>
   );
-}
+};
 
 SectionCard.propTypes = {
   section: PropTypes.object
-}
+};
 
 export default SectionCard;
