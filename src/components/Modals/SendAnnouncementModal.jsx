@@ -86,13 +86,13 @@ const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
           <FormGroup row>
             <Label for="title" sm={2}><b>Title</b></Label>
             <Col sm={10}>
-              <Input type="text" name="title" id="title" placeholder="Enter title" autoFocus />
+              <Input type="text" name="title" id="title" autoFocus />
             </Col>
           </FormGroup>
           <FormGroup row>
             <Label for="message" sm={2}><b>Message</b></Label>
             <Col sm={10}>
-              <Input type="textarea" name="message" id="message" placeholder="Enter message" />
+              <Input type="textarea" name="message" id="message" />
             </Col>
           </FormGroup>
         </Form>

@@ -48,6 +48,10 @@ Copyright (c) 2015 Daniel Eden
   height: auto;
 }
 
+.add-material-modal {
+  min-width: 700px !important;
+}
+
 /* these card-deck properties is what aligns the instructor cards by row */
 .card-deck {
   display: flex !important;

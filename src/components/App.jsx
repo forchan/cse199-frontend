@@ -19,7 +19,7 @@ class App extends Component {
     const { courseId, loadGeneralContent, loadScheduleContent } = this.props;
     loadGeneralContent(courseId);
     loadScheduleContent(courseId);
-  }
+  };
 
   render() {
     const { courseSemester, courseYear} = this.props;
@@ -50,7 +50,7 @@ class App extends Component {
       </div>
     );
   }
-}
+};
 
 App.propTypes = propTypes;
 

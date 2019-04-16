@@ -37,41 +37,48 @@ class Schedule extends Component {
     moduleModalHeaderTextColor: '', // determines the header color of the modal
     sectionModal: false,
     sectionGroup: {} // this is the target section group the section-modal opens
-  }
+  };
   openModuleModalWithValues = (courseModule, textColor) => {
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
       courseModule: courseModule, // this sets the target module
       moduleModalHeaderTextColor: textColor
     }));
-  }
+  };
   closeModuleModal = () => {
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
       courseModule: {},
       modulemoduleModalHeaderTextColor: ''
     }));
-  }
+  };
   openSectionModalWithValues = (sectionGroup) => {
     this.setState(prevState => ({
       sectionModal: !prevState.sectionModal,
       sectionGroup: sectionGroup // this sets the sectionGroup
     }));
-  }
+  };
   closeSectionModal = () => {
     this.setState(prevState => ({
       sectionModal: !prevState.sectionModal,
       sectionGroup: {} // this sets the sectionGroup
     }));
-  }
+  };
   toggleTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab
       });
     }
-  }
+  };
   render() {
+    const {
+      sectionModal,
+      moduleModal,
+      sectionGroup,
+      courseModule,
+      moduleModalHeaderTextColor
+    } = this.state;
     const {
       calendar,
       modules,
@@ -88,16 +95,16 @@ class Schedule extends Component {
     return (
       <div className="content">
         <SectionModal
-          isOpen={this.state.sectionModal}
+          isOpen={sectionModal}
           toggleClose={this.closeSectionModal}
-          sectionGroup={this.state.sectionGroup}
+          sectionGroup={sectionGroup}
           sections={sections}
         />
         <ModuleModal
-          isOpen={this.state.moduleModal}
+          isOpen={moduleModal}
           toggleClose={this.closeModuleModal}
-          headerTextColor={this.state.moduleModalHeaderTextColor}
-          courseModule={this.state.courseModule}
+          headerTextColor={moduleModalHeaderTextColor}
+          courseModule={courseModule}
           activities={activities}
           assignments={assignments}
           lectureNotes={lectureNotes}
