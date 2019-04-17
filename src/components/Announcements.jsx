@@ -15,11 +15,11 @@ import { isNullOrEmpty } from '../utils/StringUtils.js';
 
 const propTypes = {
   announcements: PropTypes.array.isRequired,
-  sectionIdToNameMap: PropTypes.object.isRequired,
+  lectureSectionIdToNameMap: PropTypes.object.isRequired,
   sectionGroupIdToNameMap: PropTypes.object.isRequired
 };
 
-const Announcements = ({ announcements, sectionIdToNameMap, sectionGroupIdToNameMap }) => {
+const Announcements = ({ announcements, lectureSectionIdToNameMap, sectionGroupIdToNameMap }) => {
   const [sendAnnouncementModal, setModal] = useState(false);
   const [activeTab, setTab] = useState('1');
   const toggleModal = () => setModal(!sendAnnouncementModal);
@@ -60,7 +60,7 @@ const Announcements = ({ announcements, sectionIdToNameMap, sectionGroupIdToName
           {announcements.map((announcement, index) => {
             let sentTo = '';
             if (!isNullOrEmpty(announcement.section_id)) {
-              sentTo = `Section ${sectionIdToNameMap.get(announcement.section_id)}`;
+              sentTo = `Section ${lectureSectionIdToNameMap.get(announcement.section_id)}`;
             } else if (!isNullOrEmpty(announcement.section_group_id)) {
               sentTo = `Section group ${sectionGroupIdToNameMap.get(announcement.section_group_id)}`;
             } else {

@@ -13,20 +13,24 @@ import {
   Input
 } from 'reactstrap';
 import { LECTURE } from '../../constants/ScheduleConstants.js';
-import {
-  TO_ALL,
-  TO_SECTION_GROUP,
-  TO_SECTION
-} from '../../constants/AnnouncementConstants.js';
+import { TO_ALL } from '../../constants/AnnouncementConstants.js';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   sections: PropTypes.array.isRequired,
-  sectionGroups: PropTypes.array.isRequired
+  sectionGroups: PropTypes.array.isRequired,
+  sectionGroupNameToIdMap: PropTypes.object.isRequired
 };
 
-const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
+const SendAnnouncementModal = ({
+  isOpen,
+  toggle,
+  sections,
+  sectionGroups,
+  lectureSectionNameToIdMap,
+  sectionGroupNameToIdMap
+}) => {
   const [sendOption, setSendOption] = useState('');
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
@@ -36,10 +40,10 @@ const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
   const sendAnnouncement = () => {
     if (sendOption === TO_ALL) {
       alert('to everyone');
-    } else if (sendOption.includes(TO_SECTION_GROUP)) {
-      alert('to section group ' + sendOption.substring(TO_SECTION_GROUP.length));
-    } else if (sendOption.includes(TO_SECTION)) {
-      alert('to section ' + sendOption.substring(TO_SECTION.length));
+    } else if (sectionGroupNameToIdMap.has(sendOption)) {
+      alert('to section group ' + sectionGroupNameToIdMap.get(sendOption));
+    } else if (lectureSectionNameToIdMap.has(sendOption)) {
+      alert('to section ' + lectureSectionNameToIdMap.get(sendOption));
     } else {
       alert('need to select a send option');
     }
@@ -65,9 +69,8 @@ const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
                 <option>select one</option>
                 <option value={TO_ALL}>everyone, everywhere</option>
                 {sectionGroups.map(sectionGroup => {
-                  const sectionGroupValue = TO_SECTION_GROUP + sectionGroup.sg_id;
                   return (
-                    <option value={sectionGroupValue} key={sectionGroup.section_group_name}>
+                    <option key={sectionGroup.section_group_name}>
                       {sectionGroup.section_group_name}
                     </option>
                   );
@@ -76,11 +79,10 @@ const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
                   .filter(allSections => {
                     return allSections.section_type === LECTURE
                   })
-                  .map(lecSection => {
-                    const lecSectionValue = TO_SECTION + lecSection.section_id;
+                  .map(lectureSection => {
                     return (
-                      <option value={lecSectionValue} key={lecSection.section_name}>
-                        {lecSection.section_name}
+                      <option key={lectureSection.section_name}>
+                        {lectureSection.section_name}
                       </option>
                     );
                   })}

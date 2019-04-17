@@ -1,19 +1,48 @@
-export const getSectionIdToNameMap = state => {
+import { LECTURE, RECITATION } from '../constants/ScheduleConstants.js';
+
+// Lecture Sections
+export const getLectureSectionIdToNameMap = state => {
   const idMap = new Map();
   state.content.sections.forEach(section => {
-    idMap.set(section.section_id, section.section_name);
+    if (section.section_type === LECTURE) {
+      idMap.set(section.section_id, section.section_name);
+    }
   });
   return idMap;
 };
 
-export const getSectionNameToIdMap = state => {
+export const getLectureSectionNameToIdMap = state => {
   const nameMap = new Map();
   state.content.sections.forEach(section => {
-    nameMap.set(section.section_name, section.section_id);
+    if (section.section_type === LECTURE) {
+      nameMap.set(section.section_name, section.section_id);
+    }
   });
   return nameMap;
 };
 
+// Recitation Sections
+export const getRecitationSectionIdToNameMap = state => {
+  const idMap = new Map();
+  state.content.sections.forEach(section => {
+    if (section.section_type === RECITATION) {
+      idMap.set(section.section_id, section.section_name);
+    }
+  });
+  return idMap;
+};
+
+export const getRecitationSectionNameToIdMap = state => {
+  const nameMap = new Map();
+  state.content.sections.forEach(section => {
+    if (section.section_type === RECITATION) {
+      nameMap.set(section.section_name, section.section_id);
+    }
+  });
+  return nameMap;
+};
+
+// Section Groups
 export const getSectionGroupIdToNameMap = state => {
   const idMap = new Map();
   state.content.sectionGroups.forEach(sectionGroup => {
