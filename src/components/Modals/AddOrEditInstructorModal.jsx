@@ -14,20 +14,18 @@ import {
   Input
 } from 'reactstrap';
 import {
-  POST_INSTRUCTOR,
-  API_INSTRUCTOR_URL
-} from '../../constants/ApiConstants.js';
-import {
   displayNotification,
   SUCCESS,
   ERROR
 } from '../../utils/NotificationUtils.js';
-import { postApiStuff } from '../../utils/ApiUtils.js';
 import {
   validateResponseString,
   isNullOrEmpty,
   replaceIfNull
 } from '../../utils/StringUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
+import { prepareAddOrEditInstructorForm } from '../../utils/FormUtils.js';
+import { API_INSTRUCTOR_URL } from '../../constants/ApiConstants.js';
 
 const defaultProps = {
   edit: false,
@@ -61,7 +59,9 @@ class AddOrEditInstructorModal extends Component {
         email: email,
         photoURL: photoURL,
         displayRequiredPrompt: false,
-        displayDuplicateEmailPrompt: false
+        displayDuplicateEmailPrompt: false,
+        edit: true,
+        instructorId: instructor.instructor_id
       });
     } else {
       this.newForm();
@@ -77,7 +77,8 @@ class AddOrEditInstructorModal extends Component {
       email: '',
       photoURL: '',
       displayRequiredPrompt: false,
-      displayDuplicateEmailPrompt: false
+      displayDuplicateEmailPrompt: false,
+      edit: false
     });
   };
 
@@ -85,26 +86,6 @@ class AddOrEditInstructorModal extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
-  };
-
-  prepareFormToSubmit = () => {
-    const { title, firstName, lastName, type, email, photoURL } = this.state;
-    const { edit, instructor } = this.props;
-
-    // these key values are what the API expects as the json payload
-    const formToSubmit = {
-      action: POST_INSTRUCTOR,
-      instructortype: type,
-      instructortitle: title,
-      instructorfirstname: firstName,
-      instructorlastname: lastName,
-      instructorcontact: email,
-      instructorpicture: photoURL,
-    };
-    if (edit) {
-      formToSubmit['instructorid'] = instructor.instructor_id;
-    }
-    return formToSubmit;
   };
 
   invalidForm = () => { // returns true if form is invalid
@@ -136,7 +117,7 @@ class AddOrEditInstructorModal extends Component {
       displayRequiredPrompt: false,
       displayDuplicateEmailPrompt: false
     });
-    const formToSubmit = this.prepareFormToSubmit();
+    const formToSubmit = prepareAddOrEditInstructorForm(this.state);
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
     this.validateResponse(response);
   };
