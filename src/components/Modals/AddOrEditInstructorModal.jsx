@@ -17,7 +17,6 @@ import {
   POST_INSTRUCTOR,
   API_INSTRUCTOR_URL
 } from '../../constants/ApiConstants.js';
-import { INACTIVE_INSTRUCTOR } from '../../constants/InstructorConstants.js';
 import {
   displayNotification,
   SUCCESS,
@@ -122,7 +121,6 @@ class AddOrEditInstructorModal extends Component {
     // duplicate emails are not allowed
     const matchingInstructor = currentInstructors.find(current => (
       current.instructor_contact === email
-      && current.instructor_type !== INACTIVE_INSTRUCTOR
       && current.instructor_id !== instructor.instructor_id
     ));
     if (matchingInstructor) {

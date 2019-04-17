@@ -7,7 +7,7 @@ import {
   ModalFooter,
   Button
 } from 'reactstrap';
-import { INACTIVE_INSTRUCTOR } from '../../constants/InstructorConstants.js';
+import { DELETED } from '../../constants/DeleteConstant.js';
 import {
   POST_INSTRUCTOR,
   API_INSTRUCTOR_URL
@@ -34,10 +34,16 @@ const propTypes = {
 const DeleteInstructorModal = ({ instructor, courseId, reloadInstructors, isOpen, toggle }) => {
   const prepareFormToSubmit = () => {
     // these key values are what the API expects as the json payload
+    const deletedInstructor = `${DELETED}${instructor.instructor_type}`;
     const formToSubmit = {
       action: POST_INSTRUCTOR,
       instructorid: instructor.instructor_id,
-      instructortype: INACTIVE_INSTRUCTOR
+      instructortype: deletedInstructor,
+      instructortitle: instructor.instrucor_title,
+      instructorfirstname: instructor.instructor_firstname,
+      instructorlastname: instructor.instructor_lastname,
+      instructorcontact: instructor.instructor_contact,
+      instructorpicture: instructor.instructor_picture_url,
     };
     return formToSubmit;
   }

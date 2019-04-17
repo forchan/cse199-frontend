@@ -11,7 +11,7 @@ const Semester = () => {
       <Card body>
         <Row>
           <Col sm={5}>
-            Uhh.. how can this be designed?
+            This will be set up closer towards the end, after schedule functionality is completed.
           </Col>
         </Row>
       </Card>

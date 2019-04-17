@@ -5,7 +5,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button
+  Button,
+  Jumbotron
 } from 'reactstrap';
 
 const propTypes = {
@@ -20,7 +21,9 @@ const EditAnnouncementModal = ({ isOpen, toggle }) => {
         What should this do?
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
-        How should editing announcements work in general?
+        <Jumbotron>
+          How should editing announcements work in general- besides flagging expired?
+        </Jumbotron>
       </ModalBody>
       <ModalFooter>
         <Button color="primary" onClick={toggle} disabled>Do stuff</Button>{' '}
