@@ -62,6 +62,7 @@ const AddOrEditAnnouncementModal = ({
   const [title, setTitle] = useState(replaceIfNull(announcement.title));
   const [text, setText] = useState(replaceIfNull(announcement.text));
   const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
+  const [didNotEditPrompt, setDidNotEditPrompt] = useState(false);
   const toggleSendOption = event => setSendOption(event.target.value);
   const handleTitleChange = event => setTitle(event.target.value);
   const handleTextChange = event => setText(event.target.value);
@@ -74,9 +75,16 @@ const AddOrEditAnnouncementModal = ({
         && !sectionGroupNameToIdMap.has(sendOption)
         && !lectureSectionNameToIdMap.has(sendOption)) {
       setDisplayRequiredPrompt(true);
+      setDidNotEditPrompt(false);
       return false;
     };
+    if (sendOption === sentTo && title === announcement.title && text === announcement.text) {
+      setDidNotEditPrompt(true);
+      setDisplayRequiredPrompt(false);
+      return false;
+    }
     setDisplayRequiredPrompt(false);
+    setDidNotEditPrompt(false);
     return true;
   };
   const sendAnnouncement = async () => {
@@ -121,6 +129,9 @@ const AddOrEditAnnouncementModal = ({
       <ModalBody className='normal-height-modal-body'>
         {(displayRequiredPrompt) &&
           <p className="text-danger">Missing required* inputs</p>
+        }
+        {(didNotEditPrompt) &&
+          <p className="text-danger">No changes made.</p>
         }
         <Form onSubmit={e => {e.preventDefault()}}>
           <FormGroup row>
