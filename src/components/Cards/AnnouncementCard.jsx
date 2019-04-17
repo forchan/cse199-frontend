@@ -8,7 +8,7 @@ import {
   CardText,
   CardBody
 } from 'reactstrap';
-import EditAnnouncementModal from '../Modals/EditAnnouncementModal.jsx';
+import EditAnnouncementModal from '../../containers/modals/AddOrEditAnnouncementModalContainer.jsx';
 
 const propTypes = {
   announcement: PropTypes.object.isRequired,
@@ -25,6 +25,8 @@ const AnnouncementCard = ({ announcement, sentTo }) => {
         <EditAnnouncementModal
           isOpen={editModal}
           toggle={toggleEditModal}
+          announcement={announcement}
+          sentTo={sentTo}
         />
       }
       <Card>
@@ -36,7 +38,7 @@ const AnnouncementCard = ({ announcement, sentTo }) => {
             <b>Title:</b> {announcement.title}
           </CardSubtitle>
           <CardText>
-            <b>Description:</b> {announcement.text}
+            <b>Message:</b> {announcement.text}
           </CardText>
           <Button className="float-right" onClick={toggleEditModal}>Edit</Button>
         </CardBody>

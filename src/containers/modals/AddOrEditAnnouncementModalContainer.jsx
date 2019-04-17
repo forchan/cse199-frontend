@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import SendAnnouncementModal from '../../components/Modals/SendAnnouncementModal.jsx';
+import AddOrEditAnnouncementModal from '../../components/Modals/AddOrEditAnnouncementModal.jsx';
 import {
   getLectureSectionNameToIdMap,
   getSectionGroupNameToIdMap
@@ -21,4 +21,4 @@ const mapActionsToProps = ({
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(SendAnnouncementModal);
+)(AddOrEditAnnouncementModal);

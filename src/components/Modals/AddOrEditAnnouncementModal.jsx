@@ -28,6 +28,11 @@ import { API_MATERIAL_URL } from '../../constants/ApiConstants.js';
 import { prepareAddOrEditAnnouncementForm } from '../../utils/FormUtils.js';
 import { postApiStuff } from '../../utils/ApiUtils.js';
 
+const defaultProps = {
+  announcement: {},
+  sentTo: ''
+};
+
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
@@ -35,10 +40,12 @@ const propTypes = {
   sections: PropTypes.array.isRequired,
   sectionGroups: PropTypes.array.isRequired,
   sectionGroupNameToIdMap: PropTypes.object.isRequired,
-  reloadAnnouncements: PropTypes.func.isRequired
+  reloadAnnouncements: PropTypes.func.isRequired,
+  announcement: PropTypes.object,
+  sentTo: PropTypes.string
 };
 
-const SendAnnouncementModal = ({
+const AddOrEditAnnouncementModal = ({
   isOpen,
   toggle,
   courseId,
@@ -46,11 +53,13 @@ const SendAnnouncementModal = ({
   sectionGroups,
   lectureSectionNameToIdMap,
   sectionGroupNameToIdMap,
-  reloadAnnouncements
+  reloadAnnouncements,
+  announcement,
+  sentTo
 }) => {
-  const [sendOption, setSendOption] = useState('');
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
+  const [sendOption, setSendOption] = useState(sentTo);
+  const [title, setTitle] = useState(replaceIfNull(announcement.title));
+  const [text, setText] = useState(replaceIfNull(announcement.text));
   const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
   const toggleSendOption = event => setSendOption(event.target.value);
   const handleTitleChange = event => setTitle(event.target.value);
@@ -61,8 +70,8 @@ const SendAnnouncementModal = ({
       return false;
     };
     if (sendOption !== SEND_TO_ALL
-        && sectionGroupNameToIdMap.has(sendOption)
-        && lectureSectionNameToIdMap.has(sendOption)) {
+        && !sectionGroupNameToIdMap.has(sendOption)
+        && !lectureSectionNameToIdMap.has(sendOption)) {
       setDisplayRequiredPrompt(true);
       return false;
     };
@@ -74,7 +83,8 @@ const SendAnnouncementModal = ({
     const detailsObject = {
       text: text,
       title: title,
-      courseId: courseId
+      courseId: courseId,
+      materialsId: announcement.materials_id // will be null if not editing
     };
     if (sectionGroupNameToIdMap.has(sendOption)) {
       detailsObject['sectionGroupId'] = sectionGroupNameToIdMap.get(sendOption);
@@ -85,11 +95,17 @@ const SendAnnouncementModal = ({
     const formToSubmit = prepareAddOrEditAnnouncementForm(detailsObject);
     const response = await postApiStuff(API_MATERIAL_URL, formToSubmit);
     if (validateResponseString) {
-      setSendOption('');
-      setTitle('');
-      setText('');
+      let successMessage = '';
+      if (announcement.materials_id) {
+        successMessage = 'Message updated!';
+      } else {
+        setSendOption('');
+        setTitle('');
+        setText('');
+        successMessage = 'Message sent!';
+      }
       reloadAnnouncements(courseId);
-      displayNotification('Message sent!', SUCCESS);
+      displayNotification(successMessage, SUCCESS);
     } else {
       let errorMessage = replaceIfNull(response, 'Unknown error');
       displayNotification(errorMessage, ERROR);
@@ -117,7 +133,7 @@ const SendAnnouncementModal = ({
                 onChange={toggleSendOption}
               >
                 <option>select one</option>
-                <option value={SEND_TO_ALL}>Everyone, everywhere</option>
+                <option>{SEND_TO_ALL}</option>
                 {sectionGroups.map(sectionGroup => {
                   return (
                     <option key={sectionGroup.section_group_name}>
@@ -174,6 +190,7 @@ const SendAnnouncementModal = ({
   );
 };
 
-SendAnnouncementModal.propTypes = propTypes;
+AddOrEditAnnouncementModal.defaultProps = defaultProps;
+AddOrEditAnnouncementModal.propTypes = propTypes;
 
-export default SendAnnouncementModal;
+export default AddOrEditAnnouncementModal;

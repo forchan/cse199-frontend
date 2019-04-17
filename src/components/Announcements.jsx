@@ -10,8 +10,9 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import AnnouncementCard from './Cards/AnnouncementCard.jsx';
-import SendAnnouncementModal from '../containers/modals/SendAnnouncementModalContainer.jsx';
+import SendAnnouncementModal from '../containers/modals/AddOrEditAnnouncementModalContainer.jsx';
 import { isNullOrEmpty } from '../utils/StringUtils.js';
+import { SEND_TO_ALL } from '../constants/MaterialConstants.js';
 
 const propTypes = {
   announcements: PropTypes.array.isRequired,
@@ -60,11 +61,11 @@ const Announcements = ({ announcements, lectureSectionIdToNameMap, sectionGroupI
           {announcements.map((announcement, index) => {
             let sentTo = '';
             if (!isNullOrEmpty(announcement.section_id)) {
-              sentTo = `Section ${lectureSectionIdToNameMap.get(announcement.section_id)}`;
+              sentTo = lectureSectionIdToNameMap.get(announcement.section_id);
             } else if (!isNullOrEmpty(announcement.section_group_id)) {
-              sentTo = `Section Group ${sectionGroupIdToNameMap.get(announcement.section_group_id)}`;
+              sentTo = sectionGroupIdToNameMap.get(announcement.section_group_id);
             } else {
-              sentTo = 'Everyone, everywere'
+              sentTo = SEND_TO_ALL
             }
             return (
               <AnnouncementCard
