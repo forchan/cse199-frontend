@@ -11,12 +11,15 @@ import {
 import classnames from 'classnames';
 import AnnouncementCard from './Cards/AnnouncementCard.jsx';
 import SendAnnouncementModal from '../containers/modals/SendAnnouncementModalContainer.jsx';
+import { isNullOrEmpty } from '../utils/StringUtils.js';
 
 const propTypes = {
-  announcements: PropTypes.array.isRequired
+  announcements: PropTypes.array.isRequired,
+  sectionIdToNameMap: PropTypes.object.isRequired,
+  sectionGroupIdToNameMap: PropTypes.object.isRequired
 };
 
-const Announcements = ({ announcements }) => {
+const Announcements = ({ announcements, sectionIdToNameMap, sectionGroupIdToNameMap }) => {
   const [sendAnnouncementModal, setModal] = useState(false);
   const [activeTab, setTab] = useState('1');
   const toggleModal = () => setModal(!sendAnnouncementModal);
@@ -55,8 +58,20 @@ const Announcements = ({ announcements }) => {
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
           {announcements.map((announcement, index) => {
+            let sentTo = '';
+            if (!isNullOrEmpty(announcement.section_id)) {
+              sentTo = `Section ${sectionIdToNameMap.get(announcement.section_id)}`;
+            } else if (!isNullOrEmpty(announcement.section_group_id)) {
+              sentTo = `Section group ${sectionGroupIdToNameMap.get(announcement.section_group_id)}`;
+            } else {
+              sentTo = 'Entire course'
+            }
             return (
-              <AnnouncementCard announcement={announcement} key={index} />
+              <AnnouncementCard
+                announcement={announcement}
+                key={index}
+                sentTo={sentTo}
+              />
             )
           })}
         </TabPane>

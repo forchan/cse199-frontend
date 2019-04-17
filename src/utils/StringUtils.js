@@ -1,17 +1,17 @@
 export const replaceIfNull = (str, replace = '') => {
   return str || replace;
-}
+};
 
 export const isNullOrEmpty = (str) => {
   if (str === null || str === '') {
     return true;
   }
   return false;
-}
+};
 
 export const isString = value => {
   return typeof value === 'string' || value instanceof String;
-}
+};
 
 // used to validate if data.Status has good news or bad news
 export const validateResponseString = response => {
@@ -25,4 +25,4 @@ export const validateResponseString = response => {
 
   // defaults to false
   return false;
-}
+};

@@ -4,16 +4,18 @@ import {
   Card,
   Button,
   CardTitle,
+  CardSubtitle,
   CardText,
   CardBody
 } from 'reactstrap';
 import EditAnnouncementModal from '../Modals/EditAnnouncementModal.jsx';
 
 const propTypes = {
-  announcement: PropTypes.object.isRequired
+  announcement: PropTypes.object.isRequired,
+  sentTo: PropTypes.string.isRequired
 };
 
-const AnnouncementCard = ({ announcement }) => {
+const AnnouncementCard = ({ announcement, sentTo }) => {
   const [editModal, setEditModal] = useState(false);
   const toggleEditModal = () => setEditModal(!editModal);
 
@@ -28,8 +30,11 @@ const AnnouncementCard = ({ announcement }) => {
       <Card>
         <CardBody>
           <CardTitle>
-            <b>Title:</b> {announcement.title}
+            <b>Sent to:</b> {sentTo}
           </CardTitle>
+          <CardSubtitle>
+            <b>Title:</b> {announcement.title}
+          </CardSubtitle>
           <CardText>
             <b>Description:</b> {announcement.text}
           </CardText>
