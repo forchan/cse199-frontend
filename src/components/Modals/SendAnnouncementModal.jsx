@@ -42,7 +42,7 @@ const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} size="lg" autoFocus={false}>
+    <Modal isOpen={isOpen} toggle={toggle} className="modal-semi-lg" autoFocus={false}>
       <ModalHeader toggle={toggle}>
         What's on your mind?
       </ModalHeader>

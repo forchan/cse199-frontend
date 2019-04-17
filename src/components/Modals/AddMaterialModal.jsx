@@ -23,11 +23,11 @@ const propTypes = {
 class AddMaterialModal extends Component {
   render() {
     const { isOpen, toggle, courseModule } = this.props;
-    
+
     return (
       <Fragment>
         <Modal
-          className="add-material-modal"
+          className="modal-semi-lg"
           isOpen={isOpen}
           toggle={toggle}
           autoFocus={false}

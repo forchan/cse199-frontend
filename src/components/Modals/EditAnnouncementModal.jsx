@@ -16,7 +16,7 @@ const propTypes = {
 
 const EditAnnouncementModal = ({ isOpen, toggle }) => {
   return (
-    <Modal isOpen={isOpen} toggle={toggle} size="md" autoFocus={false}>
+    <Modal isOpen={isOpen} toggle={toggle} className="modal-semi-lg" autoFocus={false}>
       <ModalHeader toggle={toggle}>
         What should this do?
       </ModalHeader>
