@@ -50,15 +50,15 @@ const DeleteInstructorModal = ({ instructor, courseId, reloadInstructors, isOpen
   return (
     <Modal isOpen={isOpen} toggle={() => toggle()} size="md">
       <ModalHeader toggle={() => toggle()}>
-        Begone Instructor
+        Boot Instructor
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
-        Are you sure you want to remove <b>{instructor.instructor_firstname}{' '}
+        Are you sure you want to delete <b>{instructor.instructor_firstname}{' '}
         {instructor.instructor_lastname}</b>?
       </ModalBody>
       <ModalFooter>
         <Button color="warning" onClick={submitFormAndCloseModal}>
-          Remove
+          Delete
         </Button>
         <Button color="secondary" onClick={() => toggle()}>Cancel</Button>
       </ModalFooter>

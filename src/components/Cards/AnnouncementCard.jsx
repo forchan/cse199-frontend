@@ -9,6 +9,11 @@ import {
   CardBody
 } from 'reactstrap';
 import EditAnnouncementModal from '../../containers/modals/AddOrEditAnnouncementModalContainer.jsx';
+import DeleteAnnouncementModal from '../../containers/modals/DeleteAnnouncementModalContainer.jsx';
+
+const defaultProps = {
+  sentTo: ''
+};
 
 const propTypes = {
   announcement: PropTypes.object.isRequired,
@@ -17,7 +22,9 @@ const propTypes = {
 
 const AnnouncementCard = ({ announcement, sentTo }) => {
   const [editModal, setEditModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const toggleEditModal = () => setEditModal(!editModal);
+  const toggleDeleteModal = () => setDeleteModal(!deleteModal);
 
   return (
     <Fragment>
@@ -25,6 +32,14 @@ const AnnouncementCard = ({ announcement, sentTo }) => {
         <EditAnnouncementModal
           isOpen={editModal}
           toggle={toggleEditModal}
+          announcement={announcement}
+          sentTo={sentTo}
+        />
+      }
+      {(deleteModal) &&
+        <DeleteAnnouncementModal
+          isOpen={deleteModal}
+          toggle={toggleDeleteModal}
           announcement={announcement}
           sentTo={sentTo}
         />
@@ -40,6 +55,7 @@ const AnnouncementCard = ({ announcement, sentTo }) => {
           <CardText>
             <b>Message:</b> {announcement.text}
           </CardText>
+          <Button className="float-right" onClick={toggleDeleteModal}>Delete</Button>
           <Button className="float-right" onClick={toggleEditModal}>Edit</Button>
         </CardBody>
       </Card>
@@ -47,6 +63,7 @@ const AnnouncementCard = ({ announcement, sentTo }) => {
   );
 };
 
+AnnouncementCard.defaultProps = defaultProps;
 AnnouncementCard.propTypes = propTypes;
 
 export default AnnouncementCard;

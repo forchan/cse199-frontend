@@ -83,7 +83,7 @@ const InstructorCard = ({ instructor, officeHour }) => {
             className="float-right"
             onClick={toggleDeleteModal}
           >
-            Remove
+            Delete
           </Button>
           <Button
             className="float-right"

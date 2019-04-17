@@ -58,3 +58,18 @@ export const prepareAddOrEditAnnouncementForm = detailsObject => {
   };
   return formToSubmit;
 };
+
+export const prepareDeleteAnnouncementForm = announcement => {
+  const deletedAnnouncement = `${DELETED}${announcement.materials_type}`;
+  const formToSubmit = {
+    action: POST_MATERIAL,
+    materialstype: deletedAnnouncement,
+    materialsid: announcement.materials_id,
+    courseid: announcement.course_id,
+    sectionid: announcement.section_id,
+    sectiongroupid: announcement.section_group_id,
+    title: announcement.title,
+    text: announcement.text
+  };
+  return formToSubmit;
+};
