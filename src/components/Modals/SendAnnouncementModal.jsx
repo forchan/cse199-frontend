@@ -28,7 +28,11 @@ const propTypes = {
 
 const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
   const [sendOption, setSendOption] = useState('');
+  const [title, setTitle] = useState('');
+  const [text, setText] = useState('');
   const toggleSendOption = event => setSendOption(event.target.value);
+  const handleTitleChange = event => setTitle(event.target.value);
+  const handleTextChange = event => setText(event.target.value);
   const sendAnnouncement = () => {
     if (sendOption === TO_ALL) {
       alert('to everyone');
@@ -47,7 +51,7 @@ const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
         What's on your mind?
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
-        <Form>
+        <Form onSubmit={e => {e.preventDefault()}}>
           <FormGroup row>
             <Label for="sendOption" sm={2}><b>Send To</b></Label>
             <Col sm={3}>
@@ -86,13 +90,26 @@ const SendAnnouncementModal = ({ isOpen, toggle, sections, sectionGroups }) => {
           <FormGroup row>
             <Label for="title" sm={2}><b>Title</b></Label>
             <Col sm={10}>
-              <Input type="text" name="title" id="title" autoFocus />
+              <Input
+                type="text"
+                name="title"
+                id="title"
+                value={title}
+                onChange={handleTitleChange}
+                autoFocus
+              />
             </Col>
           </FormGroup>
           <FormGroup row>
             <Label for="message" sm={2}><b>Message</b></Label>
             <Col sm={10}>
-              <Input type="textarea" name="message" id="message" />
+              <Input
+                type="textarea"
+                name="message"
+                id="message"
+                value={text}
+                onChange={handleTextChange}
+              />
             </Col>
           </FormGroup>
         </Form>
