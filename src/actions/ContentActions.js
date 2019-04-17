@@ -42,7 +42,7 @@ const setGeneralContent = contentObject => ({
   sectionGroups: contentObject.sectionGroups
 });
 
-export const loadGeneralContent = courseId => async (dispatch) => {
+const loadGeneralContent = courseId => async (dispatch) => {
   const announcements = await loadAnnouncements(courseId);
   const calendar = await loadCalendar(courseId);
   const instructors = await loadInstructors();
@@ -70,7 +70,7 @@ const setScheduleContent = contentObject => ({
   sections: contentObject.sections
 });
 
-export const loadScheduleContent = courseId => async (dispatch) => {
+const loadScheduleContent = courseId => async (dispatch) => {
   const activities = await loadActivities(courseId);
   const assignments = await loadAssignments(courseId);
   const lectureNotes = await loadLectureNotes(courseId);
@@ -84,6 +84,11 @@ export const loadScheduleContent = courseId => async (dispatch) => {
   };
 
   dispatch(setScheduleContent(contentObject));
+};
+
+export const loadAllContent = courseId => async (dispatch) => {
+  dispatch(loadGeneralContent(courseId));
+  dispatch(loadScheduleContent(courseId));
 };
 
 const setInstructors = instructors => ({

@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import App from '../components/App.jsx';
 import {
-  loadGeneralContent,
-  loadScheduleContent
+  loadAllContent
 } from '../actions/ContentActions.js';
 
 const mapStateToProps = state => ({
@@ -12,8 +11,7 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = ({
-  loadGeneralContent,
-  loadScheduleContent
+  loadAllContent
 });
 
 export default connect(

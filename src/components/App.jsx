@@ -10,15 +10,13 @@ const propTypes = {
   courseId: PropTypes.string.isRequired,
   courseSemester: PropTypes.string.isRequired,
   courseYear: PropTypes.string.isRequired,
-  loadGeneralContent: PropTypes.func.isRequired,
-  loadScheduleContent: PropTypes.func.isRequired
+  loadAllContent: PropTypes.func.isRequired
 };
 
 class App extends Component {
   componentDidMount = async () => {
-    const { courseId, loadGeneralContent, loadScheduleContent } = this.props;
-    loadGeneralContent(courseId);
-    loadScheduleContent(courseId);
+    const { courseId, loadAllContent } = this.props;
+    loadAllContent(courseId);
   };
 
   render() {
