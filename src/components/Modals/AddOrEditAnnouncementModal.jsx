@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -57,6 +57,7 @@ const AddOrEditAnnouncementModal = ({
   announcement,
   sentTo
 }) => {
+  const edit = (announcement.materials_id) ? true : false;
   const [sendOption, setSendOption] = useState(sentTo);
   const [title, setTitle] = useState(replaceIfNull(announcement.title));
   const [text, setText] = useState(replaceIfNull(announcement.text));
@@ -96,7 +97,7 @@ const AddOrEditAnnouncementModal = ({
     const response = await postApiStuff(API_MATERIAL_URL, formToSubmit);
     if (validateResponseString) {
       let successMessage = '';
-      if (announcement.materials_id) {
+      if (edit) {
         successMessage = 'Message updated!';
       } else {
         setSendOption('');
@@ -183,7 +184,12 @@ const AddOrEditAnnouncementModal = ({
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={sendAnnouncement}>Send</Button>{' '}
+        <Button color="primary" onClick={sendAnnouncement}>
+          {(edit)
+            ? <Fragment>Update</Fragment>
+            : <Fragment>Send</Fragment>
+          }
+        </Button>{' '}
         <Button color="secondary" onClick={toggle}>Close</Button>
       </ModalFooter>
     </Modal>

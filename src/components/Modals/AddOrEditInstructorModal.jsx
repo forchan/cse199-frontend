@@ -278,7 +278,7 @@ class AddOrEditInstructorModal extends Component {
         <ModalFooter>
           {(edit)
             ? <Button color="primary" onClick={this.submitForm}>
-                Save
+                Update
               </Button>
             : <Fragment>
                 <Button color="primary" onClick={this.submitForm}>
