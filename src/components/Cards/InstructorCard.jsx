@@ -12,7 +12,7 @@ import {
 import EditInstructorModal from '../../containers/modals/AddOrEditInstructorModalContainer.jsx';
 import DeleteInstructorModal from '../../containers/modals/DeleteInstructorModalContainer.jsx';
 import { replaceIfNull, isNullOrEmpty } from '../../utils/StringUtils.js';
-import { DEFAULT_IMAGE_PATH } from '../../constants/ImageConstants.js';
+import { DEFAULT_IMAGE_PATH } from '../../constants/InstructorConstants.js';
 
 const propTypes = {
   instructor: PropTypes.object.isRequired,

@@ -4,8 +4,10 @@ import {
   getLectureSectionNameToIdMap,
   getSectionGroupNameToIdMap
 } from '../../selectors/ContentSelectors.js';
+import { reloadAnnouncements } from '../../actions/ContentActions.js';
 
 const mapStateToProps = state => ({
+  courseId: state.course.courseId,
   sections: state.content.sections,
   sectionGroups: state.content.sectionGroups,
   lectureSectionNameToIdMap: getLectureSectionNameToIdMap(state),
@@ -13,7 +15,7 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = ({
-
+  reloadAnnouncements
 });
 
 export default connect(

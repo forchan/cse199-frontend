@@ -60,7 +60,6 @@ class AddOrEditInstructorModal extends Component {
         photoURL: photoURL,
         displayRequiredPrompt: false,
         displayDuplicateEmailPrompt: false,
-        edit: true,
         instructorId: instructor.instructor_id
       });
     } else {
@@ -78,7 +77,6 @@ class AddOrEditInstructorModal extends Component {
       photoURL: '',
       displayRequiredPrompt: false,
       displayDuplicateEmailPrompt: false,
-      edit: false
     });
   };
 
@@ -88,16 +86,16 @@ class AddOrEditInstructorModal extends Component {
     });
   };
 
-  invalidForm = () => { // returns true if form is invalid
+  validForm = () => { // returns true if form is valid
     const { firstName, lastName, type, email } = this.state;
     const { currentInstructors, instructor  } = this.props;
     // required info
     if (isNullOrEmpty(firstName)
-          || isNullOrEmpty(lastName)
-          || isNullOrEmpty(type)
-          || isNullOrEmpty(email)) {
+        || isNullOrEmpty(lastName)
+        || isNullOrEmpty(type)
+        || isNullOrEmpty(email)) {
       this.setState({ displayRequiredPrompt: true });
-      return true;
+      return false;
     }
     // duplicate emails are not allowed
     const matchingInstructor = currentInstructors.find(current => (
@@ -106,17 +104,17 @@ class AddOrEditInstructorModal extends Component {
     ));
     if (matchingInstructor) {
       this.setState({ displayDuplicateEmailPrompt: true });
-      return true;
+      return false;
     }
-    return false;
-  };
-
-  submitForm = async () => {
-    if (this.invalidForm()) return;
     this.setState({
       displayRequiredPrompt: false,
       displayDuplicateEmailPrompt: false
     });
+    return true;
+  };
+
+  submitForm = async () => {
+    if (!this.validForm()) return;
     const formToSubmit = prepareAddOrEditInstructorForm(this.state);
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
     this.validateResponse(response);
@@ -132,7 +130,7 @@ class AddOrEditInstructorModal extends Component {
       reloadInstructors(courseId);
       displayNotification(response, SUCCESS);
     } else {
-      let errorMessage = replaceIfNull(response, 'Unknown error')
+      let errorMessage = replaceIfNull(response, 'Unknown error');
       if (edit) {
         errorMessage += ' (you may not have made any changes).';
       }

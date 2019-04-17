@@ -62,9 +62,9 @@ const Announcements = ({ announcements, lectureSectionIdToNameMap, sectionGroupI
             if (!isNullOrEmpty(announcement.section_id)) {
               sentTo = `Section ${lectureSectionIdToNameMap.get(announcement.section_id)}`;
             } else if (!isNullOrEmpty(announcement.section_group_id)) {
-              sentTo = `Section group ${sectionGroupIdToNameMap.get(announcement.section_group_id)}`;
+              sentTo = `Section Group ${sectionGroupIdToNameMap.get(announcement.section_group_id)}`;
             } else {
-              sentTo = 'Entire course'
+              sentTo = 'Everyone, everywere'
             }
             return (
               <AnnouncementCard

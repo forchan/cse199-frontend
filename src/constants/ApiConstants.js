@@ -4,6 +4,7 @@ const API_BASE_URL = `${BASE_URL}/api`;
 // API endpoints
 export const API_VIEW_URL = `${API_BASE_URL}/viewcontroller.php`;
 export const API_INSTRUCTOR_URL = `${API_BASE_URL}/instructorcontroller.php`;
+export const API_MATERIAL_URL = `${API_BASE_URL}/materialcontroller.php`;
 
 // GET related constants
 export const GET_ANNOUNCEMENTS = 'getAnnouncement';
@@ -20,3 +21,4 @@ export const GET_SECTION_GROUPS = 'getSectionGroups';
 
 // POST related constants
 export const POST_INSTRUCTOR = 'addOrEditInstructor';
+export const POST_MATERIAL = 'addOrEditMaterials';

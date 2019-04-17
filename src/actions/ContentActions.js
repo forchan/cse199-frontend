@@ -30,6 +30,7 @@ import {
 export const SET_GENERAL_CONTENT = '#setGeneralContent';
 export const SET_SCHEDULE_CONTENT = '#setScheduleContent';
 export const SET_INSTRUCTORS = '#setInstructors';
+export const SET_ANNOUNCEMENTS = '#setAnnouncements';
 
 
 const setGeneralContent = contentObject => ({
@@ -99,4 +100,14 @@ const setInstructors = instructors => ({
 export const reloadInstructors = courseId => async (dispatch) => {
   const instructors = await loadInstructors(courseId);
   dispatch(setInstructors(instructors));
+};
+
+const setAnnouncements = announcements => ({
+  type: SET_ANNOUNCEMENTS,
+  announcements
+});
+
+export const reloadAnnouncements = courseId => async (dispatch) => {
+  const announcements = await loadAnnouncements(courseId);
+  dispatch(setAnnouncements(announcements));
 };

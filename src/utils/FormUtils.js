@@ -1,21 +1,18 @@
+/* functions used to prepare forms to submit that match params passed to API */
 import { DELETED } from '../constants/DeleteConstant.js';
 import {
-  POST_INSTRUCTOR
+  ANNOUNCEMENT
+} from '../constants/MaterialConstants.js';
+import {
+  POST_INSTRUCTOR,
+  POST_MATERIAL
 } from '../constants/ApiConstants.js';
 
 /* ============================ Instructor Forms ============================ */
 
 export const prepareAddOrEditInstructorForm = detailsObject => {
-  const {
-    title,
-    firstName,
-    lastName,
-    type,
-    email,
-    photoURL,
-    edit,
-    instructorId
-  } = detailsObject;
+  // null instructor id passed in during add new
+  const { title, firstName, lastName, type, email, photoURL, instructorId } = detailsObject;
   const formToSubmit = {
     action: POST_INSTRUCTOR,
     instructortype: type,
@@ -24,10 +21,8 @@ export const prepareAddOrEditInstructorForm = detailsObject => {
     instructorlastname: lastName,
     instructorcontact: email,
     instructorpicture: photoURL,
+    instructorid: instructorId
   };
-  if (edit) {
-    formToSubmit['instructorid'] = instructorId;
-  }
   return formToSubmit;
 };
 
@@ -47,3 +42,19 @@ export const prepareDeleteInstructorForm = instructor => {
 };
 
 /* =========================== Announcement Forms =========================== */
+
+export const prepareAddOrEditAnnouncementForm = detailsObject => {
+  // null section group id, section id, and materials id passed in accordingly
+  const { courseId, title, text, sectionId, sectionGroupId, materialsId } = detailsObject;
+  const formToSubmit = {
+    action: POST_MATERIAL,
+    materialstype: ANNOUNCEMENT,
+    materialsid: materialsId,
+    courseid: courseId,
+    sectionid: sectionId,
+    sectiongroupid: sectionGroupId,
+    title: title,
+    text: text
+  };
+  return formToSubmit;
+};

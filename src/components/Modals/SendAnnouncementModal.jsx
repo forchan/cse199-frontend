@@ -12,40 +12,87 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import {
+  displayNotification,
+  SUCCESS,
+  ERROR
+} from '../../utils/NotificationUtils.js';
+import {
+  validateResponseString,
+  isNullOrEmpty,
+  replaceIfNull
+} from '../../utils/StringUtils.js';
 import { LECTURE } from '../../constants/ScheduleConstants.js';
-import { TO_ALL } from '../../constants/AnnouncementConstants.js';
+import { SEND_TO_ALL } from '../../constants/MaterialConstants.js';
+import { API_MATERIAL_URL } from '../../constants/ApiConstants.js';
+import { prepareAddOrEditAnnouncementForm } from '../../utils/FormUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  courseId: PropTypes.string.isRequired,
   sections: PropTypes.array.isRequired,
   sectionGroups: PropTypes.array.isRequired,
-  sectionGroupNameToIdMap: PropTypes.object.isRequired
+  sectionGroupNameToIdMap: PropTypes.object.isRequired,
+  reloadAnnouncements: PropTypes.func.isRequired
 };
 
 const SendAnnouncementModal = ({
   isOpen,
   toggle,
+  courseId,
   sections,
   sectionGroups,
   lectureSectionNameToIdMap,
-  sectionGroupNameToIdMap
+  sectionGroupNameToIdMap,
+  reloadAnnouncements
 }) => {
   const [sendOption, setSendOption] = useState('');
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
+  const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
   const toggleSendOption = event => setSendOption(event.target.value);
   const handleTitleChange = event => setTitle(event.target.value);
   const handleTextChange = event => setText(event.target.value);
-  const sendAnnouncement = () => {
-    if (sendOption === TO_ALL) {
-      alert('to everyone');
-    } else if (sectionGroupNameToIdMap.has(sendOption)) {
-      alert('to section group ' + sectionGroupNameToIdMap.get(sendOption));
-    } else if (lectureSectionNameToIdMap.has(sendOption)) {
-      alert('to section ' + lectureSectionNameToIdMap.get(sendOption));
+  const validForm = () => {
+    if (isNullOrEmpty(title) || isNullOrEmpty(text)) {
+      setDisplayRequiredPrompt(true);
+      return false;
+    };
+    if (sendOption !== SEND_TO_ALL
+        && sectionGroupNameToIdMap.has(sendOption)
+        && lectureSectionNameToIdMap.has(sendOption)) {
+      setDisplayRequiredPrompt(true);
+      return false;
+    };
+    setDisplayRequiredPrompt(false);
+    return true;
+  };
+  const sendAnnouncement = async () => {
+    if (!validForm()) return;
+    const detailsObject = {
+      text: text,
+      title: title,
+      courseId: courseId
+    };
+    if (sectionGroupNameToIdMap.has(sendOption)) {
+      detailsObject['sectionGroupId'] = sectionGroupNameToIdMap.get(sendOption);
+    }
+    if (lectureSectionNameToIdMap.has(sendOption)) {
+      detailsObject['sectionId'] = lectureSectionNameToIdMap.get(sendOption);
+    }
+    const formToSubmit = prepareAddOrEditAnnouncementForm(detailsObject);
+    const response = await postApiStuff(API_MATERIAL_URL, formToSubmit);
+    if (validateResponseString) {
+      setSendOption('');
+      setTitle('');
+      setText('');
+      reloadAnnouncements(courseId);
+      displayNotification('Message sent!', SUCCESS);
     } else {
-      alert('need to select a send option');
+      let errorMessage = replaceIfNull(response, 'Unknown error');
+      displayNotification(errorMessage, ERROR);
     }
   };
 
@@ -55,10 +102,13 @@ const SendAnnouncementModal = ({
         What's on your mind?
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
+        {(displayRequiredPrompt) &&
+          <p className="text-danger">Missing required* inputs</p>
+        }
         <Form onSubmit={e => {e.preventDefault()}}>
           <FormGroup row>
             <Label for="sendOption" sm={2}><b>Send To</b></Label>
-            <Col sm={3}>
+            <Col sm={4}>
               <Input
                 type="select"
                 name="sendOption"
@@ -67,7 +117,7 @@ const SendAnnouncementModal = ({
                 onChange={toggleSendOption}
               >
                 <option>select one</option>
-                <option value={TO_ALL}>everyone, everywhere</option>
+                <option value={SEND_TO_ALL}>Everyone, everywhere</option>
                 {sectionGroups.map(sectionGroup => {
                   return (
                     <option key={sectionGroup.section_group_name}>
@@ -118,7 +168,7 @@ const SendAnnouncementModal = ({
       </ModalBody>
       <ModalFooter>
         <Button color="primary" onClick={sendAnnouncement}>Send</Button>{' '}
-        <Button color="secondary" onClick={toggle}>Cancel</Button>
+        <Button color="secondary" onClick={toggle}>Close</Button>
       </ModalFooter>
     </Modal>
   );
