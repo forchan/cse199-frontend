@@ -18,6 +18,7 @@ export const GET_OFFICE_HOURS = 'getOfficeHours';
 export const GET_LECTURE_NOTES = 'getLectureNotes';
 export const GET_COURSE_AND_SECTIONS = 'getCourse';
 export const GET_SECTION_GROUPS = 'getSectionGroups';
+export const GET_COURSE_INSTRUCTORS = 'getCourseInstructors';
 
 // POST related constants
 export const POST_INSTRUCTOR = 'addOrEditInstructor';

@@ -26,6 +26,7 @@ import {
   loadSections,
   loadSectionGroups
 } from '../utils/ApiHelperUtils.js';
+import { loadAllSectionGroupInstructors } from './SectionInstructorActions.js';
 // Action constants are used here and the corresponding Reducer
 export const SET_GENERAL_CONTENT = '#setGeneralContent';
 export const SET_SCHEDULE_CONTENT = '#setScheduleContent';
@@ -61,6 +62,7 @@ const loadGeneralContent = courseId => async (dispatch) => {
   };
 
   dispatch(setGeneralContent(contentObject));
+  dispatch(loadAllSectionGroupInstructors(courseId, sectionGroups));
 };
 
 const setScheduleContent = contentObject => ({
