@@ -10,7 +10,7 @@
 import { loadCourseInstructors } from '../utils/ApiHelperUtils.js';
 export const SET_SECTION_GROUP_INSTRUCTORS = '#setSectionInstructors';
 
-const setSectionGroupInstructors = (sectionGroupName, sectionGroupInstructors) => async (dispatch) => ({
+const setSectionGroupInstructors = (sectionGroupName, sectionGroupInstructors) => ({
   type: SET_SECTION_GROUP_INSTRUCTORS,
   sectionGroupName,
   sectionGroupInstructors
