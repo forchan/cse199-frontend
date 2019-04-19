@@ -70,6 +70,16 @@ Copyright (c) 2015 Daniel Eden
   margin-bottom: 17px !important;
 }
 
+.section-instructor-card {
+  display: block !important;
+  flex-basis: 25% !important;
+  min-width: 225px !important;
+  min-height: 355px !important;
+  max-width: 225px !important;
+  max-height: 355px !important;
+  margin-bottom: 17px !important;
+}
+
 .section-card {
   display: block !important;
   flex-basis: 25% !important;

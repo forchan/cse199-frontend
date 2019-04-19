@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -8,7 +8,7 @@ import {
   Button,
   CardDeck
 } from 'reactstrap';
-import InstructorCard from '../Cards/InstructorCard.jsx';
+import SectionInstructorCard from '../Cards/SectionInstructorCard.jsx';
 import {
   filterInstructorsBySectionAndSectionGroup
 } from '../../utils/SectionInstructorUtils.js';
@@ -34,14 +34,14 @@ const RecitationStaffModal = ({
 
   return (
     <Fragment>
-      <Modal isOpen={isOpen} toggle={toggle} className="modal-semi-lg">
+      <Modal isOpen={isOpen} toggle={toggle} size="lg">
         <ModalHeader toggle={toggle}>
           Recitation Staff
         </ModalHeader>
         <ModalBody>
           <CardDeck>
             {staff.map(eachStaff => {
-              return <InstructorCard instructor={eachStaff} key={eachStaff.instructor_id} />;
+              return <SectionInstructorCard instructor={eachStaff} key={eachStaff.instructor_id} />;
             })}
           </CardDeck>
         </ModalBody>
