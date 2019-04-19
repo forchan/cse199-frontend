@@ -48,13 +48,23 @@ export const loadCalendar = async (courseId) => {
     action: GET_CALENDAR,
     courseId: courseId
   });
-  let calendar = [];
+  let calendarBlocks = [];
+  let calendarStartDate = '';
+  let calendarEndDate = '';
+
   if (data) {
     for (let num = 1; num <= 7; num++) {
       let targetBlock = "block_" + num; // need to extract block values from json
-      calendar.push(data[targetBlock][0]);
+      calendarBlocks.push(data[targetBlock][0]);
     }
+    calendarStartDate = data.calendar_start;
+    calendarEndDate = data.calendar_end;
   }
+  const calendar = {
+    startDate: calendarStartDate,
+    endDate: calendarEndDate,
+    calendarBlocks
+  };
   return calendar;
 }
 

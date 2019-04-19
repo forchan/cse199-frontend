@@ -21,7 +21,7 @@ import {
 } from '../constants/ScheduleConstants.js';
 
 const propTypes = {
-  calendar: PropTypes.array.isRequired,
+  calendarBlocks: PropTypes.array.isRequired,
   modules: PropTypes.array.isRequired,
   sections: PropTypes.array.isRequired,
   activities: PropTypes.array.isRequired,
@@ -80,7 +80,7 @@ class Schedule extends Component {
       moduleModalHeaderTextColor
     } = this.state;
     const {
-      calendar,
+      calendarBlocks,
       modules,
       sections,
       activities,
@@ -89,7 +89,7 @@ class Schedule extends Component {
       sectionGroups
     } = this.props;
 
-    const calendarMap = configureCalendarMap(calendar);
+    const calendarMap = configureCalendarMap(calendarBlocks);
     const moduleMap = configureModuleMap(modules, calendarMap);
 
     return (
@@ -126,7 +126,7 @@ class Schedule extends Component {
             <thead>
               <tr>
                 <th>Section</th>
-                {calendar.map((block, index) => {
+                {calendarBlocks.map((block, index) => {
                   return (
                     <td key={index}>
                       {prettyFormatDate(block.start)} to {prettyFormatDate(block.end)}

@@ -26,7 +26,9 @@ import {
   loadSections,
   loadSectionGroups
 } from '../utils/ApiHelperUtils.js';
+import { setCourseDates } from './CourseActions.js';
 import { loadAllSectionGroupInstructors } from './SectionInstructorActions.js';
+
 // Action constants are used here and the corresponding Reducer
 export const SET_GENERAL_CONTENT = '#setGeneralContent';
 export const SET_SCHEDULE_CONTENT = '#setScheduleContent';
@@ -37,7 +39,7 @@ export const SET_ANNOUNCEMENTS = '#setAnnouncements';
 const setGeneralContent = contentObject => ({
   type: SET_GENERAL_CONTENT,
   announcements: contentObject.announcements,
-  calendar: contentObject.calendar,
+  calendarBlocks: contentObject.calendarBlocks,
   instructors: contentObject.instructors,
   modules: contentObject.modules,
   officeHours: contentObject.officeHours,
@@ -46,15 +48,16 @@ const setGeneralContent = contentObject => ({
 
 const loadGeneralContent = courseId => async (dispatch) => {
   const announcements = await loadAnnouncements(courseId);
-  const calendar = await loadCalendar(courseId);
   const instructors = await loadInstructors();
   const modules = await loadModules(courseId);
   const officeHours = await loadOfficeHours(courseId);
   const sectionGroups = await loadSectionGroups(courseId);
+  const calendar = await loadCalendar(courseId); // calendar returns object
+  const { calendarBlocks, startDate, endDate } = calendar;
 
   const contentObject = {
     announcements,
-    calendar,
+    calendarBlocks,
     instructors,
     modules,
     officeHours,
@@ -62,6 +65,7 @@ const loadGeneralContent = courseId => async (dispatch) => {
   };
 
   dispatch(setGeneralContent(contentObject));
+  dispatch(setCourseDates(startDate, endDate));
   dispatch(loadAllSectionGroupInstructors(courseId, sectionGroups));
 };
 

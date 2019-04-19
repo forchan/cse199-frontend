@@ -6,7 +6,7 @@ import {
 } from '../actions/ContentActions.js';
 
 const initialContentState = ({
-  calendar: [],
+  calendarBlocks: [],
   announcements: [],
   instructors: [],
   officeHours: [],
@@ -24,7 +24,7 @@ const courseReducer = (state = initialContentState, action) => {
       return {
         ...state,
         announcements: action.announcements,
-        calendar: action.calendar,
+        calendarBlocks: action.calendarBlocks,
         instructors: action.instructors,
         modules: action.modules,
         officeHours: action.officeHours,
