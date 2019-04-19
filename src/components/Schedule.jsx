@@ -4,7 +4,7 @@ import {
   Table,
   Card
 } from 'reactstrap';
-import ModuleModal from './Modals/ModuleModal.jsx';
+import ModuleModal from '../containers/modals/ModuleModalContainer.jsx';
 import SectionModal from '../containers/modals/SectionModalContainer.jsx';
 import {
   configureCalendarMap,
@@ -70,7 +70,7 @@ class Schedule extends Component {
       });
     }
   };
-  
+
   render() {
     const {
       sectionModal,

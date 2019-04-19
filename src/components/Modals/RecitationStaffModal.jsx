@@ -9,9 +9,7 @@ import {
   CardDeck
 } from 'reactstrap';
 import SectionInstructorCard from '../Cards/SectionInstructorCard.jsx';
-import {
-  filterInstructorsBySectionAndSectionGroup
-} from '../../utils/SectionInstructorUtils.js';
+import { getRecitationStaff } from '../../utils/SectionInstructorUtils.js';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -29,8 +27,7 @@ const RecitationStaffModal = ({
   sectionGroupNameToIdMap
 }) => {
   const sectionGroupId = sectionGroupNameToIdMap.get(section.section_group_name);
-  const sectionId = section.section_id;
-  const staff = filterInstructorsBySectionAndSectionGroup(allSectionInstructors, sectionId, sectionGroupId);
+  const staff = getRecitationStaff(allSectionInstructors, section.section_id, sectionGroupId);
 
   return (
     <Fragment>

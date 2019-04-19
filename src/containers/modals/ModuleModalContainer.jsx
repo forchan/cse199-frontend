@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import RecitationStaffModal from '../../components/Modals/RecitationStaffModal.jsx';
+import ModuleModal from '../../components/Modals/ModuleModal.jsx';
 import { getSectionGroupNameToIdMap } from '../../selectors/ContentSelectors.js';
 import { getAllSectionInstructors } from '../../selectors/SectionInstructorSelectors.js';
 
@@ -15,4 +15,4 @@ const mapActionsToProps = ({
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(RecitationStaffModal);
+)(ModuleModal);
