@@ -4,7 +4,6 @@ import Schedule from '../components/Schedule.jsx';
 const mapStateToProps = state => ({
   calendarBlocks: state.content.calendarBlocks,
   modules: state.content.modules,
-  sections: state.content.sections,
   activities: state.content.activities,
   assignments: state.content.assignments,
   lectureNotes: state.content.lectureNotes,

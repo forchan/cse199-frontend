@@ -5,7 +5,7 @@ import {
   Card
 } from 'reactstrap';
 import ModuleModal from './Modals/ModuleModal.jsx';
-import SectionModal from './Modals/SectionModal.jsx';
+import SectionModal from '../containers/modals/SectionModalContainer.jsx';
 import {
   configureCalendarMap,
   configureModuleMap,
@@ -23,7 +23,6 @@ import {
 const propTypes = {
   calendarBlocks: PropTypes.array.isRequired,
   modules: PropTypes.array.isRequired,
-  sections: PropTypes.array.isRequired,
   activities: PropTypes.array.isRequired,
   assignments: PropTypes.array.isRequired,
   lectureNotes: PropTypes.array.isRequired,
@@ -71,6 +70,7 @@ class Schedule extends Component {
       });
     }
   };
+  
   render() {
     const {
       sectionModal,
@@ -82,7 +82,6 @@ class Schedule extends Component {
     const {
       calendarBlocks,
       modules,
-      sections,
       activities,
       assignments,
       lectureNotes,
@@ -98,7 +97,6 @@ class Schedule extends Component {
           isOpen={sectionModal}
           toggleClose={this.closeSectionModal}
           sectionGroup={sectionGroup}
-          sections={sections}
         />
         <ModuleModal
           isOpen={moduleModal}
