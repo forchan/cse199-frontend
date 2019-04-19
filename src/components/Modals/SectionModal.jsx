@@ -22,21 +22,10 @@ const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggleClose: PropTypes.func.isRequired,
   sectionGroup: PropTypes.object.isRequired,
-  sections: PropTypes.array.isRequired,
-  startDate: PropTypes.string.isRequired,
-  endDate: PropTypes.string.isRequired,
-  calendarBlocks: PropTypes.array.isRequired
+  sections: PropTypes.array.isRequired
 };
 
-const SectionModal = ({
-  isOpen,
-  toggleClose,
-  sectionGroup,
-  sections,
-  startDate,
-  endDate,
-  calendarBlocks
-}) =>{
+const SectionModal = ({ isOpen, toggleClose, sectionGroup, sections }) =>{
   const [addSectionModal, setSectionModal] = useState(false);
   const [activeTab, setActiveTab] = useState('1');
   const toggleAddSectionModal = () => setSectionModal(!addSectionModal);
@@ -101,7 +90,7 @@ const SectionModal = ({
                   ))
                   .map((section, index) => {
                     return (
-                      <SectionCard key={index} section={section} />
+                      <SectionCard recitation key={index} section={section} />
                     )
                   })
                 }

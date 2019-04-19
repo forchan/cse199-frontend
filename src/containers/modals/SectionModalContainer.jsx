@@ -3,10 +3,7 @@ import SectionModal from '../../components/Modals/SectionModal.jsx';
 
 const mapStateToProps = state => ({
   courseId: state.course.courseId,
-  sections: state.content.sections,
-  startDate: state.course.startDate,
-  endDate: state.course.endDate,
-  calendarBlocks: state.content.calendarBlocks
+  sections: state.content.sections
 });
 
 const mapActionsToProps = ({

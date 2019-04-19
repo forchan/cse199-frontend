@@ -2,7 +2,7 @@
 import { SET_SECTION_GROUP_INSTRUCTORS } from '../actions/SectionInstructorActions.js';
 
 // these values are hard coded since section group names are set for the course
-const initialSectionGroupState = ({
+const initialSectionInstructorsState = ({
   A: [],
   B: [],
   C: [],
@@ -11,7 +11,7 @@ const initialSectionGroupState = ({
   F: []
 });
 
-const sectionGroupReducer = (state = initialSectionGroupState, action) => {
+const sectionGroupReducer = (state = initialSectionInstructorsState, action) => {
   switch (action.type) {
     case SET_SECTION_GROUP_INSTRUCTORS:
       return {

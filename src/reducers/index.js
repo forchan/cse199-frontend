@@ -6,7 +6,7 @@ import sectionInstructorReducer from './SectionInstructorReducer.js';
 const rootReducer = combineReducers({
   course: courseReducer,
   content: contentReducer,
-  sectionInstructor: sectionInstructorReducer
+  sectionInstructors: sectionInstructorReducer
 });
 
 export default rootReducer;
