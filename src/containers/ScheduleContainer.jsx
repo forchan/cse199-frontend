@@ -1,13 +1,21 @@
 import { connect } from 'react-redux';
 import Schedule from '../components/Schedule.jsx';
+import {
+  getActivities,
+  getAssignments,
+  getCalendarBlocks,
+  getLectureNotes,
+  getModules,
+  getSectionGroups
+} from '../selectors/ContentSelectors.js';
 
 const mapStateToProps = state => ({
-  calendarBlocks: state.content.calendarBlocks,
-  modules: state.content.modules,
-  activities: state.content.activities,
-  assignments: state.content.assignments,
-  lectureNotes: state.content.lectureNotes,
-  sectionGroups: state.content.sectionGroups
+  activities: getActivities(state),
+  assignments: getAssignments(state),
+  calendarBlocks: getCalendarBlocks(state),
+  lectureNotes: getLectureNotes(state),
+  modules: getModules(state),
+  sectionGroups: getSectionGroups(state)
 });
 
 const mapActionsToProps = ({

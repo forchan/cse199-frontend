@@ -1,13 +1,16 @@
 import { connect } from 'react-redux';
 import App from '../components/App.jsx';
+import { loadAllContent } from '../actions/ContentActions.js';
 import {
-  loadAllContent
-} from '../actions/ContentActions.js';
+  getCourseId,
+  getCourseSemester,
+  getCourseYear
+} from '../selectors/CourseSelectors.js';
 
 const mapStateToProps = state => ({
-  courseId: state.course.courseId,
-  courseSemester: state.course.courseSemester,
-  courseYear: state.course.courseYear
+  courseId: getCourseId(state),
+  courseSemester: getCourseSemester(state),
+  courseYear: getCourseYear(state)
 });
 
 const mapActionsToProps = ({

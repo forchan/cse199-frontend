@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import Announcements from '../components/Announcements.jsx';
 import {
+  getAnnouncements,
   getLectureSectionIdToNameMap,
   getSectionGroupIdToNameMap
 } from '../selectors/ContentSelectors.js';
 
 const mapStateToProps = state => ({
-  announcements: state.content.announcements,
+  announcements: getAnnouncements(state),
   lectureSectionIdToNameMap: getLectureSectionIdToNameMap(state),
   sectionGroupIdToNameMap: getSectionGroupIdToNameMap(state)
 });

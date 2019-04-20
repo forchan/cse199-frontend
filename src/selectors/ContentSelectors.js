@@ -1,6 +1,20 @@
 import { LECTURE, RECITATION } from '../constants/ScheduleConstants.js';
 
-// Lecture Sections
+export const getActivities = state => state.content.activities;
+export const getAnnouncements = state => state.content.announcements;
+export const getAssignments = state => state.content.assignments;
+export const getCalendarBlocks = state => state.content.calendarBlocks;
+export const getInstructors = state => state.content.instructors;
+export const getLectureNotes = state => state.content.lectureNotes;
+export const getModules = state => state.content.modules;
+export const getOfficeHours = state => state.content.officeHours;
+export const getSectionGroups = state => state.content.sectionGroups;
+export const getSections = state => state.content.sections;
+
+
+/* =========================== Advanced Selectors =========================== */
+
+// ========================== Lecture Sections ==========================
 export const getLectureSectionIdToNameMap = state => {
   const idMap = new Map();
   state.content.sections.forEach(section => {
@@ -21,7 +35,7 @@ export const getLectureSectionNameToIdMap = state => {
   return nameMap;
 };
 
-// Recitation Sections
+// ========================== Recitation Sections ==========================
 export const getRecitationSectionIdToNameMap = state => {
   const idMap = new Map();
   state.content.sections.forEach(section => {
@@ -42,7 +56,7 @@ export const getRecitationSectionNameToIdMap = state => {
   return nameMap;
 };
 
-// Section Groups
+// ========================== Section Groups ==========================
 export const getSectionGroupIdToNameMap = state => {
   const idMap = new Map();
   state.content.sectionGroups.forEach(sectionGroup => {
