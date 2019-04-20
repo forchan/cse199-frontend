@@ -103,7 +103,7 @@ const AddOrEditAnnouncementModal = ({
     }
     const formToSubmit = prepareAddOrEditAnnouncementForm(detailsObject);
     const response = await postApiStuff(API_MATERIAL_URL, formToSubmit);
-    if (validateResponseString) {
+    if (validateResponseString(response)) {
       let successMessage = '';
       if (edit) {
         successMessage = 'Message updated!';
@@ -144,7 +144,7 @@ const AddOrEditAnnouncementModal = ({
                 value={sendOption}
                 onChange={toggleSendOption}
               >
-                <option>select one</option>
+                <option></option>
                 <option>{SEND_TO_ALL}</option>
                 {sectionGroups.map(sectionGroup => {
                   return (

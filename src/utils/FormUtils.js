@@ -4,6 +4,7 @@ import {
   ANNOUNCEMENT
 } from '../constants/MaterialConstants.js';
 import {
+  ADD_INSTRUCTOR_TO_MODULE,
   POST_INSTRUCTOR,
   POST_MATERIAL
 } from '../constants/ApiConstants.js';
@@ -40,6 +41,19 @@ export const prepareDeleteInstructorForm = instructor => {
   };
   return formToSubmit;
 };
+
+/* ======================== Section Instructor Forms ======================== */
+
+export const prepareAddInstructorToModuleForm = (instructorId, module) => {
+  const formToSubmit = {
+    action: ADD_INSTRUCTOR_TO_MODULE,
+    courseid: module.course_id,
+    modulename: module.text,
+    instructorid: instructorId
+  };
+  return formToSubmit;
+};
+
 
 /* =========================== Announcement Forms =========================== */
 

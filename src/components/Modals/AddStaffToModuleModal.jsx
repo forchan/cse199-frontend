@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -12,56 +12,140 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import { isNullOrEmpty } from '../../utils/StringUtils.js';
+import {
+  displayNotification,
+  SUCCESS,
+  ERROR
+} from '../../utils/NotificationUtils.js';
+import {
+  validateResponseString,
+  isNullOrEmpty,
+  replaceIfNull
+} from '../../utils/StringUtils.js';
+import { prepareAddInstructorToModuleForm } from '../../utils/FormUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
+import { API_INSTRUCTOR_URL } from '../../constants/ApiConstants.js';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   instructors: PropTypes.array.isRequired,
-  openedModule: PropTypes.object.isRequired
+  openedModule: PropTypes.object.isRequired,
+  courseId: PropTypes.string.isRequired,
+  sectionGroups: PropTypes.array.isRequired,
+  loadAllSectionGroupInstructors: PropTypes.func.isRequired
 };
 
-const AddStaffToModuleModal = ({ isOpen, toggle, instructors, openedModule }) => {
+const AddStaffToModuleModal = ({
+  isOpen,
+  toggle,
+  instructors,
+  openedModule,
+  courseId,
+  sectionGroups,
+  loadAllSectionGroupInstructors
+}) => {
+  const [selectedInstructor, setInstructor] = useState('');
+  const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
+  const [displayConfirmation, setDisplayConfirmation] = useState(false);
+  const toggleSelectedInstructor = event => setInstructor(event.target.value);
+  const closeModal = () => {
+    toggle();
+    setInstructor('');
+    setDisplayConfirmation(false);
+    setDisplayRequiredPrompt(false);
+  };
+  const toggleConfirmation = () => {
+    if (isNullOrEmpty(selectedInstructor)) {
+      setDisplayRequiredPrompt(true);
+      return;
+    }
+    setDisplayRequiredPrompt(false);
+    setDisplayConfirmation(!displayConfirmation);
+  };
+  const selectedInstructorName = () => {
+    const targetInstructor = instructors.filter(instructor =>
+      instructor.instructor_id === selectedInstructor
+    );
+    if (targetInstructor.length < 1) return '';
+    const firstName = targetInstructor[0].instructor_firstname;
+    const lastName = targetInstructor[0].instructor_lastname;
+    return firstName + ' ' + lastName;
+  };
+  const assignInstructor = async () => {
+    const formToSubmit = prepareAddInstructorToModuleForm(selectedInstructor, openedModule);
+    const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
+
+    if (validateResponseString(response)) {
+      displayNotification('Staff added to module!', SUCCESS);
+      loadAllSectionGroupInstructors(courseId, sectionGroups);
+      closeModal();
+    } else {
+      let errorMessage = replaceIfNull(response, 'Unknown error');
+      displayNotification(errorMessage, ERROR);
+    }
+  };
+
+  const confirmationPrompt = (
+    <p>Are you sure you want to assign <b>{selectedInstructorName()}</b> to <b>{openedModule.text}</b>?</p>
+  );
+
+  const form = (
+    <Form onSubmit={e => e.preventDefault()}>
+      <FormGroup row>
+        <Label for="selectInstructor" sm={3}><b>Select Staff</b></Label>
+        <Col>
+          <Input
+            type="select"
+            name="selectInstructor"
+            id="selectInstructor"
+            value={selectedInstructor}
+            onChange={toggleSelectedInstructor}
+          >
+            <option></option>
+            {instructors.map(instructor => {
+              const {
+                instructor_id,
+                instructor_firstname,
+                instructor_lastname,
+                instructor_contact
+              } = instructor;
+              const email = (isNullOrEmpty(instructor_contact))
+                ? ''
+                : `(${instructor_contact})`;
+              return (
+                <option value={instructor_id} key={instructor_id}>
+                  {instructor_firstname} {instructor_lastname} {email}
+                </option>
+              );
+            })}
+          </Input>
+        </Col>
+      </FormGroup>
+    </Form>
+  );
 
   return (
     <Fragment>
-      <Modal isOpen={isOpen} toggle={toggle} size="md" autoFocus={false} centered>
-        <ModalHeader toggle={toggle}>
+      <Modal isOpen={isOpen} toggle={closeModal} size="md" autoFocus={false} centered>
+        <ModalHeader toggle={closeModal}>
           Requesting backup
         </ModalHeader>
         <ModalBody className='normal-height-modal-body'>
-          <Form onSubmit={e => e.preventDefault()}>
-            <FormGroup row>
-              <Label for="selectInstructor" sm={3}><b>Select Staff</b></Label>
-              <Col>
-                <Input
-                  type="select"
-                  name="selectInstructor"
-                  id="selectInstructor"
-                >
-                  <option>select one</option>
-                  {instructors.map(instructor => {
-                    const {
-                      instructor_id,
-                      instructor_firstname,
-                      instructor_lastname,
-                      instructor_contact
-                    } = instructor;
-                    const email = (isNullOrEmpty(instructor_contact)) ? '' : `(${instructor_contact})`;
-                    return (
-                      <option value={instructor_id} key={instructor_id}>
-                        {instructor_firstname} {instructor_lastname} {email}
-                      </option>
-                    );
-                  })}
-                </Input>
-              </Col>
-            </FormGroup>
-          </Form>
+          {(displayRequiredPrompt) &&
+            <p className="text-danger">No staff member selected*</p>
+          }
+          {(displayConfirmation)
+            ? confirmationPrompt
+            : form
+          }
         </ModalBody>
         <ModalFooter>
-          <Button disabled color="info" onClick={toggle}>Assign</Button>{' '}
-          <Button color="secondary" onClick={toggle}>Cancel</Button>
+          {(displayConfirmation)
+            ? <Button color="info" onClick={assignInstructor}>Yes</Button>
+            : <Button color="info" onClick={toggleConfirmation}>Assign</Button>
+          }{' '}
+          <Button color="secondary" onClick={closeModal}>Cancel</Button>
         </ModalFooter>
       </Modal>
     </Fragment>
