@@ -74,9 +74,9 @@ Copyright (c) 2015 Daniel Eden
   display: block !important;
   flex-basis: 25% !important;
   min-width: 225px !important;
-  min-height: 355px !important;
+  min-height: 353px !important;
   max-width: 225px !important;
-  max-height: 355px !important;
+  max-height: 375px !important;
   margin-bottom: 17px !important;
 }
 
@@ -84,9 +84,9 @@ Copyright (c) 2015 Daniel Eden
   display: block !important;
   flex-basis: 25% !important;
   min-width: 300px !important;
-  min-height: 170px !important;
+  min-height: 165px !important;
   max-width: 300px !important;
-  max-height: 170px !important;
+  max-height: 165px !important;
   margin-bottom: 17px !important;
 }
 

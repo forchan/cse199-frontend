@@ -24,7 +24,7 @@ export const loadActivities = async (courseId) => {
     action: GET_ACTIVITIES,
     courseId: courseId
   });
-  return (data) ? data.activities : [];
+  return (data && data.activities) ? data.activities : [];
 }
 
 export const loadAnnouncements = async (courseId) => {
@@ -32,7 +32,9 @@ export const loadAnnouncements = async (courseId) => {
     action: GET_ANNOUNCEMENTS,
     courseId: courseId
   });
-  return (data) ? data.announcements.reverse() : []; // most recent first
+  return (data && data.announcements)
+    ? data.announcements.reverse() // to get most recent first
+    : [];
 }
 
 export const loadAssignments = async (courseId) => {
@@ -40,7 +42,7 @@ export const loadAssignments = async (courseId) => {
     action: GET_ASSIGNMENTS,
     courseId: courseId
   });
-  return (data) ? data.assignments : [];
+  return (data && data.assignments) ? data.assignments : [];
 }
 
 export const loadCalendar = async (courseId) => {
@@ -48,6 +50,8 @@ export const loadCalendar = async (courseId) => {
     action: GET_CALENDAR,
     courseId: courseId
   });
+  if (!data) return [];
+
   let calendarBlocks = [];
   let calendarStartDate = '';
   let calendarEndDate = '';
@@ -72,7 +76,7 @@ export const loadInstructors = async () => {
   let { data } = await getApiStuff({
     action: GET_INSTRUCTOR_LIST
   });
-  return (data) ? data.instructors : [];
+  return (data && data.instructors) ? data.instructors : [];
 }
 
 export const loadLectureNotes = async (courseId) => {
@@ -80,7 +84,7 @@ export const loadLectureNotes = async (courseId) => {
     action: GET_LECTURE_NOTES,
     courseId: courseId
   });
-  return (data) ? data.lectureNotes : [];
+  return (data && data.lectureNotes) ? data.lectureNotes : [];
 }
 
 export const loadModules = async (courseId) => {
@@ -88,7 +92,11 @@ export const loadModules = async (courseId) => {
     action: GET_MODULES,
     courseId: courseId
   });
-  return (data) ? data.modules : [];
+  console.log(data.modules.length)
+  if (data && data.modules && data.modules.length >= 38) {
+    alert('ApiHelperUtils: recieved more than 38 modules, max should be 37');
+  }
+  return (data && data.modules) ? data.modules : [];
 }
 
 export const loadOfficeHours = async (courseId) => {
@@ -96,7 +104,7 @@ export const loadOfficeHours = async (courseId) => {
     action: GET_OFFICE_HOURS,
     courseId: courseId
   });
-  return (data) ? data.officehours : [];
+  return (data && data.officehours) ? data.officehours : [];
 }
 
 export const loadSections = async (courseId) => {
@@ -104,7 +112,7 @@ export const loadSections = async (courseId) => {
     action: GET_COURSE_AND_SECTIONS,
     courseId: courseId
   });
-  return (data) ? data.sections : [];
+  return (data && data.sections) ? data.sections : [];
 }
 
 export const loadSectionGroups = async (courseId) => {
@@ -112,7 +120,7 @@ export const loadSectionGroups = async (courseId) => {
     action: GET_SECTION_GROUPS,
     courseId: courseId
   });
-  return (data) ? data.section_groups : [];
+  return (data && data.section_groups) ? data.section_groups : [];
 }
 
 export const loadCourseInstructors = async (courseId, sectionGroupId) => {
@@ -121,5 +129,5 @@ export const loadCourseInstructors = async (courseId, sectionGroupId) => {
     courseId: courseId,
     sectionGroupId: sectionGroupId
   });
-  return (data) ? data.instructors : [];
+  return (data && data.instructors) ? data.instructors : [];
 }
