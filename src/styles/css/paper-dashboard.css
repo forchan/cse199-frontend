@@ -26,6 +26,7 @@ Copyright (c) 2015 Daniel Eden
   Edited by Chris Chan for UB CSE 2019
   =========================================================
 */
+
 .jumbotron {
   background-color: white !important;
 }
@@ -34,8 +35,9 @@ Copyright (c) 2015 Daniel Eden
   cursor: pointer;
 }
 
-/* .modal-lg {
-  max-width: 63% !important; } */
+.schedule-table-col {
+  min-width: 115px !important;
+};
 
 /* you could do regular modal body, then modal-lg/md for other stuff */
 .modal-body {
@@ -90,7 +92,9 @@ Copyright (c) 2015 Daniel Eden
   margin-bottom: 17px !important;
 }
 
-/* all the css below came with the template paper-dashboard.css tempalte */
+/* all the css above this is customizations added to the template */
+
+/* all the css below came with the template -> paper-dashboard.css */
 
 .animated {
   -webkit-animation-duration: 1s;

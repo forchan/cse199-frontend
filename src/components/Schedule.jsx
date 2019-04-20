@@ -119,13 +119,13 @@ class Schedule extends Component {
             <thead>
               <tr>
                 <th></th>
-                <th>Intro Weeks</th>
-                <th>Weeks 3 - 4</th>
-                <th>Weeks 5 - 6</th>
-                <th>Weeks 7 - 8</th>
-                <th>Weeks 9 - 10</th>
-                <th>Weeks 11 - 12</th>
-                <th>Weeks 13 - 14</th>
+                <th className="schedule-table-col">Intro Weeks</th>
+                <th className="schedule-table-col">Weeks 3 - 4</th>
+                <th className="schedule-table-col">Weeks 5 - 6</th>
+                <th className="schedule-table-col">Weeks 7 - 8</th>
+                <th className="schedule-table-col">Weeks 9 - 10</th>
+                <th className="schedule-table-col">Weeks 11 - 12</th>
+                <th className="schedule-table-col">Weeks 13 - 14</th>
               </tr>
             </thead>
             <thead>
