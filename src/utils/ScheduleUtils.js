@@ -5,7 +5,7 @@ export const prettyFormatDate = (dateString) => { // yyyy-mm-dd to mm-dd or m-dd
   let monthStartIndex = (dateString.charAt(5) === '0') ? 6 : 5; // m vs. mm
 
   return dateString.substring(monthStartIndex).replace(/-/g, '/');
-}
+};
 /* calendarMap uses "start date : end date" as key and block number as value
  * moduleMap uses "section group id : calendar block number" as key and
  * module name as value
@@ -15,7 +15,7 @@ export const prettyFormatDate = (dateString) => { // yyyy-mm-dd to mm-dd or m-dd
 export const joinValuesAsKey = (value1, value2) => {
   let keyContent = [ value1, value2 ];
   return keyContent.join(':');
-}
+};
 /* calendarMap uses key as "start date : end date" joined together using
  * joinValuesAsKey and the corresponding calendar block number as value
  */
@@ -27,7 +27,7 @@ export const configureCalendarMap = (calendar) => {
     calendarMap.set(key, blockNumber++);
   });
   return calendarMap;
-}
+};
 /* moduleMap uses key as "section group id : calendar block number"
  * and the corresponding module as value
  */
@@ -39,9 +39,10 @@ export const configureModuleMap = (modules, calendarMap) => {
       return;
     }
     let moduleSectionGroup = module.section_group_id;
-    let calendarBlockNumber = calendarMap.get(joinValuesAsKey(module.date_start, module.date_end))
+    let calendarKey = joinValuesAsKey(module.date_start, module.date_end);
+    let calendarBlockNumber = calendarMap.get(calendarKey)
     let moduleKey = joinValuesAsKey(moduleSectionGroup, calendarBlockNumber);
     moduleMap.set(moduleKey, module);
   });
   return moduleMap;
-}
+};

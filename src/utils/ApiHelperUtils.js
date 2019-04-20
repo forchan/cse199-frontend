@@ -25,7 +25,7 @@ export const loadActivities = async (courseId) => {
     courseId: courseId
   });
   return (data && data.activities) ? data.activities : [];
-}
+};
 
 export const loadAnnouncements = async (courseId) => {
   let { data } = await getApiStuff({
@@ -35,7 +35,7 @@ export const loadAnnouncements = async (courseId) => {
   return (data && data.announcements)
     ? data.announcements.reverse() // to get most recent first
     : [];
-}
+};
 
 export const loadAssignments = async (courseId) => {
   let { data } = await getApiStuff({
@@ -43,7 +43,7 @@ export const loadAssignments = async (courseId) => {
     courseId: courseId
   });
   return (data && data.assignments) ? data.assignments : [];
-}
+};
 
 export const loadCalendar = async (courseId) => {
   const { data } = await getApiStuff({
@@ -70,14 +70,14 @@ export const loadCalendar = async (courseId) => {
     calendarBlocks
   };
   return calendar;
-}
+};
 
 export const loadInstructors = async () => {
   let { data } = await getApiStuff({
     action: GET_INSTRUCTOR_LIST
   });
   return (data && data.instructors) ? data.instructors : [];
-}
+};
 
 export const loadLectureNotes = async (courseId) => {
   let { data } = await getApiStuff({
@@ -85,19 +85,18 @@ export const loadLectureNotes = async (courseId) => {
     courseId: courseId
   });
   return (data && data.lectureNotes) ? data.lectureNotes : [];
-}
+};
 
 export const loadModules = async (courseId) => {
   const { data } = await getApiStuff({
     action: GET_MODULES,
     courseId: courseId
   });
-  console.log(data.modules.length)
   if (data && data.modules && data.modules.length >= 38) {
-    alert('ApiHelperUtils: recieved more than 38 modules, max should be 37');
+    console.log('Api recieved more than 37 modules, max should be 37.');
   }
   return (data && data.modules) ? data.modules : [];
-}
+};
 
 export const loadOfficeHours = async (courseId) => {
   let { data } = await getApiStuff({
@@ -105,7 +104,7 @@ export const loadOfficeHours = async (courseId) => {
     courseId: courseId
   });
   return (data && data.officehours) ? data.officehours : [];
-}
+};
 
 export const loadSections = async (courseId) => {
   const { data } = await getApiStuff({
@@ -113,7 +112,7 @@ export const loadSections = async (courseId) => {
     courseId: courseId
   });
   return (data && data.sections) ? data.sections : [];
-}
+};
 
 export const loadSectionGroups = async (courseId) => {
   const { data } = await getApiStuff({
@@ -121,7 +120,7 @@ export const loadSectionGroups = async (courseId) => {
     courseId: courseId
   });
   return (data && data.section_groups) ? data.section_groups : [];
-}
+};
 
 export const loadCourseInstructors = async (courseId, sectionGroupId) => {
   const { data } = await getApiStuff({
@@ -130,4 +129,4 @@ export const loadCourseInstructors = async (courseId, sectionGroupId) => {
     sectionGroupId: sectionGroupId
   });
   return (data && data.instructors) ? data.instructors : [];
-}
+};
