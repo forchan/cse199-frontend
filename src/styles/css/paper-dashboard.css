@@ -37,7 +37,7 @@ Copyright (c) 2015 Daniel Eden
 
 .schedule-table-col {
   min-width: 115px !important;
-};
+}
 
 /* you could do regular modal body, then modal-lg/md for other stuff */
 .modal-body {
