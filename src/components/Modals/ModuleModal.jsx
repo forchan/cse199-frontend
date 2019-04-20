@@ -22,7 +22,7 @@ import {
 import MaterialCard from '../Cards/MaterialCard.jsx';
 import SectionInstructorCard from '../Cards/SectionInstructorCard.jsx';
 import AddMaterialModal from '../Modals/AddMaterialModal.jsx';
-import AddStaffToModuleModal from '../Modals/AddStaffToModuleModal.jsx';
+import AddStaffToModuleModal from '../../containers/modals/AddStaffToModuleModalContainer.jsx';
 import { prettyFormatDate } from '../../utils/ScheduleUtils.js';
 import { getLectureStaff } from '../../utils/SectionInstructorUtils.js';
 

@@ -14,6 +14,11 @@ import {
   Input
 } from 'reactstrap';
 
+const propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired
+};
+
 class AddStaffToModuleModal extends Component {
   render() {
     return (
@@ -44,9 +49,6 @@ class AddStaffToModuleModal extends Component {
   }
 }
 
-AddStaffToModuleModal.propTypes = {
-  isOpen: PropTypes.bool,
-  toggle: PropTypes.func
-}
+AddStaffToModuleModal.propTypes = propTypes;
 
 export default AddStaffToModuleModal;

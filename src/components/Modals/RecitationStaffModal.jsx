@@ -33,7 +33,7 @@ const RecitationStaffModal = ({
     <Fragment>
       <Modal isOpen={isOpen} toggle={toggle} size="lg">
         <ModalHeader toggle={toggle}>
-          Recitation Staff
+          Recitation Staff {section.section_name}
         </ModalHeader>
         <ModalBody>
           <CardDeck>
