@@ -35,12 +35,17 @@ class Schedule extends Component {
     courseModule: {}, // this is the target module that the module-modal opens, also "module" is reserved for webpack use I think
     moduleModalHeaderTextColor: '', // determines the header color of the modal
     sectionModal: false,
-    sectionGroup: {} // this is the target section group the section-modal opens
+    sectionGroup: {} // this is the target section group the section modal and intro module needs
   };
-  openModuleModalWithValues = (courseModule, textColor) => {
+  openModuleModalWithValues = (courseModule, textColor, sectionGroup = {}) => {
+    /* intro module needs the sectionGroup, because intro modules section group
+     * is null. By passing a section group to every intro module at every row
+     * we can use it filter out which are the lecture section instructors
+     */
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
       courseModule: courseModule, // this sets the target module
+      sectionGroup: sectionGroup,
       moduleModalHeaderTextColor: textColor
     }));
   };
@@ -48,6 +53,7 @@ class Schedule extends Component {
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
       courseModule: {},
+      sectionGroup: {},
       modulemoduleModalHeaderTextColor: ''
     }));
   };
@@ -103,6 +109,7 @@ class Schedule extends Component {
           toggleClose={this.closeModuleModal}
           headerTextColor={moduleModalHeaderTextColor}
           courseModule={courseModule}
+          sectionGroup={sectionGroup}
           activities={activities}
           assignments={assignments}
           lectureNotes={lectureNotes}
@@ -143,7 +150,7 @@ class Schedule extends Component {
                     </th>
                     <td
                       className={INTRO_MODULE_TEXT_COLOR}
-                      onClick={() => { this.openModuleModalWithValues(introModule, INTRO_MODULE_TEXT_COLOR) }}
+                      onClick={() => { this.openModuleModalWithValues(introModule, INTRO_MODULE_TEXT_COLOR, sectionGroup) }}
                     >
                       {(introModule) ? introModule.text : EMPTY}
                     </td>

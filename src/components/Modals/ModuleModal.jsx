@@ -20,6 +20,7 @@ import {
   CardDeck
 } from 'reactstrap';
 import MaterialCard from '../Cards/MaterialCard.jsx';
+import SectionInstructorCard from '../Cards/SectionInstructorCard.jsx';
 import AddMaterialModal from '../Modals/AddMaterialModal.jsx';
 import AddStaffToModuleModal from '../Modals/AddStaffToModuleModal.jsx';
 import { prettyFormatDate } from '../../utils/ScheduleUtils.js';
@@ -28,8 +29,9 @@ import { getLectureStaff } from '../../utils/SectionInstructorUtils.js';
 const propTypes = {
   isOpen:  PropTypes.bool.isRequired,
   toggleClose: PropTypes.func.isRequired,
-  headerTextColor: PropTypes.string,
+  headerTextColor: PropTypes.string.isRequired,
   courseModule: PropTypes.object,
+  sectionGroup: PropTypes.object.isRequired,
   activities: PropTypes.array.isRequired,
   assignments: PropTypes.array.isRequired,
   lectureNotes: PropTypes.array.isRequired,
@@ -42,20 +44,13 @@ const ModuleModal = ({
   toggleClose,
   headerTextColor,
   courseModule,
+  sectionGroup,
   activities,
   assignments,
   lectureNotes,
   allSectionInstructors,
   sectionGroupNameToIdMap
 }) => {
-  const lectureStaff = getLectureStaff(
-    allSectionInstructors,
-    courseModule.section_group_id,
-    courseModule.date_start,
-    courseModule.date_end
-  );
-  console.log(courseModule)
-  console.log(lectureStaff)
   const [addMaterialModal, setAddMaterialModal] = useState(false);
   const [addStaffToModuleModal, setAddStaffToModuleModal] = useState(false);
   const [activeTab, setActiveTab] = useState('1');
@@ -66,6 +61,16 @@ const ModuleModal = ({
       setActiveTab(tab)
     }
   };
+
+  const sectionGroupId = (courseModule.section_group_id)
+    ? courseModule.section_group_id
+    : sectionGroup.sg_id;
+  const lectureStaff = getLectureStaff(
+    allSectionInstructors,
+    sectionGroupId,
+    courseModule.date_start,
+    courseModule.date_end
+  );
 
   // if the module passed in is undefined, we need to create a new one
   if (courseModule === undefined) {
@@ -191,7 +196,9 @@ const ModuleModal = ({
             </TabPane>
             <TabPane tabId="4">
               <CardDeck>
-
+                {lectureStaff.map(staffMember => {
+                  return <SectionInstructorCard instructor={staffMember} key={staffMember.instructor_id} />;
+                })}
               </CardDeck>
             </TabPane>
           </TabContent>
