@@ -30,7 +30,7 @@ const propTypes = {
   isOpen:  PropTypes.bool.isRequired,
   toggleClose: PropTypes.func.isRequired,
   headerTextColor: PropTypes.string.isRequired,
-  courseModule: PropTypes.object,
+  openedModule: PropTypes.object,
   sectionGroup: PropTypes.object.isRequired,
   activities: PropTypes.array.isRequired,
   assignments: PropTypes.array.isRequired,
@@ -43,7 +43,7 @@ const ModuleModal = ({
   isOpen,
   toggleClose,
   headerTextColor,
-  courseModule,
+  openedModule,
   sectionGroup,
   activities,
   assignments,
@@ -62,18 +62,18 @@ const ModuleModal = ({
     }
   };
 
-  const sectionGroupId = (courseModule.section_group_id)
-    ? courseModule.section_group_id
+  const sectionGroupId = (openedModule.section_group_id)
+    ? openedModule.section_group_id
     : sectionGroup.sg_id;
   const lectureStaff = getLectureStaff(
     allSectionInstructors,
     sectionGroupId,
-    courseModule.date_start,
-    courseModule.date_end
+    openedModule.date_start,
+    openedModule.date_end
   );
 
   // if the module passed in is undefined, we need to create a new one
-  if (courseModule === undefined) {
+  if (openedModule === undefined) {
     return (
       <Modal isOpen={isOpen} toggle={toggleClose} size="md" autoFocus={false}>
         <ModalHeader className={headerTextColor} toggle={toggleClose}>
@@ -103,17 +103,18 @@ const ModuleModal = ({
       <AddMaterialModal
         isOpen={addMaterialModal}
         toggle={toggleAddMaterialModal}
-        courseModule={courseModule}
+        openedModule={openedModule}
       />
       <AddStaffToModuleModal
         isOpen={addStaffToModuleModal}
         toggle={toggleAddStaffToModuleModal}
+        openedModule={openedModule}
       />
       <Modal isOpen={isOpen} toggle={toggleClose} size="lg">
         <ModalHeader className={headerTextColor} toggle={toggleClose}>
-          {courseModule.text}&nbsp;
-          [{prettyFormatDate(courseModule.date_start)} to {''}
-          {prettyFormatDate(courseModule.date_end)}]
+          {openedModule.text}&nbsp;
+          [{prettyFormatDate(openedModule.date_start)} to {''}
+          {prettyFormatDate(openedModule.date_end)}]
         </ModalHeader>
         <ModalBody>
           <Nav tabs>
@@ -155,9 +156,9 @@ const ModuleModal = ({
             <TabPane tabId="1">
               {activities
                 .filter((activity) => (
-                  (activity.section_group_id === courseModule.section_group_id)
-                  && (activity.date_start === courseModule.date_start)
-                  && (activity.date_end === courseModule.date_end)
+                  (activity.section_group_id === openedModule.section_group_id)
+                  && (activity.date_start === openedModule.date_start)
+                  && (activity.date_end === openedModule.date_end)
                 ))
                 .map((activity, index) => {
                   return (
@@ -169,9 +170,9 @@ const ModuleModal = ({
             <TabPane tabId="2">
               {lectureNotes
                 .filter((lectureNote) => (
-                  (lectureNote.section_group_id === courseModule.section_group_id)
-                  && (lectureNote.date_start === courseModule.date_start)
-                  && (lectureNote.date_end === courseModule.date_end)
+                  (lectureNote.section_group_id === openedModule.section_group_id)
+                  && (lectureNote.date_start === openedModule.date_start)
+                  && (lectureNote.date_end === openedModule.date_end)
                 ))
                 .map((lectureNote, index) => {
                   return (
@@ -183,9 +184,9 @@ const ModuleModal = ({
             <TabPane tabId="3">
               {assignments
                 .filter((assignment) => (
-                  (assignment.section_group_id === courseModule.section_group_id)
-                  && (assignment.date_start === courseModule.date_start)
-                  && (assignment.date_end === courseModule.date_end)
+                  (assignment.section_group_id === openedModule.section_group_id)
+                  && (assignment.date_start === openedModule.date_start)
+                  && (assignment.date_end === openedModule.date_end)
                 ))
                 .map((assignment, index) => {
                   return (

@@ -32,19 +32,19 @@ const propTypes = {
 class Schedule extends Component {
   state = {
     moduleModal: false,
-    courseModule: {}, // this is the target module that the module-modal opens, also "module" is reserved for webpack use I think
+    openedModule: {}, // this is the target module that the module-modal opens, also "module" is reserved for webpack use I think
     moduleModalHeaderTextColor: '', // determines the header color of the modal
     sectionModal: false,
     sectionGroup: {} // this is the target section group the section modal and intro module needs
   };
-  openModuleModalWithValues = (courseModule, textColor, sectionGroup = {}) => {
+  openModuleModalWithValues = (openedModule, textColor, sectionGroup = {}) => {
     /* intro module needs the sectionGroup, because intro modules section group
      * is null. By passing a section group to every intro module at every row
      * we can use it filter out which are the lecture section instructors
      */
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
-      courseModule: courseModule, // this sets the target module
+      openedModule: openedModule, // this sets the target module
       sectionGroup: sectionGroup,
       moduleModalHeaderTextColor: textColor
     }));
@@ -52,7 +52,7 @@ class Schedule extends Component {
   closeModuleModal = () => {
     this.setState(prevState => ({
       moduleModal: !prevState.moduleModal,
-      courseModule: {},
+      openedModule: {},
       sectionGroup: {},
       modulemoduleModalHeaderTextColor: ''
     }));
@@ -82,7 +82,7 @@ class Schedule extends Component {
       sectionModal,
       moduleModal,
       sectionGroup,
-      courseModule,
+      openedModule,
       moduleModalHeaderTextColor
     } = this.state;
     const {
@@ -108,7 +108,7 @@ class Schedule extends Component {
           isOpen={moduleModal}
           toggleClose={this.closeModuleModal}
           headerTextColor={moduleModalHeaderTextColor}
-          courseModule={courseModule}
+          openedModule={openedModule}
           sectionGroup={sectionGroup}
           activities={activities}
           assignments={assignments}
@@ -157,14 +157,14 @@ class Schedule extends Component {
                     {ROTATING_COLUMNS.map((columnNumber, colIndex) => {
                       let moduleTextColor = TEXT_COLORS[(6 + parseInt(colIndex) - parseInt(rowIndex)) % 6];
                       // undefined if no module
-                      let courseModule = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber));
+                      let openedModule = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber));
                       return (
                         <td
                           key={colIndex}
                           className={moduleTextColor}
-                          onClick={() => this.openModuleModalWithValues(courseModule, moduleTextColor)}
+                          onClick={() => this.openModuleModalWithValues(openedModule, moduleTextColor)}
                         >
-                          {(courseModule) ? courseModule.text : EMPTY}
+                          {(openedModule) ? openedModule.text : EMPTY}
                         </td>
                       );
                     })}

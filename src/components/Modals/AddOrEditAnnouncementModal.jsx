@@ -133,7 +133,7 @@ const AddOrEditAnnouncementModal = ({
         {(didNotEditPrompt) &&
           <p className="text-danger">No changes made.</p>
         }
-        <Form onSubmit={e => {e.preventDefault()}}>
+        <Form onSubmit={e => e.preventDefault()}>
           <FormGroup row>
             <Label for="sendOption" sm={2}><b>Send To</b></Label>
             <Col sm={4}>

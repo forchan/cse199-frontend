@@ -17,12 +17,12 @@ import {
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  courseModule: PropTypes.object.isRequired
+  openedModule: PropTypes.object.isRequired
 };
 
 class AddMaterialModal extends Component {
   render() {
-    const { isOpen, toggle, courseModule } = this.props;
+    const { isOpen, toggle, openedModule } = this.props;
 
     return (
       <Fragment>
@@ -34,7 +34,7 @@ class AddMaterialModal extends Component {
           centered
         >
           <ModalHeader toggle={toggle}>
-            Summon obstacle for {courseModule.text}
+            Summon obstacle for {openedModule.text}
           </ModalHeader>
           <ModalBody className='normal-height-modal-body'>
             <Form>

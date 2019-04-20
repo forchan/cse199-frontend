@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -7,47 +7,66 @@ import {
   ModalFooter,
   Button,
   Col,
-  Row,
   Form,
   FormGroup,
   Label,
   Input
 } from 'reactstrap';
+import { isNullOrEmpty } from '../../utils/StringUtils.js';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired
+  toggle: PropTypes.func.isRequired,
+  instructors: PropTypes.array.isRequired,
+  openedModule: PropTypes.object.isRequired
 };
 
-class AddStaffToModuleModal extends Component {
-  render() {
-    return (
-      <Fragment>
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} size="md" autoFocus={false} centered>
-          <ModalHeader toggle={this.props.toggle}>
-            Requesting backup
-          </ModalHeader>
-          <ModalBody className='normal-height-modal-body'>
-            <Form>
-              <Row form>
-                <Col md={12}>
-                  <FormGroup>
-                    <Label for="placeholder">Form goes here @_@</Label>
-                    <Input type="text" name="placeholder" id="placeholder" placeholder="some input" disabled />
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button disabled color="info" onClick={this.props.toggle}>Assign</Button>{' '}
-            <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
-          </ModalFooter>
-        </Modal>
-      </Fragment>
-    );
-  }
-}
+const AddStaffToModuleModal = ({ isOpen, toggle, instructors, openedModule }) => {
+
+  return (
+    <Fragment>
+      <Modal isOpen={isOpen} toggle={toggle} size="md" autoFocus={false} centered>
+        <ModalHeader toggle={toggle}>
+          Requesting backup
+        </ModalHeader>
+        <ModalBody className='normal-height-modal-body'>
+          <Form onSubmit={e => e.preventDefault()}>
+            <FormGroup row>
+              <Label for="selectInstructor" sm={3}><b>Select Staff</b></Label>
+              <Col>
+                <Input
+                  type="select"
+                  name="selectInstructor"
+                  id="selectInstructor"
+                >
+                  <option>select one</option>
+                  {instructors.map(instructor => {
+                    const {
+                      instructor_id,
+                      instructor_firstname,
+                      instructor_lastname,
+                      instructor_contact
+                    } = instructor;
+                    const email = (isNullOrEmpty(instructor_contact)) ? '' : `(${instructor_contact})`;
+                    return (
+                      <option value={instructor_id} key={instructor_id}>
+                        {instructor_firstname} {instructor_lastname} {email}
+                      </option>
+                    );
+                  })}
+                </Input>
+              </Col>
+            </FormGroup>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button disabled color="info" onClick={toggle}>Assign</Button>{' '}
+          <Button color="secondary" onClick={toggle}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+    </Fragment>
+  );
+};
 
 AddStaffToModuleModal.propTypes = propTypes;
 
