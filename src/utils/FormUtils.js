@@ -4,6 +4,7 @@ import {
   ANNOUNCEMENT
 } from '../constants/MaterialConstants.js';
 import {
+  ADD_INSTRUCTOR_TO_SECTION,
   ADD_INSTRUCTOR_TO_MODULE,
   POST_INSTRUCTOR,
   POST_MATERIAL
@@ -53,6 +54,17 @@ export const prepareAddInstructorToModuleForm = (instructorId, module) => {
   };
   return formToSubmit;
 };
+
+export const prepareAddInstructorToSectionForm = (instructorId, sectionId, startDate, endDate) => {
+  const formToSubmit = {
+    action: ADD_INSTRUCTOR_TO_SECTION,
+    instructorid: instructorId,
+    sectionid: sectionId,
+    datestart: startDate,
+    dateend: endDate
+  };
+  return formToSubmit;
+}
 
 
 /* =========================== Announcement Forms =========================== */

@@ -22,5 +22,6 @@ export const GET_COURSE_INSTRUCTORS = 'getCourseInstructors';
 
 // POST related constants
 export const ADD_INSTRUCTOR_TO_MODULE = 'addInstructorToModule';
+export const ADD_INSTRUCTOR_TO_SECTION = 'addInstructorToSection';
 export const POST_INSTRUCTOR = 'addOrEditInstructor';
 export const POST_MATERIAL = 'addOrEditMaterials';

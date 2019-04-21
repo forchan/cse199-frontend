@@ -22,7 +22,7 @@ import {
   isNullOrEmpty,
   replaceIfNull
 } from '../../utils/StringUtils.js';
-import { prepareAddInstructorToModuleForm } from '../../utils/FormUtils.js';
+import { prepareAddInstructorToSectionForm } from '../../utils/FormUtils.js';
 import { postApiStuff } from '../../utils/ApiUtils.js';
 import { API_INSTRUCTOR_URL } from '../../constants/ApiConstants.js';
 
@@ -37,6 +37,8 @@ const propTypes = {
   instructors: PropTypes.array.isRequired,
   openedSection: PropTypes.object.isRequired,
   courseId: PropTypes.string.isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
   sectionGroups: PropTypes.array.isRequired,
   loadAllSectionGroupInstructors: PropTypes.func.isRequired
 };
@@ -47,6 +49,8 @@ const AddStaffToSectionModal = ({
   instructors,
   openedSection,
   courseId,
+  startDate,
+  endDate,
   sectionGroups,
   loadAllSectionGroupInstructors
 }) => {
@@ -78,7 +82,22 @@ const AddStaffToSectionModal = ({
     return firstName + ' ' + lastName;
   };
   const assignInstructor = async () => {
+    const formToSubmit = prepareAddInstructorToSectionForm(
+      selectedInstructor,
+      openedSection.section_id,
+      startDate,
+      endDate
+    );
+    const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
 
+    if (validateResponseString(response)) {
+      displayNotification('Staff added to section!', SUCCESS);
+      loadAllSectionGroupInstructors(courseId, sectionGroups);
+      closeModal();
+    } else {
+      let errorMessage = replaceIfNull(response, 'Unknown error');
+      displayNotification(errorMessage, ERROR);
+    }
   };
 
   const confirmationPrompt = (

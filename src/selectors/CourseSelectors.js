@@ -2,3 +2,5 @@
 export const getCourseId = state => state.course.courseId;
 export const getCourseSemester = state => state.course.courseSemester;
 export const getCourseYear = state => state.course.courseYear;
+export const getStartDate = state => state.course.startDate;
+export const getEndDate = state => state.course.endDate;
