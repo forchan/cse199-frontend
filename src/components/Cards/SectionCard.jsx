@@ -25,7 +25,7 @@ const SectionCard = ({ section, recitation }) => {
 
   return (
     <Fragment>
-      {(recitation) &&
+      {(recitationStaffModal) &&
         <RecitationStaffModal
           isOpen={recitationStaffModal}
           toggle={toggleModal}

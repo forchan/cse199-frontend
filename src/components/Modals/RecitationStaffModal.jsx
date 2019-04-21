@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -9,6 +9,7 @@ import {
   CardDeck
 } from 'reactstrap';
 import SectionInstructorCard from '../Cards/SectionInstructorCard.jsx';
+import AddStaffToSectionModal from '../../containers/modals/AddStaffToSectionModalContainer.jsx';
 import { getRecitationStaff } from '../../utils/SectionInstructorUtils.js';
 
 const propTypes = {
@@ -26,11 +27,18 @@ const RecitationStaffModal = ({
   allSectionInstructors,
   sectionGroupNameToIdMap
 }) => {
+  const [addStaffToSectionModal, setAddStaffToSectionModal] = useState(false);
+  const toggleAddStaffToSectionModal = () => setAddStaffToSectionModal(!addStaffToSectionModal);
   const sectionGroupId = sectionGroupNameToIdMap.get(section.section_group_name);
   const staff = getRecitationStaff(allSectionInstructors, section.section_id, sectionGroupId);
 
   return (
     <Fragment>
+      <AddStaffToSectionModal
+        isOpen={addStaffToSectionModal}
+        toggle={toggleAddStaffToSectionModal}
+        openedSection={section}
+      />
       <Modal isOpen={isOpen} toggle={toggle} size="lg">
         <ModalHeader toggle={toggle}>
           Recitation Staff {section.section_name}
@@ -43,7 +51,7 @@ const RecitationStaffModal = ({
           </CardDeck>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>Stuff</Button>{' '}
+          <Button color="info" onClick={toggleAddStaffToSectionModal}>Assign Staff</Button>{' '}
           <Button color="secondary" onClick={toggle}>Exit</Button>
         </ModalFooter>
       </Modal>

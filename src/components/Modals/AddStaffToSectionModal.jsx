@@ -28,24 +28,24 @@ import { API_INSTRUCTOR_URL } from '../../constants/ApiConstants.js';
 
 const defaultProps = {
   instructors: [],
-  openedModule: {}
+  openedSection: {}
 };
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   instructors: PropTypes.array.isRequired,
-  openedModule: PropTypes.object.isRequired,
+  openedSection: PropTypes.object.isRequired,
   courseId: PropTypes.string.isRequired,
   sectionGroups: PropTypes.array.isRequired,
   loadAllSectionGroupInstructors: PropTypes.func.isRequired
 };
 
-const AddStaffToModuleModal = ({
+const AddStaffToSectionModal = ({
   isOpen,
   toggle,
   instructors,
-  openedModule,
+  openedSection,
   courseId,
   sectionGroups,
   loadAllSectionGroupInstructors
@@ -78,21 +78,12 @@ const AddStaffToModuleModal = ({
     return firstName + ' ' + lastName;
   };
   const assignInstructor = async () => {
-    const formToSubmit = prepareAddInstructorToModuleForm(selectedInstructor, openedModule);
-    const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
 
-    if (validateResponseString(response)) {
-      displayNotification('Staff added to module!', SUCCESS);
-      loadAllSectionGroupInstructors(courseId, sectionGroups);
-      closeModal();
-    } else {
-      let errorMessage = replaceIfNull(response, 'Unknown error');
-      displayNotification(errorMessage, ERROR);
-    }
   };
 
   const confirmationPrompt = (
-    <p>Are you sure you want to assign <b>{selectedInstructorName()}</b> to <b>{openedModule.text}</b>?</p>
+    <p>Are you sure you want to assign <b>{selectedInstructorName()}</b> to&nbsp;
+    <b>{openedSection.section_type} {openedSection.section_name}</b>?</p>
   );
 
   const form = (
@@ -157,7 +148,7 @@ const AddStaffToModuleModal = ({
   );
 };
 
-AddStaffToModuleModal.defaultProps = defaultProps;
-AddStaffToModuleModal.propTypes = propTypes;
+AddStaffToSectionModal.defaultProps = defaultProps;
+AddStaffToSectionModal.propTypes = propTypes;
 
-export default AddStaffToModuleModal;
+export default AddStaffToSectionModal;
