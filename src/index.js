@@ -1,20 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// CSS - all the css in styles directory could probably be combined to one file
+// CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-notifications/lib/notifications.css';
 import './styles/css/paper-dashboard.css'
-import './styles/css/demo.css'
-
 // Router
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import indexRoutes from './routes/indexRoutes.js';
-
 // Redux Store
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore.js';
-
 // Service Worker - not sure what it does, included in create-react-app
 import * as serviceWorker from './serviceWorker';
 
