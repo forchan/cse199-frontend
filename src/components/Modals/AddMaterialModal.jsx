@@ -21,6 +21,17 @@ const propTypes = {
 };
 
 const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
+  const [materialType, setMaterialType] = useState('');
+  const [materialFormat, setMaterialFormat] = useState('');
+  const [materialTitle, setMaterialTitle] = useState('');
+  const [materialText, setMaterialText] = useState('');
+  const [materialURL, setMaterialURL] = useState('');
+  const [materialDescription, setMaterialDescription] = useState('');
+  const [materialDueDate, setMaterialDueDate] = useState('');
+  const courseId = openedModule.course_id;
+  const sectionGroupId = openedModule.section_group_id; // null if intro module
+  const materialStartDate = openedModule.date_start;
+  const materialEndDate = openedModule.date_end;
 
   return (
     <Fragment>
@@ -32,20 +43,22 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
         centered
       >
         <ModalHeader toggle={toggle}>
-          Summon obstacle for {openedModule.text}
+          Summon obstacle for &nbsp;[{openedModule.text}]
         </ModalHeader>
         <ModalBody className='normal-height-modal-body'>
           <Form>
             <Row form>
               <Col sm={6}>
                 <FormGroup>
-                  <Label for="materialsType">Material Type</Label>
+                  <Label for="materialType">Material Type*</Label>
                   <Input
                     type="select"
-                    name="materialsType"
-                    id="materialsType"
+                    name="materialType"
+                    id="materialType"
+                    value={materialType}
+                    onChange={e => setMaterialType(e.target.value)}
                   >
-                    <option>select one</option>
+                    <option></option>
                     <option>Activity</option>
                     <option>Assignment</option>
                     <option>Lecture Note</option>
@@ -59,6 +72,8 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
                     type="text"
                     name="format"
                     id="format"
+                    value={materialFormat}
+                    onChange={e => setMaterialFormat(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -71,6 +86,8 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
                     type="date"
                     name="startDate"
                     id="startDate"
+                    value={materialStartDate}
+                    disabled
                   />
                 </FormGroup>
               </Col>
@@ -81,6 +98,8 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
                     type="date"
                     name="endDate"
                     id="endDate"
+                    value={materialEndDate}
+                    disabled
                   />
                 </FormGroup>
               </Col>
@@ -91,6 +110,8 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
                     type="date"
                     name="dueDate"
                     id="dueDate"
+                    value={materialDueDate}
+                    onChange={e => setMaterialDueDate(e.target.value)}
                   />
                 </FormGroup>
               </Col>
@@ -99,13 +120,26 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
               <Col md={6}>
                 <FormGroup>
                   <Label for="title">Title</Label>
-                  <Input type="text" name="title" id="title" autoFocus />
+                  <Input
+                    type="text"
+                    name="title"
+                    id="title"
+                    value={materialTitle}
+                    onChange={e => setMaterialTitle(e.target.value)}
+                    autoFocus
+                  />
                 </FormGroup>
               </Col>
               <Col md={6}>
                 <FormGroup>
                   <Label for="text">Text</Label>
-                  <Input type="text" name="text" id="text" />
+                  <Input
+                    type="text"
+                    name="text"
+                    id="text"
+                    value={materialText}
+                    onChange={e => setMaterialText(e.target.value)}
+                  />
                 </FormGroup>
               </Col>
             </Row>
@@ -113,13 +147,25 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
               <Col md={6}>
                 <FormGroup>
                   <Label for="description">Description</Label>
-                  <Input type="text" name="description" id="description" />
+                  <Input
+                    type="text"
+                    name="description"
+                    id="description"
+                    value={materialDescription}
+                    onChange={e => setMaterialDescription(e.target.value)}
+                  />
                 </FormGroup>
               </Col>
               <Col md={6}>
                 <FormGroup>
                   <Label for="url">URL</Label>
-                  <Input type="text" name="url" id="url" />
+                  <Input
+                    type="text"
+                    name="url"
+                    id="url"
+                    value={materialURL}
+                    onChange={e => setMaterialURL(e.target.value)}
+                  />
                 </FormGroup>
               </Col>
             </Row>
