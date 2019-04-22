@@ -57,7 +57,6 @@ const AddStaffToSectionModal = ({
   const [selectedInstructor, setInstructor] = useState('');
   const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
   const [displayConfirmation, setDisplayConfirmation] = useState(false);
-  const toggleSelectedInstructor = event => setInstructor(event.target.value);
   const closeModal = () => {
     toggle();
     setInstructor('');
@@ -115,7 +114,7 @@ const AddStaffToSectionModal = ({
             name="selectInstructor"
             id="selectInstructor"
             value={selectedInstructor}
-            onChange={toggleSelectedInstructor}
+            onChange={e => setInstructor(e.target.value)}
           >
             <option></option>
             {instructors.map(instructor => {

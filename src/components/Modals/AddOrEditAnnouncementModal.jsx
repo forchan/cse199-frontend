@@ -63,9 +63,6 @@ const AddOrEditAnnouncementModal = ({
   const [text, setText] = useState(replaceIfNull(announcement.text));
   const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
   const [didNotEditPrompt, setDidNotEditPrompt] = useState(false);
-  const toggleSendOption = event => setSendOption(event.target.value);
-  const handleTitleChange = event => setTitle(event.target.value);
-  const handleTextChange = event => setText(event.target.value);
   const validForm = () => {
     if (isNullOrEmpty(title) || isNullOrEmpty(text)) {
       setDisplayRequiredPrompt(true);
@@ -142,7 +139,7 @@ const AddOrEditAnnouncementModal = ({
                 name="sendOption"
                 id="sendOption"
                 value={sendOption}
-                onChange={toggleSendOption}
+                onChange={e => setSendOption(e.target.value)}
               >
                 <option></option>
                 <option>{SEND_TO_ALL}</option>
@@ -175,7 +172,7 @@ const AddOrEditAnnouncementModal = ({
                 name="title"
                 id="title"
                 value={title}
-                onChange={handleTitleChange}
+                onChange={e => setTitle(e.target.value)}
                 autoFocus
               />
             </Col>
@@ -188,7 +185,7 @@ const AddOrEditAnnouncementModal = ({
                 name="message"
                 id="message"
                 value={text}
-                onChange={handleTextChange}
+                onChange={e => setText(e.target.value)}
               />
             </Col>
           </FormGroup>
