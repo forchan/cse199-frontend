@@ -167,7 +167,7 @@ class AddOrEditInstructorModal extends Component {
       <Modal isOpen={isOpen} toggle={this.handleToggle} size="md" autoFocus={false}>
         <ModalHeader toggle={this.handleToggle}>
           {(edit)
-            ? <Fragment>Edit Instructor</Fragment>
+            ? <Fragment>Edit instructor</Fragment>
             : <Fragment>Who's the new guy?</Fragment>
           }
         </ModalHeader>
@@ -202,7 +202,7 @@ class AddOrEditInstructorModal extends Component {
               </Col>
               <Col md={9}>
                 <FormGroup>
-                  <Label for="firstName">First name<b>*</b></Label>
+                  <Label for="firstName">First Name<b>*</b></Label>
                   <Input
                     type="text"
                     name="firstName"
@@ -218,7 +218,7 @@ class AddOrEditInstructorModal extends Component {
               <Col sm={3} />
               <Col md={9}>
                 <FormGroup>
-                  <Label for="lastName">Last name<b>*</b></Label>
+                  <Label for="lastName">Last Name<b>*</b></Label>
                   <Input
                     type="text"
                     name="lastName"

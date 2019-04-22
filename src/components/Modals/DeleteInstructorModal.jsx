@@ -50,7 +50,7 @@ const DeleteInstructorModal = ({ instructor, courseId, reloadInstructors, isOpen
   return (
     <Modal isOpen={isOpen} toggle={() => toggle()} size="md">
       <ModalHeader toggle={() => toggle()}>
-        Boot Instructor
+        Boot instructor
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
         Are you sure you want to delete <b>{instructor.instructor_firstname}{' '}

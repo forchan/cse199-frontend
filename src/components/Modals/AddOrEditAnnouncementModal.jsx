@@ -121,7 +121,10 @@ const AddOrEditAnnouncementModal = ({
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="modal-semi-lg" autoFocus={false}>
       <ModalHeader toggle={toggle}>
-        What's on your mind?
+        {(edit)
+          ? <Fragment>Edit announcement</Fragment>
+          : <Fragment>What's on your mind?</Fragment>
+        }
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
         {(displayRequiredPrompt) &&

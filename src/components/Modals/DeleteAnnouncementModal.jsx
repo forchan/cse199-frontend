@@ -63,7 +63,7 @@ const DeleteAnnouncementModal = ({
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="modal-semi-lg" autoFocus={false}>
       <ModalHeader toggle={toggle}>
-        Undo Message
+        Undo message
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
         <p>Are you sure you want to delete this message?</p>
