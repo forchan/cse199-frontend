@@ -13,37 +13,48 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import {
+  ACTIVITY,
+  ASSIGNMENT,
+  LECTURE_NOTE
+} from '../../constants/MaterialConstants.js';
+import { replaceIfNull } from '../../utils/StringUtils.js';
+
+const defaultProps = {
+  material: {},
+  openedModule: {}
+};
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  openedModule: PropTypes.object.isRequired
+  openedModule: PropTypes.object,
+  material: PropTypes.object
 };
 
-const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
-  const [materialType, setMaterialType] = useState('');
-  const [materialFormat, setMaterialFormat] = useState('');
-  const [materialTitle, setMaterialTitle] = useState('');
-  const [materialText, setMaterialText] = useState('');
-  const [materialURL, setMaterialURL] = useState('');
-  const [materialDescription, setMaterialDescription] = useState('');
-  const [materialDueDate, setMaterialDueDate] = useState('');
-  const courseId = openedModule.course_id;
-  const sectionGroupId = openedModule.section_group_id; // null if intro module
-  const materialStartDate = openedModule.date_start;
-  const materialEndDate = openedModule.date_end;
+const AddOrEditMaterialModal = ({ isOpen, toggle, openedModule, material }) => {
+  const edit = (material.materials_id) ? true : false;
+  const courseId = (edit) ? material.course_id : openedModule.course_id;
+  const sectionGroupId = (edit) ? material.section_group_id : openedModule.section_group_id; // null if intro module
+  const materialStartDate = (edit) ? material.date_start : openedModule.date_start;
+  const materialEndDate = (edit) ? material.date_end : openedModule.date_end;
+
+  const [materialType, setMaterialType] = useState(replaceIfNull(material.materials_type));
+  const [materialFormat, setMaterialFormat] = useState(replaceIfNull(material.materials_format));
+  const [materialTitle, setMaterialTitle] = useState(replaceIfNull(material.title));
+  const [materialText, setMaterialText] = useState(replaceIfNull(material.text));
+  const [materialURL, setMaterialURL] = useState(replaceIfNull(material.url));
+  const [materialDescription, setMaterialDescription] = useState(replaceIfNull(material.description));
+  const [materialDueDate, setMaterialDueDate] = useState(replaceIfNull(material.due_date));
 
   return (
     <Fragment>
-      <Modal
-        className="modal-semi-lg"
-        isOpen={isOpen}
-        toggle={toggle}
-        autoFocus={false}
-        centered
-      >
+      <Modal className="modal-semi-lg" isOpen={isOpen} toggle={toggle} autoFocus={false} centered>
         <ModalHeader toggle={toggle}>
-          Summon obstacle for &nbsp;[{openedModule.text}]
+          {(edit)
+            ? <Fragment>Edit obstacle</Fragment>
+            : <Fragment>Summon obstacle for &nbsp;[{openedModule.text}]</Fragment>
+          }
         </ModalHeader>
         <ModalBody className='normal-height-modal-body'>
           <Form>
@@ -59,9 +70,9 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
                     onChange={e => setMaterialType(e.target.value)}
                   >
                     <option></option>
-                    <option>Activity</option>
-                    <option>Assignment</option>
-                    <option>Lecture Note</option>
+                    <option value={ACTIVITY}>Activity</option>
+                    <option value={ASSIGNMENT}>Assignment</option>
+                    <option value={LECTURE_NOTE}>Lecture Note</option>
                   </Input>
                 </FormGroup>
               </Col>
@@ -172,7 +183,12 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button disabled color="primary" onClick={toggle}>Add</Button>{' '}
+          <Button disabled color="primary" onClick={toggle}>
+            {(edit)
+              ? <Fragment>Save</Fragment>
+              : <Fragment>Add</Fragment>
+            }
+          </Button>{' '}
           <Button color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
@@ -180,6 +196,7 @@ const AddMaterialModal = ({ isOpen, toggle, openedModule }) => {
   );
 };
 
-AddMaterialModal.propTypes = propTypes;
+AddOrEditMaterialModal.defaultProps = defaultProps;
+AddOrEditMaterialModal.propTypes = propTypes;
 
-export default AddMaterialModal;
+export default AddOrEditMaterialModal;

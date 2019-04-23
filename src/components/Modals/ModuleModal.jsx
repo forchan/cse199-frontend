@@ -21,7 +21,7 @@ import {
 } from 'reactstrap';
 import MaterialCard from '../Cards/MaterialCard.jsx';
 import SectionInstructorCard from '../Cards/SectionInstructorCard.jsx';
-import AddMaterialModal from '../Modals/AddMaterialModal.jsx';
+import AddMaterialModal from '../Modals/AddOrEditMaterialModal.jsx';
 import AddStaffToModuleModal from '../../containers/modals/AddStaffToModuleModalContainer.jsx';
 import { prettyFormatDate } from '../../utils/ScheduleUtils.js';
 import { getLectureStaff } from '../../utils/SectionInstructorUtils.js';
