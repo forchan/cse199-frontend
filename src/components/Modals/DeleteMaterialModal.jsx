@@ -11,22 +11,22 @@ import {
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  section: PropTypes.object.isRequired
+  material: PropTypes.object.isRequired
 };
 
-const DeleteSectionModal = ({
+const DeleteMaterialModal = ({
   isOpen,
   toggle,
-  section
+  material
 }) => {
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="md" centered>
       <ModalHeader toggle={toggle}>
-        Delete section
+        Delete obstacle
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
-        Are you sure you want to delete <b>{section.section_type} {section.section_name}</b>?
+        Are you sure you want to delete this {material.materials_type.toLowerCase()}?
       </ModalBody>
       <ModalFooter>
         <Button color="warning" onClick={toggle} disabled>Delete</Button>{' '}
@@ -36,6 +36,6 @@ const DeleteSectionModal = ({
   );
 };
 
-DeleteSectionModal.propTypes = propTypes;
+DeleteMaterialModal.propTypes = propTypes;
 
-export default DeleteSectionModal;
+export default DeleteMaterialModal;

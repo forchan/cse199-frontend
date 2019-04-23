@@ -48,8 +48,8 @@ const DeleteInstructorModal = ({ instructor, courseId, reloadInstructors, isOpen
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={() => toggle()} size="md">
-      <ModalHeader toggle={() => toggle()}>
+    <Modal isOpen={isOpen} toggle={toggle} size="md">
+      <ModalHeader toggle={toggle}>
         Boot instructor
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
@@ -60,7 +60,7 @@ const DeleteInstructorModal = ({ instructor, courseId, reloadInstructors, isOpen
         <Button color="warning" onClick={submitFormAndCloseModal}>
           Delete
         </Button>
-        <Button color="secondary" onClick={() => toggle()}>Cancel</Button>
+        <Button color="secondary" onClick={toggle}>Cancel</Button>
       </ModalFooter>
     </Modal>
   );

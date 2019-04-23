@@ -8,6 +8,7 @@ import {
   CardLink
 } from 'reactstrap';
 import EditMaterialModal from '../Modals/AddOrEditMaterialModal.jsx';
+import DeleteMaterialModal from '../Modals/DeleteMaterialModal.jsx';
 
 const propTypes = {
   material: PropTypes.object.isRequired
@@ -15,7 +16,9 @@ const propTypes = {
 
 const MaterialCard = ({ material }) => {
   const [editMaterialModal, setEditModal] = useState(false);
+  const [deleteMaterialModal, setDeleteModal] = useState(false);
   const toggleEditModal = () => setEditModal(!editMaterialModal);
+  const toggleDeleteModal = () => setDeleteModal(!deleteMaterialModal);
 
   return (
     <Fragment>
@@ -23,6 +26,13 @@ const MaterialCard = ({ material }) => {
         <EditMaterialModal
           isOpen={editMaterialModal}
           toggle={toggleEditModal}
+          material={material}
+        />
+      }
+      {(deleteMaterialModal) &&
+        <DeleteMaterialModal
+          isOpen={deleteMaterialModal}
+          toggle={toggleDeleteModal}
           material={material}
         />
       }
@@ -47,7 +57,8 @@ const MaterialCard = ({ material }) => {
           <CardLink href={material.url} target="_blank">
             {material.url}
           </CardLink>
-          {''}
+          <p />
+          <Button className="float-right" onClick={toggleDeleteModal}>Delete</Button>{' '}
           <Button className="float-right" onClick={toggleEditModal}>Edit</Button>
         </CardBody>
       </Card>

@@ -75,7 +75,7 @@ const ModuleModal = ({
   // if the module passed in is undefined, we need to create a new one
   if (openedModule === undefined) {
     return (
-      <Modal isOpen={isOpen} toggle={toggleClose} size="md" autoFocus={false}>
+      <Modal isOpen={isOpen} toggle={toggleClose} size="md">
         <ModalHeader className={headerTextColor} toggle={toggleClose}>
           No module, add one?
         </ModalHeader>

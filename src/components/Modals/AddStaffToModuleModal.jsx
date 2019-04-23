@@ -131,7 +131,7 @@ const AddStaffToModuleModal = ({
 
   return (
     <Fragment>
-      <Modal isOpen={isOpen} toggle={closeModal} size="md" autoFocus={false} centered>
+      <Modal isOpen={isOpen} toggle={closeModal} size="md" centered>
         <ModalHeader toggle={closeModal}>
           Requesting backup
         </ModalHeader>
