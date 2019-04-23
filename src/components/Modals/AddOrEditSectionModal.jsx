@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -13,19 +13,34 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import { LECTURE, RECITATION } from '../../constants/ScheduleConstants.js';
+import { replaceIfNull } from '../../utils/StringUtils.js';
+
+const defaultProps = {
+  section: {}
+};
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired
+  toggle: PropTypes.func.isRequired,
+  section: PropTypes.object
 };
 
-const AddSectionModal = ({ isOpen, toggle }) => {
-  const [time, setTime] = useState('');
+const AddOrEditSectionModal = ({ isOpen, toggle, section }) => {
+  const edit = (section.section_id) ? true : false;
+  const [sectionName, setSectionName] = useState(replaceIfNull(section.section_name));
+  const [schedule, setSchedule] = useState(replaceIfNull(section.section_schedule));
+  const [sectionType, setSectionType] = useState(replaceIfNull(section.section_type));
+  const [time, setTime] = useState(replaceIfNull(section.section_time));
+  const [location, setLocation] = useState(replaceIfNull(section.section_location));
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="md" autoFocus={false} centered>
       <ModalHeader toggle={toggle}>
-        Too many students?
+        {(edit)
+          ? <Fragment>Edit section</Fragment>
+          : <Fragment>Too many students?</Fragment>
+        }
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
         <Form>
@@ -37,6 +52,8 @@ const AddSectionModal = ({ isOpen, toggle }) => {
                   type="text"
                   name="sectionName"
                   id="sectionName"
+                  value={sectionName}
+                  onChange={e => setSectionName(e.target.value)}
                   autoFocus
                 />
               </FormGroup>
@@ -48,6 +65,8 @@ const AddSectionModal = ({ isOpen, toggle }) => {
                   type="text"
                   name="schedule"
                   id="schedule"
+                  value={schedule}
+                  onChange={e => setSchedule(e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -60,10 +79,12 @@ const AddSectionModal = ({ isOpen, toggle }) => {
                   type="select"
                   name="sectionType"
                   id="sectionType"
+                  value={sectionType}
+                  onChange={e => setSectionType(e.target.vaue)}
                 >
                   <option></option>
-                  <option>Lecture</option>
-                  <option>Recitation</option>
+                  <option value={LECTURE}>Lecture</option>
+                  <option value={RECITATION}>Recitation</option>
                 </Input>
               </FormGroup>
             </Col>
@@ -86,6 +107,8 @@ const AddSectionModal = ({ isOpen, toggle }) => {
                   type="text"
                   name="location"
                   id="location"
+                  value={location}
+                  onChange={e => setLocation(e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -93,13 +116,19 @@ const AddSectionModal = ({ isOpen, toggle }) => {
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button disabled color="primary" onClick={toggle}>Add</Button>{' '}
+        <Button disabled color="primary" onClick={toggle}>
+          {(edit)
+            ? <Fragment>Save</Fragment>
+            : <Fragment>Add</Fragment>
+          }
+        </Button>{' '}
         <Button color="secondary" onClick={toggle}>Cancel</Button>
       </ModalFooter>
     </Modal>
   );
 };
 
-AddSectionModal.propTypes = propTypes;
+AddOrEditSectionModal.defaultProps = defaultProps;
+AddOrEditSectionModal.propTypes = propTypes;
 
-export default AddSectionModal;
+export default AddOrEditSectionModal;

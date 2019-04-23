@@ -15,7 +15,7 @@ import {
   CardDeck
 } from 'reactstrap';
 import SectionCard from '../Cards/SectionCard.jsx';
-import AddSectionModal from '../Modals/AddSectionModal.jsx';
+import AddSectionModal from '../Modals/AddOrEditSectionModal.jsx';
 import { LECTURE, RECITATION } from '../../constants/ScheduleConstants.js';
 
 const propTypes = {

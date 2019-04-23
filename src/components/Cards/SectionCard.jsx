@@ -9,6 +9,7 @@ import {
   CardSubtitle
 } from 'reactstrap';
 import RecitationStaffModal from '../../containers/modals/RecitationStaffModalContainer.jsx';
+import EditSectionModal from '../Modals/AddOrEditSectionModal.jsx';
 import DeleteSectionModal from '../Modals/DeleteSectionModal.jsx';
 
 const defaultProps = {
@@ -22,8 +23,10 @@ const propTypes = {
 
 const SectionCard = ({ section, recitation }) => {
   const [recitationStaffModal, setStaffModal] = useState(false);
+  const [editSectionModal, setEditModal] = useState(false);
   const [deleteSectionModal, setDeleteModal] = useState(false);
   const toggleStaffModal = () => setStaffModal(!recitationStaffModal);
+  const toggleEditModal = () => setEditModal(!editSectionModal);
   const toggleDeleteModal = () => setDeleteModal(!deleteSectionModal);
 
   return (
@@ -32,6 +35,13 @@ const SectionCard = ({ section, recitation }) => {
         <RecitationStaffModal
           isOpen={recitationStaffModal}
           toggle={toggleStaffModal}
+          section={section}
+        />
+      }
+      {(editSectionModal) &&
+        <EditSectionModal
+          isOpen={editSectionModal}
+          toggle={toggleEditModal}
           section={section}
         />
       }
@@ -54,7 +64,7 @@ const SectionCard = ({ section, recitation }) => {
             {section.section_location}
           </CardText>
           <Button className="float-right" onClick={toggleDeleteModal}>Delete</Button>
-          <Button className="float-right" disabled>Edit</Button>
+          <Button className="float-right" onClick={toggleEditModal}>Edit</Button>
           {(recitation)
             && <Button className="float-right" onClick={toggleStaffModal}>Staff</Button>
           }
