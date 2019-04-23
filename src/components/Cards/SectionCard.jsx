@@ -9,6 +9,7 @@ import {
   CardSubtitle
 } from 'reactstrap';
 import RecitationStaffModal from '../../containers/modals/RecitationStaffModalContainer.jsx';
+import DeleteSectionModal from '../Modals/DeleteSectionModal.jsx';
 
 const defaultProps = {
   recitation: false
@@ -20,15 +21,24 @@ const propTypes = {
 };
 
 const SectionCard = ({ section, recitation }) => {
-  const [recitationStaffModal, setModal] = useState(false);
-  const toggleModal = () => setModal(!recitationStaffModal);
+  const [recitationStaffModal, setStaffModal] = useState(false);
+  const [deleteSectionModal, setDeleteModal] = useState(false);
+  const toggleStaffModal = () => setStaffModal(!recitationStaffModal);
+  const toggleDeleteModal = () => setDeleteModal(!deleteSectionModal);
 
   return (
     <Fragment>
       {(recitationStaffModal) &&
         <RecitationStaffModal
           isOpen={recitationStaffModal}
-          toggle={toggleModal}
+          toggle={toggleStaffModal}
+          section={section}
+        />
+      }
+      {(deleteSectionModal) &&
+        <DeleteSectionModal
+          isOpen={deleteSectionModal}
+          toggle={toggleDeleteModal}
           section={section}
         />
       }
@@ -43,9 +53,10 @@ const SectionCard = ({ section, recitation }) => {
           <CardText>
             {section.section_location}
           </CardText>
+          <Button className="float-right" onClick={toggleDeleteModal}>Delete</Button>
           <Button className="float-right" disabled>Edit</Button>
           {(recitation)
-            && <Button className="float-right" onClick={toggleModal}>Staff</Button>
+            && <Button className="float-right" onClick={toggleStaffModal}>Staff</Button>
           }
         </CardBody>
       </Card>
