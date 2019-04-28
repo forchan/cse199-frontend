@@ -22,11 +22,11 @@ import {
   isNullOrEmpty,
   replaceIfNull
 } from '../../utils/StringUtils.js';
+import { prepareAddOrEditAnnouncementForm } from '../../utils/FormUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
 import { LECTURE } from '../../constants/ScheduleConstants.js';
 import { SEND_TO_ALL } from '../../constants/MaterialConstants.js';
 import { API_MATERIAL_URL } from '../../constants/ApiConstants.js';
-import { prepareAddOrEditAnnouncementForm } from '../../utils/FormUtils.js';
-import { postApiStuff } from '../../utils/ApiUtils.js';
 
 const defaultProps = {
   announcement: {},
@@ -87,9 +87,9 @@ const AddOrEditAnnouncementModal = ({
   const sendAnnouncement = async () => {
     if (!validForm()) return;
     const detailsObject = {
-      text: text,
-      title: title,
-      courseId: courseId,
+      text,
+      title,
+      courseId,
       materialsId: announcement.materials_id // will be null if not editing
     };
     if (sectionGroupNameToIdMap.has(sendOption)) {
@@ -113,8 +113,7 @@ const AddOrEditAnnouncementModal = ({
       reloadAnnouncements(courseId);
       displayNotification(successMessage, SUCCESS);
     } else {
-      let errorMessage = replaceIfNull(response, 'Unknown error');
-      displayNotification(errorMessage, ERROR);
+      displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
     }
   };
 

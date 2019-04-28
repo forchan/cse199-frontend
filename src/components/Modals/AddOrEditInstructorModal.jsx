@@ -284,7 +284,7 @@ class AddOrEditInstructorModal extends Component {
                 <Button color="primary" onClick={this.submitForm}>
                   Add
                 </Button>{' '}
-                <Button color="primary" onClick={this.submitFormAndCloseModal}>
+                <Button color="info" onClick={this.submitFormAndCloseModal}>
                   Add/Close
                 </Button>
               </Fragment>

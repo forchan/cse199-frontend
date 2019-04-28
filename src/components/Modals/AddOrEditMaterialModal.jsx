@@ -14,11 +14,24 @@ import {
   Input
 } from 'reactstrap';
 import {
+  displayNotification,
+  SUCCESS,
+  ERROR
+} from '../../utils/NotificationUtils.js';
+import {
+  validateResponseString,
+  isNullOrEmpty,
+  replaceIfNull
+} from '../../utils/StringUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
+import { prepareAddMaterialToModuleForm } from '../../utils/FormUtils.js';
+import {
   ACTIVITY,
   ASSIGNMENT,
   LECTURE_NOTE
 } from '../../constants/MaterialConstants.js';
-import { replaceIfNull } from '../../utils/StringUtils.js';
+import { API_MATERIAL_URL } from '../../constants/ApiConstants.js';
+
 
 const defaultProps = {
   material: {},
@@ -29,13 +42,21 @@ const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   openedModule: PropTypes.object,
-  material: PropTypes.object
+  material: PropTypes.object,
+  courseId: PropTypes.string.isRequired,
+  reloadMaterials: PropTypes.func.isRequired
 };
 
-const AddOrEditMaterialModal = ({ isOpen, toggle, openedModule, material }) => {
+const AddOrEditMaterialModal = ({
+  isOpen,
+  toggle,
+  openedModule,
+  material,
+  courseId,
+  reloadMaterials
+}) => {
   const edit = (material.materials_id) ? true : false;
-  const courseId = (edit) ? material.course_id : openedModule.course_id;
-  const sectionGroupId = (edit) ? material.section_group_id : openedModule.section_group_id; // null if intro module
+  const moduleName = openedModule.text;
   const materialStartDate = (edit) ? material.date_start : openedModule.date_start;
   const materialEndDate = (edit) ? material.date_end : openedModule.date_end;
 
@@ -47,6 +68,46 @@ const AddOrEditMaterialModal = ({ isOpen, toggle, openedModule, material }) => {
   const [materialDescription, setMaterialDescription] = useState(replaceIfNull(material.description));
   const [materialDueDate, setMaterialDueDate] = useState(replaceIfNull(material.due_date));
 
+  const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
+
+  const validForm = () => {
+    if (isNullOrEmpty(materialType) || isNullOrEmpty(materialTitle) || isNullOrEmpty(materialURL)) {
+      setDisplayRequiredPrompt(true);
+      return false;
+    }
+    return true;
+  };
+
+  const submitForm = async () => {
+    if (!validForm()) return;
+    const formToSubmit = prepareAddMaterialToModuleForm({
+      courseId,
+      moduleName,
+      materialType,
+      materialTitle,
+      materialURL,
+      materialText,
+      materialDescription,
+      materialFormat,
+      materialDueDate
+    });
+    const response = await postApiStuff(API_MATERIAL_URL, formToSubmit);
+    if (validateResponseString(response)) {
+      setDisplayRequiredPrompt(false);
+      setMaterialType('');
+      setMaterialTitle('');
+      setMaterialURL('');
+      setMaterialText('');
+      setMaterialDescription('');
+      setMaterialFormat('');
+      setMaterialDueDate('');
+      displayNotification(`Material added to ${moduleName}!`, SUCCESS);
+      reloadMaterials(courseId);
+    } else {
+      displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
+    }
+  };
+
   return (
     <Fragment>
       <Modal className="modal-semi-lg" isOpen={isOpen} toggle={toggle} autoFocus={false} centered>
@@ -57,6 +118,9 @@ const AddOrEditMaterialModal = ({ isOpen, toggle, openedModule, material }) => {
           }
         </ModalHeader>
         <ModalBody className='normal-height-modal-body'>
+          {(displayRequiredPrompt) &&
+            <p className="text-danger">Missing required* inputs</p>
+          }
           <Form>
             <Row form>
               <Col sm={6}>
@@ -130,7 +194,7 @@ const AddOrEditMaterialModal = ({ isOpen, toggle, openedModule, material }) => {
             <Row form>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="title">Title</Label>
+                  <Label for="title">Title*</Label>
                   <Input
                     type="text"
                     name="title"
@@ -169,7 +233,7 @@ const AddOrEditMaterialModal = ({ isOpen, toggle, openedModule, material }) => {
               </Col>
               <Col md={6}>
                 <FormGroup>
-                  <Label for="url">URL</Label>
+                  <Label for="url">URL*</Label>
                   <Input
                     type="text"
                     name="url"
@@ -183,12 +247,11 @@ const AddOrEditMaterialModal = ({ isOpen, toggle, openedModule, material }) => {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button disabled color="primary" onClick={toggle}>
-            {(edit)
-              ? <Fragment>Save</Fragment>
-              : <Fragment>Add</Fragment>
-            }
-          </Button>{' '}
+          {(edit)
+            ? <Button color="primary" onClick={submitForm} disabled><Fragment>Save</Fragment></Button>
+            : <Button color="primary" onClick={submitForm}><Fragment>Add</Fragment></Button>
+          }
+          {' '}
           <Button color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>

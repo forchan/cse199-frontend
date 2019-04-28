@@ -34,6 +34,7 @@ export const SET_GENERAL_CONTENT = '#setGeneralContent';
 export const SET_SCHEDULE_CONTENT = '#setScheduleContent';
 export const SET_INSTRUCTORS = '#setInstructors';
 export const SET_ANNOUNCEMENTS = '#setAnnouncements';
+export const SET_MATERIALS = '#setMaterials';
 
 
 const setGeneralContent = contentObject => ({
@@ -54,7 +55,6 @@ const loadGeneralContent = courseId => async (dispatch) => {
   const sectionGroups = await loadSectionGroups(courseId);
   const calendar = await loadCalendar(courseId); // calendar returns object
   const { calendarBlocks, startDate, endDate } = calendar;
-
   const contentObject = {
     announcements,
     calendarBlocks,
@@ -63,7 +63,6 @@ const loadGeneralContent = courseId => async (dispatch) => {
     officeHours,
     sectionGroups
   };
-
   dispatch(setGeneralContent(contentObject));
   dispatch(setCourseDates(startDate, endDate));
   dispatch(loadAllSectionGroupInstructors(courseId, sectionGroups));
@@ -82,14 +81,12 @@ const loadScheduleContent = courseId => async (dispatch) => {
   const assignments = await loadAssignments(courseId);
   const lectureNotes = await loadLectureNotes(courseId);
   const sections = await loadSections(courseId);
-
   const contentObject = {
     activities,
     assignments,
     lectureNotes,
     sections
   };
-
   dispatch(setScheduleContent(contentObject));
 };
 
@@ -116,4 +113,23 @@ const setAnnouncements = announcements => ({
 export const reloadAnnouncements = courseId => async (dispatch) => {
   const announcements = await loadAnnouncements(courseId);
   dispatch(setAnnouncements(announcements));
+};
+
+const setMaterials = ({ assignments, activities, lectureNotes }) => ({
+  type: SET_MATERIALS,
+  assignments,
+  activities,
+  lectureNotes
+});
+
+export const reloadMaterials = courseId => async (dispatch) => {
+  const lectureNotes = await loadLectureNotes(courseId);
+  const assignments = await loadAssignments(courseId);
+  const activities = await loadActivities(courseId);
+  const contentObject = {
+    assignments,
+    activities,
+    lectureNotes
+  };
+  dispatch(setMaterials(contentObject));
 };

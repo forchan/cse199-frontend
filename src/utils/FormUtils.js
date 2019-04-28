@@ -6,6 +6,7 @@ import {
 import {
   ADD_INSTRUCTOR_TO_SECTION,
   ADD_INSTRUCTOR_TO_MODULE,
+  ADD_MATERIAL_TO_MODULE,
   POST_INSTRUCTOR,
   POST_MATERIAL
 } from '../constants/ApiConstants.js';
@@ -96,6 +97,25 @@ export const prepareDeleteAnnouncementForm = announcement => {
     sectiongroupid: announcement.section_group_id,
     title: announcement.title,
     text: announcement.text
+  };
+  return formToSubmit;
+};
+
+/* ============================= Material Forms ============================= */
+
+// assignments, activities, and lecture notes
+export const prepareAddMaterialToModuleForm = detailsObject => {
+  const formToSubmit = {
+    action: ADD_MATERIAL_TO_MODULE,
+    courseid: detailsObject.courseId,
+    modulename: detailsObject.moduleName,
+    materialstype: detailsObject.materialType,
+    title: detailsObject.materialTitle,
+    url: detailsObject.materialURL,
+    text: detailsObject.materialText,
+    description: detailsObject.materialDescription,
+    materialsformat: detailsObject.materialFormat,
+    duedate: detailsObject.materialDueDate
   };
   return formToSubmit;
 };

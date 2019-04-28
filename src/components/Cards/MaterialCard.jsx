@@ -7,7 +7,7 @@ import {
   CardBody,
   CardLink
 } from 'reactstrap';
-import EditMaterialModal from '../Modals/AddOrEditMaterialModal.jsx';
+import EditMaterialModal from '../../containers/modals/AddOrEditMaterialModalContainer.jsx';
 import DeleteMaterialModal from '../Modals/DeleteMaterialModal.jsx';
 
 const propTypes = {
