@@ -12,7 +12,6 @@ import {
   CardText,
   CardBody
 } from 'reactstrap';
-import { API_MATERIAL_URL } from '../../constants/ApiConstants.js';
 import {
   displayNotification,
   SUCCESS,
@@ -24,6 +23,7 @@ import {
 } from '../../utils/StringUtils.js';
 import { postApiStuff } from '../../utils/ApiUtils.js';
 import { prepareDeleteAnnouncementForm } from '../../utils/FormUtils.js';
+import { API_MATERIAL_URL } from '../../constants/ApiConstants.js';
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,

@@ -137,3 +137,18 @@ export const prepareAddOrEditSectionForm = detailsObject => {
   };
   return formToSubmit;
 };
+
+export const prepareDeleteSectionForm = section => {
+  const deletedSection = `${DELETED}${section.section_type}`
+  const formToSubmit = {
+    action: POST_SECTION,
+    courseid: section.course_id,
+    sectionid: section.section_id,
+  	sectionname: section.section_name,
+  	sectionschedule: section.section_schedule,
+  	sectiontime: section.section_time,
+  	sectiontype: deletedSection,
+  	sectionlocation: section.section_location,
+  };
+  return formToSubmit;
+};

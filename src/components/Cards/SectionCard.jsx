@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import RecitationStaffModal from '../../containers/modals/RecitationStaffModalContainer.jsx';
 import EditSectionModal from '../../containers/modals/AddOrEditSectionModalContainer.jsx';
-import DeleteSectionModal from '../Modals/DeleteSectionModal.jsx';
+import DeleteSectionModal from '../../containers/modals/DeleteSectionModalContainer.jsx';
 
 const defaultProps = {
   recitation: false
