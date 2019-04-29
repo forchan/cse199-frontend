@@ -8,7 +8,8 @@ import {
   ADD_INSTRUCTOR_TO_MODULE,
   ADD_MATERIAL_TO_MODULE,
   POST_INSTRUCTOR,
-  POST_MATERIAL
+  POST_MATERIAL,
+  POST_SECTION
 } from '../constants/ApiConstants.js';
 
 /* ============================ Instructor Forms ============================ */
@@ -116,6 +117,22 @@ export const prepareAddMaterialToModuleForm = detailsObject => {
     description: detailsObject.materialDescription,
     materialsformat: detailsObject.materialFormat,
     duedate: detailsObject.materialDueDate
+  };
+  return formToSubmit;
+};
+
+/* ============================= Section Forms ============================== */
+
+export const prepareAddOrEditSectionForm = detailsObject => {
+  const formToSubmit = {
+    action: POST_SECTION,
+    courseid: detailsObject.courseId,
+  	sectionname: detailsObject.sectionName,
+  	sectionschedule: detailsObject.sectionSchedule,
+  	sectiontime: detailsObject.sectionTime,
+  	sectiontype: detailsObject.sectionType,
+  	sectionlocation: detailsObject.sectionLocation,
+  	sectiongroupid: detailsObject.sectionGroupId
   };
   return formToSubmit;
 };

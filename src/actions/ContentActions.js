@@ -35,6 +35,7 @@ export const SET_SCHEDULE_CONTENT = '#setScheduleContent';
 export const SET_INSTRUCTORS = '#setInstructors';
 export const SET_ANNOUNCEMENTS = '#setAnnouncements';
 export const SET_MATERIALS = '#setMaterials';
+export const SET_SECTIONS = '#setSections';
 
 
 const setGeneralContent = contentObject => ({
@@ -132,4 +133,14 @@ export const reloadMaterials = courseId => async (dispatch) => {
     lectureNotes
   };
   dispatch(setMaterials(contentObject));
+};
+
+const setSections = sections => ({
+  type: SET_SECTIONS,
+  sections
+});
+
+export const reloadSections = courseId => async (dispatch) => {
+  const sections = await loadSections(courseId);
+  dispatch(setSections(sections));
 };

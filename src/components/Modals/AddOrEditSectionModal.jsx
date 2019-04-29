@@ -13,26 +13,97 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import {
+  displayNotification,
+  SUCCESS,
+  ERROR
+} from '../../utils/NotificationUtils.js';
+import {
+  validateResponseString,
+  isNullOrEmpty,
+  replaceIfNull
+} from '../../utils/StringUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
+import { prepareAddOrEditSectionForm } from '../../utils/FormUtils.js';
+import { API_SECTION_URL } from '../../constants/ApiConstants.js';
 import { LECTURE, RECITATION } from '../../constants/ScheduleConstants.js';
-import { replaceIfNull } from '../../utils/StringUtils.js';
 
 const defaultProps = {
-  section: {}
+  section: {},
+  sectionGroup: {}
 };
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  section: PropTypes.object
+  courseId: PropTypes.string.isRequired,
+  section: PropTypes.object,
+  sectionGroup: PropTypes.object,
+  reloadSections: PropTypes.func.isRequired
 };
 
-const AddOrEditSectionModal = ({ isOpen, toggle, section }) => {
+const AddOrEditSectionModal = ({
+  isOpen,
+  toggle,
+  courseId,
+  section,
+  sectionGroup,
+  reloadSections
+}) => {
   const edit = (section.section_id) ? true : false;
+  const sectionGroupId = sectionGroup.sg_id; // only needed if adding new section
   const [sectionName, setSectionName] = useState(replaceIfNull(section.section_name));
-  const [schedule, setSchedule] = useState(replaceIfNull(section.section_schedule));
+  const [sectionSchedule, setSectionSchedule] = useState(replaceIfNull(section.section_schedule));
   const [sectionType, setSectionType] = useState(replaceIfNull(section.section_type));
-  const [time, setTime] = useState(replaceIfNull(section.section_time));
-  const [location, setLocation] = useState(replaceIfNull(section.section_location));
+  const [sectionTime, setSectionTime] = useState(replaceIfNull(section.section_time));
+  const [sectionLocation, setSectionLocation] = useState(replaceIfNull(section.section_location));
+  const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
+
+  const validForm = () => {
+    if (isNullOrEmpty(sectionName)
+      || isNullOrEmpty(sectionSchedule)
+      || isNullOrEmpty(sectionType)
+      || isNullOrEmpty(sectionTime)
+      || isNullOrEmpty(sectionLocation)) {
+        return false;
+      }
+      return true;
+  };
+
+  const submitForm = async () => {
+    if (!validForm()) {
+      setDisplayRequiredPrompt(true);
+      return;
+    }
+    setDisplayRequiredPrompt(false);
+    const formToSubmit = prepareAddOrEditSectionForm({
+      courseId,
+      sectionGroupId,
+      sectionName,
+      sectionSchedule,
+      sectionType,
+      sectionTime,
+      sectionLocation
+    });
+    const response = await postApiStuff(API_SECTION_URL, formToSubmit);
+    if (validateResponseString(response)) {
+      let successMessage = '';
+      if (edit) {
+        successMessage = `Updated section ${sectionName}`;
+      } else {
+        setSectionName('');
+        setSectionSchedule('');
+        setSectionType('');
+        setSectionTime('');
+        setSectionLocation('');
+        successMessage = `Added section ${sectionName} to section group ${sectionGroup.section_group_name}`;
+      }
+      reloadSections(courseId);
+      displayNotification(successMessage, SUCCESS);
+    } else {
+      displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="md" autoFocus={false} centered>
@@ -43,11 +114,14 @@ const AddOrEditSectionModal = ({ isOpen, toggle, section }) => {
         }
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
+        {(displayRequiredPrompt) &&
+          <p className="text-danger">Missing required* inputs</p>
+        }
         <Form>
           <Row form>
             <Col md={6}>
               <FormGroup>
-                <Label for="sectionName">Section Name</Label>
+                <Label for="sectionName">Section Name*</Label>
                 <Input
                   type="text"
                   name="sectionName"
@@ -60,13 +134,13 @@ const AddOrEditSectionModal = ({ isOpen, toggle, section }) => {
             </Col>
             <Col md={6}>
               <FormGroup>
-                <Label for="schedule">Schedule</Label>
+                <Label for="schedule">Schedule*</Label>
                 <Input
                   type="text"
                   name="schedule"
                   id="schedule"
-                  value={schedule}
-                  onChange={e => setSchedule(e.target.value)}
+                  value={sectionSchedule}
+                  onChange={e => setSectionSchedule(e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -74,13 +148,13 @@ const AddOrEditSectionModal = ({ isOpen, toggle, section }) => {
           <Row form>
             <Col sm={4}>
               <FormGroup>
-                <Label for="sectionType">Section Type</Label>
+                <Label for="sectionType">Section Type*</Label>
                 <Input
                   type="select"
                   name="sectionType"
                   id="sectionType"
                   value={sectionType}
-                  onChange={e => setSectionType(e.target.vaue)}
+                  onChange={e => setSectionType(e.target.value)}
                 >
                   <option></option>
                   <option value={LECTURE}>Lecture</option>
@@ -90,25 +164,25 @@ const AddOrEditSectionModal = ({ isOpen, toggle, section }) => {
             </Col>
             <Col sm={4}>
               <FormGroup>
-                <Label for="time">Time</Label>
+                <Label for="time">Time*</Label>
                 <Input
                   type="time"
                   name="time"
                   id="time"
-                  value={time}
-                  onChange={e => setTime(e.target.value)}
+                  value={sectionTime}
+                  onChange={e => setSectionTime(e.target.value)}
                 />
               </FormGroup>
             </Col>
             <Col sm={4}>
               <FormGroup>
-                <Label for="location">Location</Label>
+                <Label for="location">Location*</Label>
                 <Input
                   type="text"
                   name="location"
                   id="location"
-                  value={location}
-                  onChange={e => setLocation(e.target.value)}
+                  value={sectionLocation}
+                  onChange={e => setSectionLocation(e.target.value)}
                 />
               </FormGroup>
             </Col>
@@ -116,7 +190,7 @@ const AddOrEditSectionModal = ({ isOpen, toggle, section }) => {
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button disabled color="primary" onClick={toggle}>
+        <Button color="primary" onClick={submitForm}>
           {(edit)
             ? <Fragment>Save</Fragment>
             : <Fragment>Add</Fragment>

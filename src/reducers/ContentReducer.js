@@ -3,7 +3,8 @@ import {
   SET_SCHEDULE_CONTENT,
   SET_INSTRUCTORS,
   SET_ANNOUNCEMENTS,
-  SET_MATERIALS
+  SET_MATERIALS,
+  SET_SECTIONS
 } from '../actions/ContentActions.js';
 
 const initialContentState = ({
@@ -55,6 +56,11 @@ const courseReducer = (state = initialContentState, action) => {
         activities: action.activities,
         assignments: action.assignments,
         lectureNotes: action.lectureNotes
+      };
+    case SET_SECTIONS:
+      return {
+        ...state,
+        sections: action.sections
       };
     default:
       return state;

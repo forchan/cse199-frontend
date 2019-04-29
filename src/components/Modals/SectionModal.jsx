@@ -15,7 +15,7 @@ import {
   CardDeck
 } from 'reactstrap';
 import SectionCard from '../Cards/SectionCard.jsx';
-import AddSectionModal from '../Modals/AddOrEditSectionModal.jsx';
+import AddSectionModal from '../../containers/modals/AddOrEditSectionModalContainer.jsx';
 import { LECTURE, RECITATION } from '../../constants/ScheduleConstants.js';
 
 const propTypes = {
@@ -40,6 +40,7 @@ const SectionModal = ({ isOpen, toggleClose, sectionGroup, sections }) =>{
       <AddSectionModal
         isOpen={addSectionModal}
         toggle={toggleAddSectionModal}
+        sectionGroup={sectionGroup}
       />
       <Modal isOpen={isOpen} toggle={toggleClose} size="lg">
         <ModalHeader toggle={toggleClose}>

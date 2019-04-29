@@ -5,6 +5,7 @@ const API_BASE_URL = `${BASE_URL}/api`;
 export const API_VIEW_URL = `${API_BASE_URL}/viewcontroller.php`;
 export const API_INSTRUCTOR_URL = `${API_BASE_URL}/instructorcontroller.php`;
 export const API_MATERIAL_URL = `${API_BASE_URL}/materialcontroller.php`;
+export const API_SECTION_URL = `${API_BASE_URL}/sectioncontroller.php`;
 
 // GET related constants
 export const GET_ANNOUNCEMENTS = 'getAnnouncement';
@@ -21,8 +22,11 @@ export const GET_SECTION_GROUPS = 'getSectionGroups';
 export const GET_COURSE_INSTRUCTORS = 'getCourseInstructors';
 
 // POST related constants
+export const POST_INSTRUCTOR = 'addOrEditInstructor';
+export const POST_MATERIAL = 'addOrEditMaterials';
+export const POST_SECTION = 'addOrEditSection';
+
+// ADD only related constants
 export const ADD_INSTRUCTOR_TO_MODULE = 'addInstructorToModule';
 export const ADD_INSTRUCTOR_TO_SECTION = 'addInstructorToSection';
 export const ADD_MATERIAL_TO_MODULE = 'addMaterialsToModule';
-export const POST_INSTRUCTOR = 'addOrEditInstructor';
-export const POST_MATERIAL = 'addOrEditMaterials';

@@ -72,14 +72,17 @@ const AddOrEditMaterialModal = ({
 
   const validForm = () => {
     if (isNullOrEmpty(materialType) || isNullOrEmpty(materialTitle) || isNullOrEmpty(materialURL)) {
-      setDisplayRequiredPrompt(true);
       return false;
     }
     return true;
   };
 
   const submitForm = async () => {
-    if (!validForm()) return;
+    if (!validForm()) {
+      setDisplayRequiredPrompt(true);
+      return;
+    }
+    setDisplayRequiredPrompt(false);
     const formToSubmit = prepareAddMaterialToModuleForm({
       courseId,
       moduleName,
@@ -93,7 +96,6 @@ const AddOrEditMaterialModal = ({
     });
     const response = await postApiStuff(API_MATERIAL_URL, formToSubmit);
     if (validateResponseString(response)) {
-      setDisplayRequiredPrompt(false);
       setMaterialType('');
       setMaterialTitle('');
       setMaterialURL('');
@@ -101,8 +103,8 @@ const AddOrEditMaterialModal = ({
       setMaterialDescription('');
       setMaterialFormat('');
       setMaterialDueDate('');
-      displayNotification(`Material added to ${moduleName}!`, SUCCESS);
       reloadMaterials(courseId);
+      displayNotification(`Material added to ${moduleName}!`, SUCCESS);
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
     }

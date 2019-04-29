@@ -2,8 +2,8 @@ export const replaceIfNull = (str, replace = '') => {
   return str || replace;
 };
 
-export const isNullOrEmpty = (str) => {
-  if (str === null || str === '') {
+export const isNullOrEmpty = (str = '') => {
+  if (str === null || str === '' || str === undefined) {
     return true;
   }
   return false;
