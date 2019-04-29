@@ -37,8 +37,8 @@ const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   courseId: PropTypes.string.isRequired,
-  section: PropTypes.object,
-  sectionGroup: PropTypes.object,
+  section: PropTypes.object, // only required if editing
+  sectionGroup: PropTypes.object, // only required if adding new
   reloadSections: PropTypes.func.isRequired
 };
 
@@ -51,13 +51,36 @@ const AddOrEditSectionModal = ({
   reloadSections
 }) => {
   const edit = (section.section_id) ? true : false;
-  const sectionGroupId = sectionGroup.sg_id; // only needed if adding new section
   const [sectionName, setSectionName] = useState(replaceIfNull(section.section_name));
   const [sectionSchedule, setSectionSchedule] = useState(replaceIfNull(section.section_schedule));
   const [sectionType, setSectionType] = useState(replaceIfNull(section.section_type));
   const [sectionTime, setSectionTime] = useState(replaceIfNull(section.section_time));
   const [sectionLocation, setSectionLocation] = useState(replaceIfNull(section.section_location));
   const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
+  const clearAllInput = () => {
+    setSectionName('');
+    setSectionSchedule('');
+    setSectionType('');
+    setSectionTime('');
+    setSectionLocation('');
+  };
+
+  const createDetailsObject = () => {
+    const detailsObject = {
+      courseId,
+      sectionName,
+      sectionSchedule,
+      sectionType,
+      sectionTime,
+      sectionLocation
+    };
+    if (edit) {
+      detailsObject['sectionId'] = section.section_id;
+    } else {
+      detailsObject['sectionGroupId'] = sectionGroup.sg_id;
+    }
+    return detailsObject;
+  };
 
   const validForm = () => {
     if (isNullOrEmpty(sectionName)
@@ -76,26 +99,15 @@ const AddOrEditSectionModal = ({
       return;
     }
     setDisplayRequiredPrompt(false);
-    const formToSubmit = prepareAddOrEditSectionForm({
-      courseId,
-      sectionGroupId,
-      sectionName,
-      sectionSchedule,
-      sectionType,
-      sectionTime,
-      sectionLocation
-    });
+    const detailsObject = createDetailsObject();
+    const formToSubmit = prepareAddOrEditSectionForm(detailsObject);
     const response = await postApiStuff(API_SECTION_URL, formToSubmit);
     if (validateResponseString(response)) {
       let successMessage = '';
       if (edit) {
         successMessage = `Updated section ${sectionName}`;
       } else {
-        setSectionName('');
-        setSectionSchedule('');
-        setSectionType('');
-        setSectionTime('');
-        setSectionLocation('');
+        clearAllInput();
         successMessage = `Added section ${sectionName} to section group ${sectionGroup.section_group_name}`;
       }
       reloadSections(courseId);

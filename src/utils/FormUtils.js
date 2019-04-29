@@ -127,6 +127,7 @@ export const prepareAddOrEditSectionForm = detailsObject => {
   const formToSubmit = {
     action: POST_SECTION,
     courseid: detailsObject.courseId,
+    sectionid: detailsObject.sectionId,
   	sectionname: detailsObject.sectionName,
   	sectionschedule: detailsObject.sectionSchedule,
   	sectiontime: detailsObject.sectionTime,

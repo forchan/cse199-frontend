@@ -9,7 +9,7 @@ import {
   CardSubtitle
 } from 'reactstrap';
 import RecitationStaffModal from '../../containers/modals/RecitationStaffModalContainer.jsx';
-import EditSectionModal from '../Modals/AddOrEditSectionModal.jsx';
+import EditSectionModal from '../../containers/modals/AddOrEditSectionModalContainer.jsx';
 import DeleteSectionModal from '../Modals/DeleteSectionModal.jsx';
 
 const defaultProps = {
