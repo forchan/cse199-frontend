@@ -26,3 +26,7 @@ export const validateResponseString = response => {
   // defaults to false
   return false;
 };
+
+export const upperCaseFirstLetterOnly = str => {
+  return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+};
