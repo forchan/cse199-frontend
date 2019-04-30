@@ -12,8 +12,7 @@ import { replaceIfNull, isNullOrEmpty } from '../../utils/StringUtils.js';
 import { DEFAULT_IMAGE_PATH } from '../../constants/InstructorConstants.js';
 
 const propTypes = {
-  instructor: PropTypes.object.isRequired,
-  officeHour: PropTypes.object
+  instructor: PropTypes.object.isRequired
 };
 
 const ModuleInstructorCard = ({ instructor }) => {
@@ -39,11 +38,7 @@ const ModuleInstructorCard = ({ instructor }) => {
         <CardSubtitle>
           <b>Email:</b> {replaceIfNull(instructor.instructor_contact, "N/A")}
         </CardSubtitle>
-        <Button
-          className="float-right"
-          onClick={() => alert('o')}
-          disabled
-        >
+        <Button className="float-right" onClick={() => alert('o')} disabled>
           Delete
         </Button>
       </CardBody>

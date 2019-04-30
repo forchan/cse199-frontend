@@ -46,7 +46,7 @@ const RecitationStaffModal = ({
         <ModalBody>
           <CardDeck>
             {staff.map(eachStaff => {
-              return <SectionInstructorCard instructor={eachStaff} key={eachStaff.instructor_id} />;
+              return <SectionInstructorCard instructor={eachStaff} section={section} key={eachStaff.instructor_id} />;
             })}
           </CardDeck>
         </ModalBody>

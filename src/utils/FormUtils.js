@@ -10,7 +10,8 @@ import {
   POST_INSTRUCTOR,
   POST_MATERIAL,
   POST_SECTION,
-  DELETE_MATERIALS_FROM_MODULE
+  DELETE_MATERIALS_FROM_MODULE,
+  DELETE_INSTRUCTOR_FROM_SECTION
 } from '../constants/ApiConstants.js';
 
 /* ============================ Instructor Forms ============================ */
@@ -68,6 +69,14 @@ export const prepareAddInstructorToSectionForm = (instructorId, sectionId, start
   };
   return formToSubmit;
 }
+
+export const prepareDeleteInstructorFromSectionForm = sectionInstructor => {
+  const formToSubmit = {
+    action: DELETE_INSTRUCTOR_FROM_SECTION,
+    siid: sectionInstructor.si_id
+  };
+  return formToSubmit;
+};
 
 
 /* =========================== Announcement Forms =========================== */

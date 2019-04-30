@@ -33,3 +33,4 @@ export const ADD_MATERIAL_TO_MODULE = 'addMaterialsToModule';
 
 // DELETE related constants
 export const DELETE_MATERIALS_FROM_MODULE = 'deleteMaterialsFromModule';
+export const DELETE_INSTRUCTOR_FROM_SECTION = 'deleteInstructorFromSection';
