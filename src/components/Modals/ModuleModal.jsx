@@ -20,7 +20,7 @@ import {
   CardDeck
 } from 'reactstrap';
 import MaterialCard from '../Cards/MaterialCard.jsx';
-import SectionInstructorCard from '../Cards/SectionInstructorCard.jsx';
+import ModuleInstructorCard from '../Cards/ModuleInstructorCard.jsx';
 import AddMaterialModal from '../../containers/modals/AddOrEditMaterialModalContainer.jsx';
 import AddStaffToModuleModal from '../../containers/modals/AddStaffToModuleModalContainer.jsx';
 import { prettyFormatDate } from '../../utils/ScheduleUtils.js';
@@ -198,7 +198,7 @@ const ModuleModal = ({
             <TabPane tabId="4">
               <CardDeck>
                 {lectureStaff.map(staffMember => {
-                  return <SectionInstructorCard instructor={staffMember} key={staffMember.instructor_id} />;
+                  return <ModuleInstructorCard instructor={staffMember} key={staffMember.instructor_id} />;
                 })}
               </CardDeck>
             </TabPane>
