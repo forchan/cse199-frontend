@@ -30,3 +30,6 @@ export const POST_SECTION = 'addOrEditSection';
 export const ADD_INSTRUCTOR_TO_MODULE = 'addInstructorToModule';
 export const ADD_INSTRUCTOR_TO_SECTION = 'addInstructorToSection';
 export const ADD_MATERIAL_TO_MODULE = 'addMaterialsToModule';
+
+// DELETE related constants
+export const DELETE_MATERIALS_FROM_MODULE = 'deleteMaterialsFromModule';

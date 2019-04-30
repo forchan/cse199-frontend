@@ -8,13 +8,14 @@ import {
   CardLink
 } from 'reactstrap';
 import EditMaterialModal from '../../containers/modals/AddOrEditMaterialModalContainer.jsx';
-import DeleteMaterialModal from '../Modals/DeleteMaterialModal.jsx';
+import DeleteMaterialModal from '../../containers/modals/DeleteMaterialModalContainer.jsx';
 
 const propTypes = {
-  material: PropTypes.object.isRequired
+  material: PropTypes.object.isRequired,
+  openedModule: PropTypes.object.isRequired
 };
 
-const MaterialCard = ({ material }) => {
+const MaterialCard = ({ material, openedModule }) => {
   const [editMaterialModal, setEditModal] = useState(false);
   const [deleteMaterialModal, setDeleteModal] = useState(false);
   const toggleEditModal = () => setEditModal(!editMaterialModal);
@@ -34,6 +35,7 @@ const MaterialCard = ({ material }) => {
           isOpen={deleteMaterialModal}
           toggle={toggleDeleteModal}
           material={material}
+          openedModule={openedModule}
         />
       }
       <Card>

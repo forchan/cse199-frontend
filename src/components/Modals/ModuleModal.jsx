@@ -162,7 +162,7 @@ const ModuleModal = ({
                 ))
                 .map((activity, index) => {
                   return (
-                    <MaterialCard key={index} material={activity} />
+                    <MaterialCard key={index} material={activity} openedModule={openedModule} />
                   )
                 })
               }
@@ -176,7 +176,7 @@ const ModuleModal = ({
                 ))
                 .map((lectureNote, index) => {
                   return (
-                    <MaterialCard key={index} material={lectureNote} />
+                    <MaterialCard key={index} material={lectureNote} openedModule={openedModule} />
                   )
                 })
               }
@@ -190,7 +190,7 @@ const ModuleModal = ({
                 ))
                 .map((assignment, index) => {
                   return (
-                    <MaterialCard key={index} material={assignment} />
+                    <MaterialCard key={index} material={assignment} openedModule={openedModule} />
                   )
                 })
               }

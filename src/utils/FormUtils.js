@@ -9,7 +9,8 @@ import {
   ADD_MATERIAL_TO_MODULE,
   POST_INSTRUCTOR,
   POST_MATERIAL,
-  POST_SECTION
+  POST_SECTION,
+  DELETE_MATERIALS_FROM_MODULE
 } from '../constants/ApiConstants.js';
 
 /* ============================ Instructor Forms ============================ */
@@ -117,6 +118,17 @@ export const prepareAddMaterialToModuleForm = detailsObject => {
     description: detailsObject.materialDescription,
     materialsformat: detailsObject.materialFormat,
     duedate: detailsObject.materialDueDate
+  };
+  return formToSubmit;
+};
+
+export const prepareDeleteMaterialsFromModuleForm = detailsObject => {
+  const formToSubmit = {
+    action: DELETE_MATERIALS_FROM_MODULE,
+    modulename: detailsObject.moduleName,
+    courseid: detailsObject.courseId,
+    title: detailsObject.materialTitle,
+    materialstype: detailsObject.materialType
   };
   return formToSubmit;
 };
