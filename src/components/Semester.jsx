@@ -16,6 +16,7 @@ import {
   Col,
   Input
 } from 'reactstrap';
+import { upperCaseFirstLetterOnly } from '../utils/StringUtils.js';
 
 const propTypes = {
   semesters: PropTypes.array.isRequired
@@ -61,7 +62,24 @@ const Semester = ({ semesters }) => {
               <FormGroup row>
                 <Label for="selectSemester" sm={3}>Select Semester</Label>
                 <Col sm={9}>
-                  <Input type="select" name="selectSemester" id="selectSemester" />
+                  <Input
+                    type="select"
+                    name="selectSemester"
+                    id="selectSemester"
+                  >
+                    <option></option>
+                    {semesters.map(semester => {
+                      return (
+                        <option key={semester.course_id}>
+                          {semester.course_department}{' '}
+                          {semester.course_number} -{' '}
+                          {semester.course_name} -{' '}
+                          {upperCaseFirstLetterOnly(semester.course_semester)}{' '}
+                          {semester.course_year}
+                        </option>
+                      );
+                    })}
+                  </Input>
                 </Col>
               </FormGroup>
               <Button className="float-right">Switch</Button>

@@ -1,5 +1,5 @@
 import { loadCourseList } from '../utils/ApiHelperUtils.js';
-import { COURSE_NUMBER } from '../constants/CourseNumber.js';
+import { COURSE_NUMBER } from '../constants/CourseConstants.js';
 export const SET_COURSE_DATES = '#setCourseDates';
 export const SET_SEMESTERS = '#setSemesters';
 
