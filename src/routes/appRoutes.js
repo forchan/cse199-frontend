@@ -1,11 +1,11 @@
 // Container Components
 import Announcements from '../containers/AnnouncementsContainer.jsx';
 import Schedule from '../containers/ScheduleContainer.jsx';
+import Semester from '../containers/SemesterContainer.jsx';
 import Team from '../containers/TeamContainer.jsx';
 // Regular Components
 import CreateReactApp from '../components/CreateReactApp.jsx';
 import Home from '../components/Home.jsx';
-import Semester from '../components/Semester.jsx';
 
 const appRoutes = [
   {

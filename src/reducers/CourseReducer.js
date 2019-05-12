@@ -1,6 +1,10 @@
-import { SET_COURSE_DATES } from '../actions/CourseActions.js';
+import {
+  SET_COURSE_DATES,
+  SET_SEMESTERS
+} from '../actions/CourseActions.js';
 
 const initialCourseState = ({
+  semesters: [],
   courseId: '99',
   courseSemester: 'Fall',
   courseYear: '2018',
@@ -19,6 +23,11 @@ const courseReducer = (state = initialCourseState, action) => {
         ...state,
         startDate: action.startDate,
         endDate: action.endDate
+      };
+    case SET_SEMESTERS:
+      return {
+        ...state,
+        semesters: action.semesters
       };
     default:
       return state;

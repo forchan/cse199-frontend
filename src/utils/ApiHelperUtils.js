@@ -16,7 +16,8 @@ import {
   GET_OFFICE_HOURS,
   GET_LECTURE_NOTES,
   GET_SECTION_GROUPS,
-  GET_COURSE_INSTRUCTORS
+  GET_COURSE_INSTRUCTORS,
+  GET_COURSE_LIST
 } from '../constants/ApiConstants.js';
 
 export const loadActivities = async (courseId) => {
@@ -129,4 +130,9 @@ export const loadCourseInstructors = async (courseId, sectionGroupId) => {
     sectionGroupId: sectionGroupId
   });
   return (data && data.instructors) ? data.instructors : [];
+};
+
+export const loadCourseList = async () => {
+  const { data } = await getApiStuff({ action: GET_COURSE_LIST });
+  return (data && data.courses) ? data.courses : [];
 };
