@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import {
   TabContent,
   TabPane,
@@ -8,7 +9,6 @@ import {
   NavLink,
   UncontrolledTooltip
 } from 'reactstrap';
-import classnames from 'classnames';
 import AnnouncementCard from './Cards/AnnouncementCard.jsx';
 import SendAnnouncementModal from '../containers/modals/AddOrEditAnnouncementModalContainer.jsx';
 import { isNullOrEmpty } from '../utils/StringUtils.js';

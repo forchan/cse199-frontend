@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import {
   TabContent,
   TabPane,
@@ -8,7 +9,6 @@ import {
   NavLink,
   CardDeck
 } from 'reactstrap';
-import classnames from 'classnames';
 import InstructorCard from './Cards/InstructorCard.jsx';
 import AddInstructorModal from '../containers/modals/AddOrEditInstructorModalContainer.jsx';
 import { INSTRUCTOR, TA } from '../constants/InstructorConstants.js';
@@ -26,7 +26,7 @@ const Team = ({ instructors, officeHours, courseId, reloadInstructors }) => {
     if (activeTab !== tab) {
       setTab(tab);
     }
-  }
+  };
 
   const officeHourMap = new Map();
   const instructorCards = [];
