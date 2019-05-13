@@ -65,7 +65,6 @@ const loadGeneralContent = courseId => async (dispatch) => {
     officeHours,
     sectionGroups
   };
-  dispatch(loadSemesters());
   dispatch(setGeneralContent(contentObject));
   dispatch(setCourseDates(startDate, endDate));
   dispatch(loadAllSectionGroupInstructors(courseId, sectionGroups));
@@ -93,7 +92,9 @@ const loadScheduleContent = courseId => async (dispatch) => {
   dispatch(setScheduleContent(contentObject));
 };
 
+// this one is the all mighty function, it loads - everything -
 export const loadAllContent = courseId => async (dispatch) => {
+  dispatch(loadSemesters());
   dispatch(loadGeneralContent(courseId));
   dispatch(loadScheduleContent(courseId));
 };

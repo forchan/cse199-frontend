@@ -2,6 +2,7 @@ import { loadCourseList } from '../utils/ApiHelperUtils.js';
 import { COURSE_NUMBER } from '../constants/CourseConstants.js';
 export const SET_COURSE_DATES = '#setCourseDates';
 export const SET_SEMESTERS = '#setSemesters';
+export const SET_COURSE_DETAILS = '#setCourseDetails';
 
 export const setCourseDates = (startDate, endDate) => ({
   type: SET_COURSE_DATES,
@@ -21,3 +22,10 @@ export const loadSemesters = () => async (dispatch) => {
   ));
   dispatch(setSemesters(cse199Semesters));
 };
+
+export const setCourseDetails = (courseId, courseYear, courseSemester) => ({
+  type: SET_COURSE_DETAILS,
+  courseId,
+  courseYear,
+  courseSemester
+});

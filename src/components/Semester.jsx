@@ -16,13 +16,31 @@ import {
   Col,
   Input
 } from 'reactstrap';
-import { upperCaseFirstLetterOnly } from '../utils/StringUtils.js';
+import {
+  displayNotification,
+  SUCCESS,
+  WARNING
+} from '../utils/NotificationUtils.js';
+import { upperCaseFirstLetterOnly, isNullOrEmpty } from '../utils/StringUtils.js';
 
 const propTypes = {
-  semesters: PropTypes.array.isRequired
+  semesters: PropTypes.array.isRequired,
+  courseId: PropTypes.string.isRequired,
+  courseYear: PropTypes.string.isRequired,
+  courseSemester: PropTypes.string.isRequired,
+  setCourseDetails: PropTypes.func.isRequired,
+  loadAllContent: PropTypes.func.isRequired
 };
 
-const Semester = ({ semesters }) => {
+const Semester = ({
+  semesters,
+  courseId,
+  courseYear,
+  courseSemester,
+  setCourseDetails,
+  loadAllContent
+}) => {
+  const [selectedSemesterId, setSelectedSemesterId] = useState('');
   const [createNewModal, setModal] = useState(false);
   const [activeTab, setTab] = useState('1');
   const toggleModal = () => setModal(!createNewModal);
@@ -30,6 +48,24 @@ const Semester = ({ semesters }) => {
     if (activeTab !== tab) {
       setTab(tab);
     }
+  };
+  const switchSemester = async () => {
+    if (isNullOrEmpty(selectedSemesterId)) {
+      displayNotification('You did not select a semester', WARNING);
+      return;
+    }
+    if (selectedSemesterId === courseId) {
+      displayNotification('You are already viewing the selected semester', WARNING);
+      return;
+    }
+    const selectedSemesterObjectInArray = semesters.filter(semester => (
+      semester.course_id === selectedSemesterId
+    ));
+    const selectedSemesterObject = selectedSemesterObjectInArray[0];
+    const { course_year, course_semester } = selectedSemesterObject;
+    loadAllContent(selectedSemesterId);
+    setCourseDetails(selectedSemesterId, course_year, course_semester);
+    displayNotification('Semester switched!', SUCCESS);
   };
 
   return (
@@ -56,7 +92,10 @@ const Semester = ({ semesters }) => {
           <Card style={{ width: '550px' }}>
             <CardBody>
               <CardTitle>
-                <b>Currently Selected</b>
+                <b>
+                  Currently Viewing {' '}
+                </b>
+                [ {upperCaseFirstLetterOnly(courseSemester)} {courseYear} ]
               </CardTitle>
               &nbsp;
               <FormGroup row>
@@ -66,11 +105,13 @@ const Semester = ({ semesters }) => {
                     type="select"
                     name="selectSemester"
                     id="selectSemester"
+                    value={selectedSemesterId}
+                    onChange={e => setSelectedSemesterId(e.target.value)}
                   >
                     <option></option>
                     {semesters.map(semester => {
                       return (
-                        <option key={semester.course_id}>
+                        <option key={semester.course_id} value={semester.course_id}>
                           {semester.course_department}{' '}
                           {semester.course_number} -{' '}
                           {semester.course_name} -{' '}
@@ -82,7 +123,7 @@ const Semester = ({ semesters }) => {
                   </Input>
                 </Col>
               </FormGroup>
-              <Button className="float-right">Switch</Button>
+              <Button className="float-right" onClick={switchSemester}>Switch</Button>
             </CardBody>
           </Card>
         </TabPane>
