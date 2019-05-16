@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import CreateSemesterModal from './Modals/CreateSemesterModal.jsx';
+import CreateSemesterModal from '../containers/modals/CreateSemesterModalContainer.jsx';
 import {
   Button,
   Card,

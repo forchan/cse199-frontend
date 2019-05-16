@@ -20,7 +20,8 @@ import {
 } from '../../utils/NotificationUtils.js';
 import {
   validateResponseString,
-  replaceIfNull
+  replaceIfNull,
+  isNullOrEmpty
 } from '../../utils/StringUtils.js';
 import { getCurrentYear, getNextYears } from '../../utils/DateUtils.js';
 import {
@@ -32,12 +33,14 @@ import {
 
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired
+  toggle: PropTypes.func.isRequired,
+  semesters: PropTypes.array.isRequired
 };
 
 const CreateSemesterModal = ({
   isOpen,
-  toggle
+  toggle,
+  semesters
 }) => {
   const [courseDept, setCourseDept] = useState(COURSE_DEPARTMENT);
   const [courseNumber, setCourseNumber] = useState(COURSE_NUMBER);
@@ -47,6 +50,41 @@ const CreateSemesterModal = ({
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [holidayWeek, setHolidayWeek] = useState('');
+  const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
+  const [semesterExistsPrompt, setSemesterExistsPrompt] = useState(false);
+
+  const validForm = () => {
+    if (isNullOrEmpty(startDate)
+      || isNullOrEmpty(endDate)
+      || isNullOrEmpty(holidayWeek)
+      || isNullOrEmpty(courseName)) {
+        setDisplayRequiredPrompt(true);
+        setSemesterExistsPrompt(false);
+      return false;
+    }
+    let semesterExists = false;
+    semesters.forEach(semester => {
+      if (semester.course_number === courseNumber
+        && semester.course_department === courseDept
+        && semester.course_semester === courseSemester
+        && semester.course_year === courseYear) {
+          semesterExists = true;
+          setSemesterExistsPrompt(true);
+          setDisplayRequiredPrompt(false);
+        }
+    });
+    if (semesterExists) {
+      return false;
+    }
+    setDisplayRequiredPrompt(false);
+    setSemesterExistsPrompt(false);
+    return true;
+  };
+
+  const createSemester = async () => {
+    if (!validForm()) return;
+
+  };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="md">
@@ -54,6 +92,12 @@ const CreateSemesterModal = ({
         Create Semester
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
+        {(displayRequiredPrompt) &&
+          <p className="text-danger">Missing required* inputs</p>
+        }
+        {(semesterExistsPrompt) &&
+          <p className="text-danger">This semester already exists* check semester/year</p>
+        }
         <Form>
           <Row form>
             <Col sm={3}>
@@ -121,7 +165,7 @@ const CreateSemesterModal = ({
           <Row form>
             <Col>
               <FormGroup>
-                <Label for="materialType">Course Name</Label>
+                <Label for="materialType">Course Name*</Label>
                 <Input
                   type="text"
                   name="courseName"
@@ -136,7 +180,7 @@ const CreateSemesterModal = ({
           <Row form>
             <Col sm={4}>
               <FormGroup>
-                <Label for="materialType">Start Date</Label>
+                <Label for="materialType">Start Date*</Label>
                 <Input
                   type="date"
                   name="startDate"
@@ -148,7 +192,7 @@ const CreateSemesterModal = ({
             </Col>
             <Col sm={4}>
               <FormGroup>
-                <Label for="materialType">End Date</Label>
+                <Label for="materialType">End Date*</Label>
                 <Input
                   type="date"
                   name="endDate"
@@ -160,7 +204,7 @@ const CreateSemesterModal = ({
             </Col>
             <Col md={4}>
               <FormGroup>
-                <Label for="format">Holiday Week</Label>
+                <Label for="format">Holiday Week*</Label>
                 <Input
                   type="date"
                   name="holidayWeek"
@@ -174,7 +218,7 @@ const CreateSemesterModal = ({
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={toggle}>Create</Button>{' '}
+        <Button color="primary" onClick={createSemester}>Create</Button>{' '}
         <Button color="secondary" onClick={toggle}>Cancel</Button>
       </ModalFooter>
     </Modal>
