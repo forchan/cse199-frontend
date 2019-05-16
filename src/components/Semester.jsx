@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import CreateSemesterModal from './Modals/CreateSemesterModal.jsx';
 import {
   Button,
   Card,
@@ -70,6 +71,10 @@ const Semester = ({
 
   return (
     <div className="content">
+      <CreateSemesterModal
+        isOpen={createNewModal}
+        toggle={toggleModal}
+      />
       <Nav tabs>
         <NavItem>
           <NavLink
