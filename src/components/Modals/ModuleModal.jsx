@@ -12,17 +12,13 @@ import {
   NavItem,
   NavLink,
   Button,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
   CardDeck
 } from 'reactstrap';
 import MaterialCard from '../Cards/MaterialCard.jsx';
 import ModuleInstructorCard from '../Cards/ModuleInstructorCard.jsx';
 import AddMaterialModal from '../../containers/modals/AddOrEditMaterialModalContainer.jsx';
 import AddStaffToModuleModal from '../../containers/modals/AddStaffToModuleModalContainer.jsx';
+import AddOrEditModuleModal from './AddOrEditModuleModal.jsx';
 import { prettyFormatDate } from '../../utils/ScheduleUtils.js';
 import { getLectureStaff } from '../../utils/SectionInstructorUtils.js';
 
@@ -30,6 +26,7 @@ const propTypes = {
   isOpen:  PropTypes.bool.isRequired,
   toggleClose: PropTypes.func.isRequired,
   headerTextColor: PropTypes.string.isRequired,
+  moduleOffsetNumber: PropTypes.string.isRequired,
   openedModule: PropTypes.object,
   sectionGroup: PropTypes.object.isRequired,
   activities: PropTypes.array.isRequired,
@@ -43,6 +40,7 @@ const ModuleModal = ({
   isOpen,
   toggleClose,
   headerTextColor,
+  moduleOffsetNumber,
   openedModule,
   sectionGroup,
   activities,
@@ -65,25 +63,12 @@ const ModuleModal = ({
   // if the module passed in is undefined, we need to create a new one
   if (openedModule === undefined) {
     return (
-      <Modal isOpen={isOpen} toggle={toggleClose} size="md">
-        <ModalHeader className={headerTextColor} toggle={toggleClose}>
-          No module, add one?
-        </ModalHeader>
-        <ModalBody style={{ height: 'auto' }}>
-          <Form>
-            <FormGroup row>
-              <Label for="moduleName" sm={3}><b>Module name</b></Label>
-              <Col sm={9}>
-                <Input type="text" name="moduleName" id="moduleName" placeholder="Enter name" autoFocus />
-              </Col>
-            </FormGroup>
-          </Form>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={toggleClose}>Add</Button>{' '}
-          <Button color="secondary" onClick={toggleClose}>Cancel</Button>
-        </ModalFooter>
-      </Modal>
+      <AddOrEditModuleModal
+        isOpen={isOpen}
+        toggleClose={toggleClose}
+        moduleOffsetNumber={moduleOffsetNumber}
+        headerTextColor={headerTextColor}
+      />
     );
   }
 

@@ -34,10 +34,11 @@ class Schedule extends Component {
     moduleModal: false,
     openedModule: {}, // this is the target module that the module-modal opens, also "module" is reserved for webpack use I think
     moduleModalHeaderTextColor: '', // determines the header color of the modal
+    moduleOffsetNumber: '',
     sectionModal: false,
     sectionGroup: {} // this is the target section group the section modal and intro module needs
   };
-  openModuleModalWithValues = (openedModule, textColor, sectionGroup = {}) => {
+  openModuleModalWithValues = (openedModule, offsetNumber, textColor, sectionGroup = {}) => {
     /* intro module needs the sectionGroup, because intro modules section group
      * is null. By passing a section group to every intro module at every row
      * we can use it filter out which are the lecture section instructors
@@ -46,6 +47,7 @@ class Schedule extends Component {
       moduleModal: !prevState.moduleModal,
       openedModule: openedModule, // this sets the target module
       sectionGroup: sectionGroup,
+      moduleOffsetNumber: offsetNumber,
       moduleModalHeaderTextColor: textColor
     }));
   };
@@ -54,6 +56,7 @@ class Schedule extends Component {
       moduleModal: !prevState.moduleModal,
       openedModule: {},
       sectionGroup: {},
+      moduleOffsetNumber: '',
       modulemoduleModalHeaderTextColor: ''
     }));
   };
@@ -83,6 +86,7 @@ class Schedule extends Component {
       moduleModal,
       sectionGroup,
       openedModule,
+      moduleOffsetNumber,
       moduleModalHeaderTextColor
     } = this.state;
     const {
@@ -108,6 +112,7 @@ class Schedule extends Component {
           isOpen={moduleModal}
           toggleClose={this.closeModuleModal}
           headerTextColor={moduleModalHeaderTextColor}
+          moduleOffsetNumber={moduleOffsetNumber}
           openedModule={openedModule}
           sectionGroup={sectionGroup}
           activities={activities}
@@ -142,7 +147,8 @@ class Schedule extends Component {
             </thead>
             <tbody>
               {sectionGroups.map((sectionGroup, rowIndex) => {
-                let introModule = moduleMap.get(INTRO_MODULE); // undefined if no module
+                const introModule = moduleMap.get(INTRO_MODULE); // undefined if no module
+
                 return (
                   <tr key={rowIndex}>
                     <th scope="row" onClick={() => this.openSectionModalWithValues(sectionGroup)}>
@@ -150,19 +156,21 @@ class Schedule extends Component {
                     </th>
                     <td
                       className={INTRO_MODULE_TEXT_COLOR}
-                      onClick={() => { this.openModuleModalWithValues(introModule, INTRO_MODULE_TEXT_COLOR, sectionGroup) }}
+                      onClick={() => this.openModuleModalWithValues(introModule, '0', INTRO_MODULE_TEXT_COLOR, sectionGroup)}
                     >
                       {(introModule) ? introModule.text : EMPTY}
                     </td>
                     {ROTATING_COLUMNS.map((columnNumber, colIndex) => {
-                      let moduleTextColor = TEXT_COLORS[(6 + parseInt(colIndex) - parseInt(rowIndex)) % 6];
+                      const moduleOffsetNumber = 1 + ((6 + parseInt(colIndex) - parseInt(rowIndex)) % 6);
+                      const moduleTextColor = TEXT_COLORS[moduleOffsetNumber - 1]; // minus 1 since array index starts at 0
                       // undefined if no module
-                      let openedModule = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber));
+                      const openedModule = moduleMap.get(joinValuesAsKey(sectionGroup.sg_id, columnNumber));
+
                       return (
                         <td
                           key={colIndex}
                           className={moduleTextColor}
-                          onClick={() => this.openModuleModalWithValues(openedModule, moduleTextColor)}
+                          onClick={() => this.openModuleModalWithValues(openedModule, (moduleOffsetNumber).toString(), moduleTextColor)}
                         >
                           {(openedModule) ? openedModule.text : EMPTY}
                         </td>
