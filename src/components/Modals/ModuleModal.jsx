@@ -62,16 +62,6 @@ const ModuleModal = ({
     }
   };
 
-  const sectionGroupId = (openedModule.section_group_id)
-    ? openedModule.section_group_id
-    : sectionGroup.sg_id;
-  const lectureStaff = getLectureStaff(
-    allSectionInstructors,
-    sectionGroupId,
-    openedModule.date_start,
-    openedModule.date_end
-  );
-
   // if the module passed in is undefined, we need to create a new one
   if (openedModule === undefined) {
     return (
@@ -96,6 +86,17 @@ const ModuleModal = ({
       </Modal>
     );
   }
+
+  // if the module exists, we can get this data
+  const sectionGroupId = (openedModule.section_group_id)
+    ? openedModule.section_group_id
+    : sectionGroup.sg_id;
+  const lectureStaff = getLectureStaff(
+    allSectionInstructors,
+    sectionGroupId,
+    openedModule.date_start,
+    openedModule.date_end
+  );
 
   // return module content if the module exists
   return (
