@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import EditInstructorModal from '../../containers/modals/AddOrEditInstructorModalContainer.jsx';
 import DeleteInstructorModal from '../../containers/modals/DeleteInstructorModalContainer.jsx';
+import AddOrEditOfficeHoursModal from '../Modals/AddOrEditOfficeHoursModal.jsx';
 import { replaceIfNull, isNullOrEmpty } from '../../utils/StringUtils.js';
 import { DEFAULT_IMAGE_PATH } from '../../constants/InstructorConstants.js';
 
@@ -22,8 +23,10 @@ const propTypes = {
 const InstructorCard = ({ instructor, officeHour }) => {
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [officeHoursModal, setOfficeHoursModal] = useState(false);
   const toggleEditModal = () => setEditModal(!editModal);
   const toggleDeleteModal = () => setDeleteModal(!deleteModal);
+  const toggleOfficeHoursModal = () => setOfficeHoursModal(!officeHoursModal);
 
   const image = (isNullOrEmpty(instructor.instructor_picture_url))
     ? DEFAULT_IMAGE_PATH
@@ -44,6 +47,12 @@ const InstructorCard = ({ instructor, officeHour }) => {
           instructor={instructor}
           isOpen={deleteModal}
           toggle={toggleDeleteModal}
+        />
+      }
+      {(officeHoursModal) &&
+        <AddOrEditOfficeHoursModal
+          isOpen={officeHoursModal}
+          toggle={toggleOfficeHoursModal}
         />
       }
       <Card className="instructor-card">
@@ -90,6 +99,12 @@ const InstructorCard = ({ instructor, officeHour }) => {
             onClick={toggleEditModal}
           >
             Edit
+          </Button>
+          <Button
+            className="float-right"
+            onClick={toggleOfficeHoursModal}
+          >
+            Office
           </Button>
         </CardBody>
       </Card>
