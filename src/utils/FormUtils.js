@@ -7,6 +7,7 @@ import {
   ADD_INSTRUCTOR_TO_SECTION,
   ADD_INSTRUCTOR_TO_MODULE,
   ADD_MATERIAL_TO_MODULE,
+  CREATE_SEMESTER_AND_DETAILS,
   POST_INSTRUCTOR,
   POST_MATERIAL,
   POST_SECTION,
@@ -170,6 +171,23 @@ export const prepareDeleteSectionForm = section => {
   	sectiontime: section.section_time,
   	sectiontype: deletedSection,
   	sectionlocation: section.section_location,
+  };
+  return formToSubmit;
+};
+
+/* ============================= Semester Forms ============================= */
+
+export const prepareCreateSemesterForm = detailsObject => {
+  const formToSubmit = {
+    action: CREATE_SEMESTER_AND_DETAILS,
+    coursenumber: detailsObject.courseNumber,
+    coursename: detailsObject.courseName,
+    coursedepartment: detailsObject.courseDept,
+    coursesemester: detailsObject.courseSemester,
+    courseyear: detailsObject.courseYear,
+    datestart: detailsObject.startDate,
+    dateend: detailsObject.endDate,
+    duedate: detailsObject.holidayWeek
   };
   return formToSubmit;
 };

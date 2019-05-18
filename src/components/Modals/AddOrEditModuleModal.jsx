@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -27,18 +27,27 @@ const AddOrEditModuleModal = ({
   moduleOffsetNumber
 }) => {
   const edit = false; // still needs to implement the edit portion of this
+  const [moduleName, setModuleName] = useState('');
 
   return (
-    <Modal isOpen={isOpen} toggle={toggleClose} size="md">
+    <Modal isOpen={isOpen} toggle={toggleClose} size="md" autoFocus={false}>
       <ModalHeader className={headerTextColor} toggle={toggleClose}>
         No module, add one?
       </ModalHeader>
       <ModalBody style={{ height: 'auto' }}>
-        <Form>
+        <Form onSubmit={e => e.preventDefault()}>
           <FormGroup row>
             <Label for="moduleName" sm={3}><b>Module name</b></Label>
             <Col sm={9}>
-              <Input type="text" name="moduleName" id="moduleName" placeholder="Enter name" autoFocus />
+              <Input
+                type="text"
+                name="moduleName"
+                id="moduleName"
+                placeholder="Enter module name"
+                value={moduleName}
+                onChange={e => setModuleName(e.target.value)}
+                autoFocus
+              />
             </Col>
           </FormGroup>
         </Form>

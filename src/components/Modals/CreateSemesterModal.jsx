@@ -23,7 +23,10 @@ import {
   replaceIfNull,
   isNullOrEmpty
 } from '../../utils/StringUtils.js';
-import { getCurrentYear, getNextYears } from '../../utils/DateUtils.js';
+import { getNextYears } from '../../utils/DateUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
+import { prepareCreateSemesterForm } from '../../utils/FormUtils.js';
+import { API_SECTION_URL } from '../../constants/ApiConstants.js';
 import {
   COURSE_NAME,
   COURSE_NUMBER,
@@ -34,32 +37,37 @@ import {
 const propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  semesters: PropTypes.array.isRequired
+  semesters: PropTypes.array.isRequired,
+  loadSemesters: PropTypes.func.isRequired
 };
 
 const CreateSemesterModal = ({
   isOpen,
   toggle,
-  semesters
+  semesters,
+  loadSemesters
 }) => {
   const [courseDept, setCourseDept] = useState(COURSE_DEPARTMENT);
   const [courseNumber, setCourseNumber] = useState(COURSE_NUMBER);
   const [courseSemester, setCourseSemester] = useState(COURSE_SEMESTERS[0]);
-  const [courseYear, setCourseYear] = useState(getCurrentYear());
+  const [courseYear, setCourseYear] = useState('');
   const [courseName, setCourseName] = useState(COURSE_NAME);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [holidayWeek, setHolidayWeek] = useState('');
   const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
   const [semesterExistsPrompt, setSemesterExistsPrompt] = useState(false);
+  const [checkDates, setCheckDates] = useState(false);
 
   const validForm = () => {
     if (isNullOrEmpty(startDate)
       || isNullOrEmpty(endDate)
       || isNullOrEmpty(holidayWeek)
-      || isNullOrEmpty(courseName)) {
+      || isNullOrEmpty(courseName)
+      || isNullOrEmpty(courseYear)) {
         setDisplayRequiredPrompt(true);
         setSemesterExistsPrompt(false);
+        setCheckDates(false);
       return false;
     }
     let semesterExists = false;
@@ -71,19 +79,43 @@ const CreateSemesterModal = ({
           semesterExists = true;
           setSemesterExistsPrompt(true);
           setDisplayRequiredPrompt(false);
+          setCheckDates(false);
         }
     });
     if (semesterExists) {
       return false;
     }
+    if (startDate > holidayWeek || holidayWeek > endDate) {
+      setDisplayRequiredPrompt(false);
+      setSemesterExistsPrompt(false);
+      setCheckDates(true);
+      return false;
+    }
     setDisplayRequiredPrompt(false);
     setSemesterExistsPrompt(false);
+    setCheckDates(false);
     return true;
   };
 
   const createSemester = async () => {
     if (!validForm()) return;
-
+    const formToSubmit = prepareCreateSemesterForm({
+      courseDept,
+      courseNumber,
+      courseSemester,
+      courseYear,
+      courseName,
+      startDate,
+      endDate,
+      holidayWeek
+    });
+    const response = await postApiStuff(API_SECTION_URL, formToSubmit);
+    if (validateResponseString(response)) {
+      displayNotification('The course semester, course calendar, and section groups have been created! You can now switch to it.', SUCCESS);
+      loadSemesters();
+    } else {
+      displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
+    }
   };
 
   return (
@@ -92,11 +124,15 @@ const CreateSemesterModal = ({
         Create Semester
       </ModalHeader>
       <ModalBody className='normal-height-modal-body'>
+        <p className="text-secondary">* Be careful to double check dates, you can only undo them in the DB</p>
         {(displayRequiredPrompt) &&
           <p className="text-danger">Missing required* inputs</p>
         }
         {(semesterExistsPrompt) &&
-          <p className="text-danger">This semester already exists* check semester/year</p>
+          <p className="text-danger">This semester already exists* check semester and year</p>
+        }
+        {(checkDates) &&
+          <p className="text-danger">Dates* are not in chronological order</p>
         }
         <Form>
           <Row form>
@@ -146,7 +182,7 @@ const CreateSemesterModal = ({
             </Col>
             <Col md={3}>
               <FormGroup>
-                <Label for="format">Year</Label>
+                <Label for="format">Year*</Label>
                 <Input
                   type="select"
                   name="courseYear"
@@ -154,6 +190,7 @@ const CreateSemesterModal = ({
                   value={courseYear}
                   onChange={e => setCourseYear(e.target.value)}
                 >
+                  <option></option>
                   {getNextYears(5).map(year => {
                     return <option key={year}>{year}</option>
                   })}
@@ -180,7 +217,7 @@ const CreateSemesterModal = ({
           <Row form>
             <Col sm={4}>
               <FormGroup>
-                <Label for="materialType">Start Date*</Label>
+                <Label for="materialType"><b>Start</b> Date*</Label>
                 <Input
                   type="date"
                   name="startDate"
@@ -190,27 +227,27 @@ const CreateSemesterModal = ({
                 />
               </FormGroup>
             </Col>
-            <Col sm={4}>
-              <FormGroup>
-                <Label for="materialType">End Date*</Label>
-                <Input
-                  type="date"
-                  name="endDate"
-                  id="endDate"
-                  value={endDate}
-                  onChange={e => setEndDate(e.target.value)}
-                />
-              </FormGroup>
-            </Col>
             <Col md={4}>
               <FormGroup>
-                <Label for="format">Holiday Week*</Label>
+                <Label for="format"><b>Holiday</b> Week*</Label>
                 <Input
                   type="date"
                   name="holidayWeek"
                   id="holidayWeek"
                   value={holidayWeek}
                   onChange={e => setHolidayWeek(e.target.value)}
+                />
+              </FormGroup>
+            </Col>
+            <Col sm={4}>
+              <FormGroup>
+                <Label for="materialType"><b>End</b> Date*</Label>
+                <Input
+                  type="date"
+                  name="endDate"
+                  id="endDate"
+                  value={endDate}
+                  onChange={e => setEndDate(e.target.value)}
                 />
               </FormGroup>
             </Col>
