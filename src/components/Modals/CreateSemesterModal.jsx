@@ -113,6 +113,7 @@ const CreateSemesterModal = ({
     if (validateResponseString(response)) {
       displayNotification('The course semester, course calendar, and section groups have been created! You can now switch to it.', SUCCESS);
       loadSemesters();
+      toggle();
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
     }

@@ -1,12 +1,14 @@
 /* functions used to prepare forms to submit that match params passed to API */
 import { DELETED } from '../constants/DeleteConstant.js';
 import {
-  ANNOUNCEMENT
+  ANNOUNCEMENT,
+  MODULE_NAME
 } from '../constants/MaterialConstants.js';
 import {
   ADD_INSTRUCTOR_TO_SECTION,
   ADD_INSTRUCTOR_TO_MODULE,
   ADD_MATERIAL_TO_MODULE,
+  ADD_MODULE,
   CREATE_SEMESTER_AND_DETAILS,
   POST_INSTRUCTOR,
   POST_MATERIAL,
@@ -139,6 +141,19 @@ export const prepareDeleteMaterialsFromModuleForm = detailsObject => {
     courseid: detailsObject.courseId,
     title: detailsObject.materialTitle,
     materialstype: detailsObject.materialType
+  };
+  return formToSubmit;
+};
+
+/* ============================= Module Forms =============================== */
+
+export const prepareAddModuleForm = detailsObject => {
+  const formToSubmit = {
+    action: ADD_MODULE,
+    materialstype: MODULE_NAME,
+    courseid: detailsObject.courseId,
+    offset: detailsObject.moduleOffsetNumber,
+    text: detailsObject.moduleName
   };
   return formToSubmit;
 };

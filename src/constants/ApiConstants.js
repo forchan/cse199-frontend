@@ -31,6 +31,7 @@ export const POST_SECTION = 'addOrEditSection';
 export const ADD_INSTRUCTOR_TO_MODULE = 'addInstructorToModule';
 export const ADD_INSTRUCTOR_TO_SECTION = 'addInstructorToSection';
 export const ADD_MATERIAL_TO_MODULE = 'addMaterialsToModule';
+export const ADD_MODULE = 'addModule';
 export const CREATE_SEMESTER_AND_DETAILS = 'createCourseAndCalendarAndSectionGroups';
 
 // DELETE related constants

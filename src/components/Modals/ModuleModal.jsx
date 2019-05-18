@@ -18,7 +18,7 @@ import MaterialCard from '../Cards/MaterialCard.jsx';
 import ModuleInstructorCard from '../Cards/ModuleInstructorCard.jsx';
 import AddMaterialModal from '../../containers/modals/AddOrEditMaterialModalContainer.jsx';
 import AddStaffToModuleModal from '../../containers/modals/AddStaffToModuleModalContainer.jsx';
-import AddOrEditModuleModal from './AddOrEditModuleModal.jsx';
+import AddOrEditModuleModal from '../../containers/modals/AddOrEditModuleModalContainer.jsx';
 import { prettyFormatDate } from '../../utils/ScheduleUtils.js';
 import { getLectureStaff } from '../../utils/SectionInstructorUtils.js';
 

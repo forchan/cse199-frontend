@@ -35,6 +35,7 @@ export const SET_SCHEDULE_CONTENT = '#setScheduleContent';
 export const SET_INSTRUCTORS = '#setInstructors';
 export const SET_ANNOUNCEMENTS = '#setAnnouncements';
 export const SET_MATERIALS = '#setMaterials';
+export const SET_MODULES = '#setModules';
 export const SET_SECTIONS = '#setSections';
 
 
@@ -99,6 +100,8 @@ export const loadAllContent = courseId => async (dispatch) => {
   dispatch(loadScheduleContent(courseId));
 };
 
+// ====== Reload functions below, used for loading data after post calls ======
+
 const setInstructors = instructors => ({
   type: SET_INSTRUCTORS,
   instructors
@@ -146,4 +149,14 @@ const setSections = sections => ({
 export const reloadSections = courseId => async (dispatch) => {
   const sections = await loadSections(courseId);
   dispatch(setSections(sections));
+};
+
+const setModules = modules => ({
+  type: SET_MODULES,
+  modules
+});
+
+export const reloadModules = courseId => async (dispatch) => {
+  const modules = await loadModules(courseId);
+  dispatch(setModules(modules));
 };
