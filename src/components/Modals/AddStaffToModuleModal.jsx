@@ -81,8 +81,8 @@ const AddStaffToModuleModal = ({
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
 
     if (validateResponseString(response)) {
-      displayNotification('Staff added to module!', SUCCESS);
       loadAllSectionGroupInstructors(courseId, sectionGroups);
+      displayNotification('Staff added to module!', SUCCESS);
       closeModal();
     } else {
       let errorMessage = replaceIfNull(response, 'Unknown error');

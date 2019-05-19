@@ -44,8 +44,8 @@ const DeleteSectionInstructorModal = ({
     if (validateResponseString(response)) {
       const message = `${instructor.instructor_firstname} ${instructor.instructor_lastname}
         removed from section ${section.section_type} ${section.section_name}`;
-      displayNotification(message, SUCCESS);
       loadAllSectionGroupInstructors(courseId, sectionGroups);
+      displayNotification(message, SUCCESS);
       toggle();
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);

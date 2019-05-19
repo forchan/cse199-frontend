@@ -45,8 +45,8 @@ const DeleteAnnouncementModal = ({
   const validateResponse = response => {
     if (validateResponseString(response)) {
       const message = `Announcement "${announcement.title}" removed.`;
-      displayNotification(message, SUCCESS);
       reloadAnnouncements(courseId);
+      displayNotification(message, SUCCESS);
       toggle();
     } else {
       let errorMessage = replaceIfNull(response, 'Unknown error')

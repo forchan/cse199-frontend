@@ -32,8 +32,8 @@ const DeleteInstructorModal = ({ instructor, courseId, reloadInstructors, isOpen
   const validateResponse = response => {
     if (validateResponseString(response)) {
       const message = `${instructor.instructor_firstname} ${instructor.instructor_lastname} removed.`;
-      displayNotification(message, SUCCESS);
       reloadInstructors(courseId);
+      displayNotification(message, SUCCESS);
       toggle();
     } else {
       let errorMessage = replaceIfNull(response, 'Unknown error')

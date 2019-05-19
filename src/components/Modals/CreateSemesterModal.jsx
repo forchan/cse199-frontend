@@ -111,8 +111,8 @@ const CreateSemesterModal = ({
     });
     const response = await postApiStuff(API_SECTION_URL, formToSubmit);
     if (validateResponseString(response)) {
-      displayNotification('The course semester, course calendar, and section groups have been created! You can now switch to it.', SUCCESS);
       loadSemesters();
+      displayNotification('The course semester, course calendar, and section groups have been created! You can now switch to it.', SUCCESS);
       toggle();
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);

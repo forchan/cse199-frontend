@@ -40,8 +40,8 @@ const DeleteMaterialModal = ({
 }) => {
   const validateResponse = response => {
     if (validateResponseString(response)) {
-      displayNotification(response, SUCCESS);
       reloadMaterials(courseId);
+      displayNotification(response, SUCCESS);
       toggle();
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);

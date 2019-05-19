@@ -38,8 +38,8 @@ const DeleteSectionModal = ({
   const validateResponse = response => {
     if (validateResponseString(response)) {
       const message = `${section.section_type} ${section.section_name} deleted.`;
-      displayNotification(message, SUCCESS);
       reloadSections(courseId);
+      displayNotification(message, SUCCESS);
       toggle();
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);

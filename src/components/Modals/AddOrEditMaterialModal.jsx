@@ -107,8 +107,8 @@ const AddOrEditMaterialModal = ({
     const response = await postApiStuff(API_MATERIAL_URL, formToSubmit);
     if (validateResponseString(response)) {
       let addedMaterialType = upperCaseFirstLetterOnly(materialType);
-      displayNotification(`${addedMaterialType} added to ${moduleName}!`, SUCCESS);
       reloadMaterials(courseId);
+      displayNotification(`${addedMaterialType} added to ${moduleName}!`, SUCCESS);
       clearAllInput();
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);

@@ -65,8 +65,8 @@ const AddOrEditModuleModal = ({
     });
     const response = await postApiStuff(API_MATERIAL_URL, formToSubmit);
     if (validateResponseString(response)) {
-      displayNotification('Module created!', SUCCESS);
       reloadModules(courseId);
+      displayNotification('Module created!', SUCCESS);
       toggleClose();
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);

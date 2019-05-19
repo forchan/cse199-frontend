@@ -90,8 +90,8 @@ const AddStaffToSectionModal = ({
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
 
     if (validateResponseString(response)) {
-      displayNotification('Staff added to section!', SUCCESS);
       loadAllSectionGroupInstructors(courseId, sectionGroups);
+      displayNotification('Staff added to section!', SUCCESS);
       closeModal();
     } else {
       let errorMessage = replaceIfNull(response, 'Unknown error');

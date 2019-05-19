@@ -146,7 +146,7 @@ const AddOrEditSectionModal = ({
             </Col>
             <Col md={6}>
               <FormGroup>
-                <Label for="schedule">Schedule*</Label>
+                <Label for="schedule">Schedule* [ex. M or T-R]</Label>
                 <Input
                   type="text"
                   name="schedule"
