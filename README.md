@@ -1,16 +1,25 @@
 CSE 199 Admin Site Notes
 ================================================================================
 
+This web app was made by Chris Chan for Alan Hunt and the UB CSE 199 Faculty
+
 Component Hierarchy:
 - index.js contains entry point into application.
-- index.js renders the main app component, App.jsx (the main view/layout)
-- App.jsx is contained under views/App/App.jsx
-- All other "view" components under the views/ directory is rendered in App.jsx
-  using react-router's <Switch/> component.
+- index.js renders the main app component, App.jsx
+- App.jsx is contained under components directory
+- The main view components are in the root of the 'components' directory
+- Sub components are under 'components' directory under other folders such as 'Modals'
 
 State Hierarchy:
-- All data retrieved through API get calls are stored as the main state in
-  App.jsx and passed down to other views as props
+- All data retrieved through API get calls are stored in the redux store
+- redux store is updated through actions that "dispatch" updates
+- actions are in actions directory
+- once an action is "dispatched", reducers tell the store how the new state should look like
+- reducers are in reducers directory
+- containers are just components that subscribe to the state from the redux store, and also actions
+
+React-Redux-Tutorial: https://redux.js.org/basics/usage-with-react
+- This link holds good tutorials for react redux and all the terms used
 
 
 Create React App auto generated README
