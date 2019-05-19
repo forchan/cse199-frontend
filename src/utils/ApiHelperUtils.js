@@ -94,7 +94,9 @@ export const loadModules = async (courseId) => {
     courseId: courseId
   });
   if (data && data.modules && data.modules.length >= 38) {
-    console.log('Api recieved more than 37 modules, max should be 37.');
+    const msg = 'Api recieved more than 37 modules, max should have been 37.';
+    alert(`${msg} Your schedule grid will not be accurate. Check values in DB.`);
+    console.log(`${msg} Check values in your database.`);
   }
   return (data && data.modules) ? data.modules : [];
 };
