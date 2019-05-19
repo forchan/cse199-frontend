@@ -21,17 +21,25 @@ import {
 import {
   validateResponseString,
   isNullOrEmpty,
-  replaceIfNull
+  replaceIfNull,
+  upperCaseFirstLetterOnly
 } from '../../utils/StringUtils.js';
 import { postApiStuff } from '../../utils/ApiUtils.js';
 import { prepareAddOrEditOfficeHoursForm } from '../../utils/FormUtils.js';
 import { API_INSTRUCTOR_URL } from '../../constants/ApiConstants.js';
 import { REG_OFFICE_HOUR_TYPE } from '../../constants/InstructorConstants.js';
 
+const defaultProps = {
+  officeHour: {}
+}
+
 const propTypes = {
   isOpen:  PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  officeHour: PropTypes.object,
   courseId: PropTypes.string.isRequired,
+  courseYear: PropTypes.string.isRequired,
+  courseSemester: PropTypes.string.isRequired,
   instructorId: PropTypes.string.isRequired,
   reloadOfficeHours: PropTypes.func.isRequired
 };
@@ -39,15 +47,18 @@ const propTypes = {
 const AddOrEditOfficeHoursModal = ({
   isOpen,
   toggle,
+  officeHour,
   courseId,
+  courseYear,
+  courseSemester,
   instructorId,
   reloadOfficeHours
 }) => {
-  const [weekday, setWeekday] = useState('');
-  const [location, setLocation] = useState('');
-  const [officeHoursType, setofficeHoursType] = useState(REG_OFFICE_HOUR_TYPE);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [weekday, setWeekday] = useState(replaceIfNull(officeHour.weekday));
+  const [location, setLocation] = useState(replaceIfNull(officeHour.location));
+  const [officeHoursType, setofficeHoursType] = useState(replaceIfNull(officeHour.type, REG_OFFICE_HOUR_TYPE));
+  const [startTime, setStartTime] = useState(replaceIfNull(officeHour.time_start));
+  const [endTime, setEndTime] = useState(replaceIfNull(officeHour.time_end));
   const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
 
   const validForm = () => {
@@ -65,6 +76,7 @@ const AddOrEditOfficeHoursModal = ({
   const submitForm = async () => {
     if (!validForm()) return;
     const formToSubmit = prepareAddOrEditOfficeHoursForm({
+      officeHoursId: officeHour.office_hours_id, // will be null if not editing
       instructorId,
       courseId,
       officeHoursType,
@@ -75,8 +87,8 @@ const AddOrEditOfficeHoursModal = ({
     });
     const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
     if (validateResponseString(response)) {
-      displayNotification('Added office hours!', SUCCESS);
       reloadOfficeHours(courseId);
+      displayNotification('Office hours updated!', SUCCESS);
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
     }
@@ -85,7 +97,7 @@ const AddOrEditOfficeHoursModal = ({
   return (
     <Modal isOpen={isOpen} toggle={toggle} size="md">
       <ModalHeader toggle={toggle}>
-        Office Hours
+        Office Hours [ {upperCaseFirstLetterOnly(courseSemester)} {courseYear} ]
       </ModalHeader>
       <ModalBody style={{ height: 'auto' }}>
         {(displayRequiredPrompt) &&
@@ -160,13 +172,14 @@ const AddOrEditOfficeHoursModal = ({
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={submitForm}>Add</Button>{' '}
-        <Button color="secondary" onClick={toggle}>Cancel</Button>
+        <Button color="primary" onClick={submitForm}>Save</Button>{' '}
+        <Button color="secondary" onClick={toggle}>Exit</Button>
       </ModalFooter>
     </Modal>
   );
 };
 
+AddOrEditOfficeHoursModal.defaultProps = defaultProps;
 AddOrEditOfficeHoursModal.propTypes = propTypes;
 
 export default AddOrEditOfficeHoursModal;
