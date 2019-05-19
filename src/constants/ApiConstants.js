@@ -38,3 +38,4 @@ export const CREATE_SEMESTER_AND_DETAILS = 'createCourseAndCalendarAndSectionGro
 // DELETE related constants
 export const DELETE_MATERIALS_FROM_MODULE = 'deleteMaterialsFromModule';
 export const DELETE_INSTRUCTOR_FROM_SECTION = 'deleteInstructorFromSection';
+export const DELETE_OFFICE_HOURS = 'deleteOfficeHours';

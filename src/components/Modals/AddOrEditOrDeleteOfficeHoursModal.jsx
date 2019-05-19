@@ -16,6 +16,7 @@ import {
 import {
   displayNotification,
   SUCCESS,
+  WARNING,
   ERROR
 } from '../../utils/NotificationUtils.js';
 import {
@@ -25,7 +26,10 @@ import {
   upperCaseFirstLetterOnly
 } from '../../utils/StringUtils.js';
 import { postApiStuff } from '../../utils/ApiUtils.js';
-import { prepareAddOrEditOfficeHoursForm } from '../../utils/FormUtils.js';
+import {
+  prepareAddOrEditOfficeHoursForm,
+  prepareDeleteOfficeHoursForm
+} from '../../utils/FormUtils.js';
 import { API_INSTRUCTOR_URL } from '../../constants/ApiConstants.js';
 import { REG_OFFICE_HOUR_TYPE } from '../../constants/InstructorConstants.js';
 
@@ -44,7 +48,7 @@ const propTypes = {
   reloadOfficeHours: PropTypes.func.isRequired
 };
 
-const AddOrEditOfficeHoursModal = ({
+const AddOrEditOrDeleteOfficeHoursModal = ({
   isOpen,
   toggle,
   officeHour,
@@ -89,6 +93,23 @@ const AddOrEditOfficeHoursModal = ({
     if (validateResponseString(response)) {
       reloadOfficeHours(courseId);
       displayNotification('Office hours updated!', SUCCESS);
+    } else {
+      const errorMessage = 'No office hours updated. You sure you made any changes?';
+      displayNotification(replaceIfNull(errorMessage, 'Unknown error'), ERROR);
+    }
+  };
+
+  const deleteOfficeHours = async () => {
+    if (isNullOrEmpty(officeHour.office_hours_id)) {
+      displayNotification('No office hours to delete.', WARNING);
+      return;
+    }
+    const formToSubmit = prepareDeleteOfficeHoursForm(officeHour);
+    const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
+    if (validateResponseString(response)) {
+      reloadOfficeHours(courseId);
+      displayNotification('Office hours deleted!', SUCCESS);
+      toggle();
     } else {
       displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
     }
@@ -173,13 +194,14 @@ const AddOrEditOfficeHoursModal = ({
       </ModalBody>
       <ModalFooter>
         <Button color="primary" onClick={submitForm}>Save</Button>{' '}
+        <Button color="warning" onClick={deleteOfficeHours}>Delete</Button>{' '}
         <Button color="secondary" onClick={toggle}>Exit</Button>
       </ModalFooter>
     </Modal>
   );
 };
 
-AddOrEditOfficeHoursModal.defaultProps = defaultProps;
-AddOrEditOfficeHoursModal.propTypes = propTypes;
+AddOrEditOrDeleteOfficeHoursModal.defaultProps = defaultProps;
+AddOrEditOrDeleteOfficeHoursModal.propTypes = propTypes;
 
-export default AddOrEditOfficeHoursModal;
+export default AddOrEditOrDeleteOfficeHoursModal;

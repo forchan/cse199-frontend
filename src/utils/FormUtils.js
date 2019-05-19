@@ -15,7 +15,8 @@ import {
   POST_SECTION,
   POST_OFFICE_HOURS,
   DELETE_MATERIALS_FROM_MODULE,
-  DELETE_INSTRUCTOR_FROM_SECTION
+  DELETE_INSTRUCTOR_FROM_SECTION,
+  DELETE_OFFICE_HOURS
 } from '../constants/ApiConstants.js';
 
 /* ============================ Instructor Forms ============================ */
@@ -98,6 +99,14 @@ export const prepareAddOrEditOfficeHoursForm = detailsObject => {
   return formToSubmit;
 };
 
+export const prepareDeleteOfficeHoursForm = officeHour => {
+  const formToSubmit = {
+    action: DELETE_OFFICE_HOURS,
+    officehoursid: officeHour.office_hours_id
+  };
+  return formToSubmit;
+};
+
 /* =========================== Announcement Forms =========================== */
 
 export const prepareAddOrEditAnnouncementForm = detailsObject => {
@@ -172,6 +181,7 @@ export const prepareAddModuleForm = detailsObject => {
   };
   return formToSubmit;
 };
+
 
 /* ============================= Section Forms ============================== */
 

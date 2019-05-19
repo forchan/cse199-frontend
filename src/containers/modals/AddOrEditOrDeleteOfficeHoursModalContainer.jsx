@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import AddOrEditOfficeHoursModal from '../../components/Modals/AddOrEditOfficeHoursModal.jsx';
+import AddOrEditOrDeleteOfficeHoursModal from '../../components/Modals/AddOrEditOrDeleteOfficeHoursModal.jsx';
 import { getCourseId, getCourseSemester, getCourseYear } from '../../selectors/CourseSelectors.js';
 import { reloadOfficeHours } from '../../actions/ContentActions.js';
 
@@ -16,4 +16,4 @@ const mapActionsToProps = ({
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(AddOrEditOfficeHoursModal);
+)(AddOrEditOrDeleteOfficeHoursModal);

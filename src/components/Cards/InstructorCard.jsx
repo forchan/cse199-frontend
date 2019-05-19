@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import EditInstructorModal from '../../containers/modals/AddOrEditInstructorModalContainer.jsx';
 import DeleteInstructorModal from '../../containers/modals/DeleteInstructorModalContainer.jsx';
-import AddOrEditOfficeHoursModal from '../../containers/modals/AddOrEditOfficeHoursModalContainer.jsx';
+import AddOrEditOrDeleteOfficeHoursModal from '../../containers/modals/AddOrEditOrDeleteOfficeHoursModalContainer.jsx';
 import { replaceIfNull, isNullOrEmpty } from '../../utils/StringUtils.js';
 import { DEFAULT_IMAGE_PATH } from '../../constants/InstructorConstants.js';
 
@@ -50,7 +50,7 @@ const InstructorCard = ({ instructor, officeHour }) => {
         />
       }
       {(officeHoursModal) &&
-        <AddOrEditOfficeHoursModal
+        <AddOrEditOrDeleteOfficeHoursModal
           isOpen={officeHoursModal}
           toggle={toggleOfficeHoursModal}
           instructorId={instructor.instructor_id}
