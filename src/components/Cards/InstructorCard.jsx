@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import EditInstructorModal from '../../containers/modals/AddOrEditInstructorModalContainer.jsx';
 import DeleteInstructorModal from '../../containers/modals/DeleteInstructorModalContainer.jsx';
-import AddOrEditOfficeHoursModal from '../Modals/AddOrEditOfficeHoursModal.jsx';
+import AddOrEditOfficeHoursModal from '../../containers/modals/AddOrEditOfficeHoursModalContainer.jsx';
 import { replaceIfNull, isNullOrEmpty } from '../../utils/StringUtils.js';
 import { DEFAULT_IMAGE_PATH } from '../../constants/InstructorConstants.js';
 
