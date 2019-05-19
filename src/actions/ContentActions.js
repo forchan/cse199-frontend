@@ -33,6 +33,7 @@ import { loadAllSectionGroupInstructors } from './SectionInstructorActions.js';
 export const SET_GENERAL_CONTENT = '#setGeneralContent';
 export const SET_SCHEDULE_CONTENT = '#setScheduleContent';
 export const SET_INSTRUCTORS = '#setInstructors';
+export const SET_OFFICE_HOURS = '#setOfficeHours';
 export const SET_ANNOUNCEMENTS = '#setAnnouncements';
 export const SET_MATERIALS = '#setMaterials';
 export const SET_MODULES = '#setModules';
@@ -110,6 +111,16 @@ const setInstructors = instructors => ({
 export const reloadInstructors = courseId => async (dispatch) => {
   const instructors = await loadInstructors(courseId);
   dispatch(setInstructors(instructors));
+};
+
+const setOfficeHours = officeHours => ({
+  type: SET_OFFICE_HOURS,
+  officeHours
+});
+
+export const reloadOfficeHours = courseId => async (dispatch) => {
+  const officeHours = await loadOfficeHours(courseId);
+  dispatch(setOfficeHours(officeHours));
 };
 
 const setAnnouncements = announcements => ({

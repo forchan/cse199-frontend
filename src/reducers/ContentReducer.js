@@ -2,6 +2,7 @@ import {
   SET_GENERAL_CONTENT,
   SET_SCHEDULE_CONTENT,
   SET_INSTRUCTORS,
+  SET_OFFICE_HOURS,
   SET_ANNOUNCEMENTS,
   SET_MATERIALS,
   SET_MODULES,
@@ -45,6 +46,11 @@ const courseReducer = (state = initialContentState, action) => {
       return {
         ...state,
         instructors: action.instructors
+      };
+    case SET_OFFICE_HOURS:
+      return {
+        ...state,
+        officeHours: action.officeHours
       };
     case SET_ANNOUNCEMENTS:
       return {

@@ -13,6 +13,7 @@ import {
   POST_INSTRUCTOR,
   POST_MATERIAL,
   POST_SECTION,
+  POST_OFFICE_HOURS,
   DELETE_MATERIALS_FROM_MODULE,
   DELETE_INSTRUCTOR_FROM_SECTION
 } from '../constants/ApiConstants.js';
@@ -21,16 +22,15 @@ import {
 
 export const prepareAddOrEditInstructorForm = detailsObject => {
   // null instructor id passed in during add new
-  const { title, firstName, lastName, type, email, photoURL, instructorId } = detailsObject;
   const formToSubmit = {
     action: POST_INSTRUCTOR,
-    instructortype: type,
-    instructortitle: title,
-    instructorfirstname: firstName,
-    instructorlastname: lastName,
-    instructorcontact: email,
-    instructorpicture: photoURL,
-    instructorid: instructorId
+    instructortype: detailsObject.type,
+    instructortitle: detailsObject.title,
+    instructorfirstname: detailsObject.firstName,
+    instructorlastname: detailsObject.lastName,
+    instructorcontact: detailsObject.email,
+    instructorpicture: detailsObject.photoURL,
+    instructorid: detailsObject.instructorId
   };
   return formToSubmit;
 };
@@ -81,21 +81,36 @@ export const prepareDeleteInstructorFromSectionForm = sectionInstructor => {
   return formToSubmit;
 };
 
+/* =========================== Office Hour Forms ============================ */
+
+export const prepareAddOrEditOfficeHoursForm = detailsObject => {
+  const formToSubmit = {
+    action: POST_OFFICE_HOURS,
+    officehoursid: detailsObject.officeHoursId,
+    instructorid: detailsObject.instructorId,
+    courseid: detailsObject.courseId,
+    type: detailsObject.officeHoursType,
+    weekday: detailsObject.weekday,
+    location: detailsObject.location,
+    timestart: detailsObject.startTime,
+    timeend: detailsObject.endTime
+  };
+  return formToSubmit;
+};
 
 /* =========================== Announcement Forms =========================== */
 
 export const prepareAddOrEditAnnouncementForm = detailsObject => {
   // null section group id, section id, and materials id passed in accordingly
-  const { courseId, title, text, sectionId, sectionGroupId, materialsId } = detailsObject;
   const formToSubmit = {
     action: POST_MATERIAL,
     materialstype: ANNOUNCEMENT,
-    materialsid: materialsId,
-    courseid: courseId,
-    sectionid: sectionId,
-    sectiongroupid: sectionGroupId,
-    title: title,
-    text: text
+    materialsid: detailsObject.materialsId,
+    courseid: detailsObject.courseId,
+    sectionid: detailsObject.sectionId,
+    sectiongroupid: detailsObject.sectionGroupId,
+    title: detailsObject.title,
+    text: detailsObject.text
   };
   return formToSubmit;
 };

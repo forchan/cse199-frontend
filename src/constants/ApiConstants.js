@@ -26,6 +26,7 @@ export const GET_COURSE_LIST = 'getCourseList';
 export const POST_INSTRUCTOR = 'addOrEditInstructor';
 export const POST_MATERIAL = 'addOrEditMaterials';
 export const POST_SECTION = 'addOrEditSection';
+export const POST_OFFICE_HOURS = 'addOrEditOfficeHours';
 
 // ADD only related constants
 export const ADD_INSTRUCTOR_TO_MODULE = 'addInstructorToModule';

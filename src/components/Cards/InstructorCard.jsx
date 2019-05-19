@@ -53,6 +53,7 @@ const InstructorCard = ({ instructor, officeHour }) => {
         <AddOrEditOfficeHoursModal
           isOpen={officeHoursModal}
           toggle={toggleOfficeHoursModal}
+          instructorId={instructor.instructor_id}
         />
       }
       <Card className="instructor-card">

@@ -13,29 +13,73 @@ import {
   Input,
   Button
 } from 'reactstrap';
+import {
+  displayNotification,
+  SUCCESS,
+  ERROR
+} from '../../utils/NotificationUtils.js';
+import {
+  validateResponseString,
+  isNullOrEmpty,
+  replaceIfNull
+} from '../../utils/StringUtils.js';
+import { postApiStuff } from '../../utils/ApiUtils.js';
+import { prepareAddOrEditOfficeHoursForm } from '../../utils/FormUtils.js';
+import { API_INSTRUCTOR_URL } from '../../constants/ApiConstants.js';
 import { REG_OFFICE_HOUR_TYPE } from '../../constants/InstructorConstants.js';
 
 const propTypes = {
   isOpen:  PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired
+  toggle: PropTypes.func.isRequired,
+  courseId: PropTypes.string.isRequired,
+  instructorId: PropTypes.string.isRequired,
+  reloadOfficeHours: PropTypes.func.isRequired
 };
 
 const AddOrEditOfficeHoursModal = ({
   isOpen,
-  toggle
+  toggle,
+  courseId,
+  instructorId,
+  reloadOfficeHours
 }) => {
   const [weekday, setWeekday] = useState('');
   const [location, setLocation] = useState('');
-  const [officeHourType, setOfficeHourType] = useState(REG_OFFICE_HOUR_TYPE);
+  const [officeHoursType, setofficeHoursType] = useState(REG_OFFICE_HOUR_TYPE);
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [displayRequiredPrompt, setDisplayRequiredPrompt] = useState(false);
 
   const validForm = () => {
+    if (isNullOrEmpty(weekday)
+      || isNullOrEmpty(location)
+      || isNullOrEmpty(startTime)
+      || isNullOrEmpty(endTime)) {
+        setDisplayRequiredPrompt(true);
+        return false;
+    }
+    setDisplayRequiredPrompt(false);
     return true;
   };
 
   const submitForm = async () => {
     if (!validForm()) return;
+    const formToSubmit = prepareAddOrEditOfficeHoursForm({
+      instructorId,
+      courseId,
+      officeHoursType,
+      weekday,
+      location,
+      startTime,
+      endTime
+    });
+    const response = await postApiStuff(API_INSTRUCTOR_URL, formToSubmit);
+    if (validateResponseString(response)) {
+      displayNotification('Added office hours!', SUCCESS);
+      reloadOfficeHours(courseId);
+    } else {
+      displayNotification(replaceIfNull(response, 'Unknown error'), ERROR);
+    }
   };
 
   return (
@@ -44,6 +88,9 @@ const AddOrEditOfficeHoursModal = ({
         Office Hours
       </ModalHeader>
       <ModalBody style={{ height: 'auto' }}>
+        {(displayRequiredPrompt) &&
+          <p className="text-danger">Missing required* inputs</p>
+        }
         <Form>
           <Row form>
             <Col sm={6}>
@@ -80,8 +127,8 @@ const AddOrEditOfficeHoursModal = ({
                   name="type"
                   id="type"
                   disabled
-                  value={officeHourType}
-                  onChange={e => setOfficeHourType(e.target.value)}
+                  value={officeHoursType}
+                  onChange={e => setofficeHoursType(e.target.value)}
                 />
               </FormGroup>
             </Col>
