@@ -6,6 +6,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
+  NavLink,
   NavItem,
   Dropdown,
   DropdownToggle,
@@ -140,14 +141,6 @@ class Header extends Component {
               {this.props.currentSemester} {this.props.currentYear}
             </NavbarBrand>
             <Nav navbar>
-              <NavItem>
-                <Link to="#o________o" className="nav-link btn-magnify">
-                  <i className="nc-icon nc-layout-11" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Stuff</span>
-                  </p>
-                </Link>
-              </NavItem>
               <Dropdown
                 nav
                 isOpen={this.state.dropdownOpen}
@@ -165,6 +158,18 @@ class Header extends Component {
                   <DropdownItem tag="a">Something else here</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
+              <NavItem>
+                <NavLink
+                  href="https://cse.buffalo.edu/faculty/ahunt/classes/internet/"
+                  target="_blank"
+                  className="nav-link btn-magnify"
+                >
+                  <i className="nc-icon nc-globe" />
+                  <p>
+                    <span className="d-lg-none d-md-block">Student Site</span>
+                  </p>
+                </NavLink>
+              </NavItem>
               <NavItem>
                 <Link to="#@________@" className="nav-link btn-rotate">
                   <i className="nc-icon nc-settings-gear-65" />
