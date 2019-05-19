@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { useCookies } from 'react-cookie';
 import CreateSemesterModal from '../containers/modals/CreateSemesterModalContainer.jsx';
 import {
   Button,
@@ -23,6 +24,11 @@ import {
   WARNING
 } from '../utils/NotificationUtils.js';
 import { upperCaseFirstLetterOnly, isNullOrEmpty } from '../utils/StringUtils.js';
+import {
+  COURSE_ID,
+  COURSE_YEAR,
+  COURSE_SEMESTER
+} from '../constants/CookieConstants.js';
 
 const propTypes = {
   semesters: PropTypes.array.isRequired,
@@ -41,7 +47,15 @@ const Semester = ({
   setCourseDetails,
   loadAllContent
 }) => {
-  const [selectedSemesterId, setSelectedSemesterId] = useState('');
+  // cookies
+  const [cookies, setCookie] = useCookies([COURSE_ID, COURSE_YEAR, COURSE_SEMESTER]);
+  const setAllCookies = (courseId, courseYear, courseSemester) => {
+    setCookie(COURSE_ID, courseId, { path: '/' });
+    setCookie(COURSE_YEAR, courseYear, { path: '/' });
+    setCookie(COURSE_SEMESTER, courseSemester, { path: '/' });
+  };
+  // this functional component's state
+  const [selectedSemesterCourseId, setselectedSemesterCourseId] = useState('');
   const [createNewModal, setModal] = useState(false);
   const [activeTab, setTab] = useState('1');
   const toggleModal = () => setModal(!createNewModal);
@@ -50,22 +64,24 @@ const Semester = ({
       setTab(tab);
     }
   };
+
   const switchSemester = async () => {
-    if (isNullOrEmpty(selectedSemesterId)) {
+    if (isNullOrEmpty(selectedSemesterCourseId)) {
       displayNotification('You did not select a semester', WARNING);
       return;
     }
-    if (selectedSemesterId === courseId) {
+    if (selectedSemesterCourseId === courseId) {
       displayNotification('You are already viewing the selected semester', WARNING);
       return;
     }
     const selectedSemesterObjectInArray = semesters.filter(semester => (
-      semester.course_id === selectedSemesterId
+      semester.course_id === selectedSemesterCourseId
     ));
     const selectedSemesterObject = selectedSemesterObjectInArray[0];
     const { course_year, course_semester } = selectedSemesterObject;
-    loadAllContent(selectedSemesterId);
-    setCourseDetails(selectedSemesterId, course_year, course_semester);
+    loadAllContent(selectedSemesterCourseId);
+    setCourseDetails(selectedSemesterCourseId, course_year, course_semester);
+    setAllCookies(selectedSemesterCourseId, course_year, course_semester);
     displayNotification('Semester switched!', SUCCESS);
   };
 
@@ -110,8 +126,8 @@ const Semester = ({
                     type="select"
                     name="selectSemester"
                     id="selectSemester"
-                    value={selectedSemesterId}
-                    onChange={e => setSelectedSemesterId(e.target.value)}
+                    value={selectedSemesterCourseId}
+                    onChange={e => setselectedSemesterCourseId(e.target.value)}
                   >
                     <option></option>
                     {semesters.map(semester => {
@@ -134,6 +150,11 @@ const Semester = ({
         </TabPane>
         <TabPane tabId="2">
           This wont't show lol.
+          Also, to suppress 'cookies' not being used warning, here is the current
+          course ID that we are viewing:
+          {cookies[COURSE_ID] && <p>cookies[COURSE_ID]</p>}
+          'cookies' is not really used for anything,
+          but it gets returned in 'useCookies' function
         </TabPane>
       </TabContent>
     </div>

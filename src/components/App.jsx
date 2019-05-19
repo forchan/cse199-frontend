@@ -1,22 +1,46 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
 import Header from './Header/Header.jsx'
 import Sidebar from './Sidebar/Sidebar.jsx'
 import appRoutes from '../routes/appRoutes.js';
+import { isNullOrEmpty } from '../utils/StringUtils.js';
+import { loadCourseList } from '../utils/ApiHelperUtils.js';
+import {
+  COURSE_ID,
+  COURSE_YEAR,
+  COURSE_SEMESTER
+} from '../constants/CookieConstants.js';
 
 const propTypes = {
-  courseId: PropTypes.string.isRequired,
   courseSemester: PropTypes.string.isRequired,
   courseYear: PropTypes.string.isRequired,
-  loadAllContent: PropTypes.func.isRequired
+  loadAllContent: PropTypes.func.isRequired,
+  setCourseDetails: PropTypes.func.isRequired,
+  cookies: instanceOf(Cookies).isRequired
 };
 
 class App extends Component {
   componentDidMount = async () => {
-    const { courseId, loadAllContent } = this.props;
-    loadAllContent(courseId);
+    const { cookies, loadAllContent, setCourseDetails } = this.props;
+
+    const targetCourseId = cookies.get(COURSE_ID);
+
+    // if there are no cookies set yet, the app will load the most recent semester
+    if (isNullOrEmpty(targetCourseId)) {
+      const semesters = await loadCourseList();
+      const targetSemester = semesters[semesters.length - 1];
+      const { course_id, course_year, course_semester } = targetSemester;
+      loadAllContent(course_id);
+      setCourseDetails(course_id, course_year, course_semester);
+    } else {
+      // otherwise, if cookies are already set, app will load that semester
+      // cookies are set in Semester.jsx component when user switches semesters
+      loadAllContent(targetCourseId);
+      setCourseDetails(targetCourseId, cookies.get(COURSE_YEAR), cookies.get(COURSE_SEMESTER));
+    }
   };
 
   render() {
@@ -52,4 +76,4 @@ class App extends Component {
 
 App.propTypes = propTypes;
 
-export default App;
+export default withCookies(App);

@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-notifications/lib/notifications.css';
 import './styles/css/paper-dashboard.css'
+// Cookies
+import { CookiesProvider } from 'react-cookie';
 // Router
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import indexRoutes from './routes/indexRoutes.js';
@@ -15,13 +17,15 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={configureStore()}>
-    <HashRouter>
-      <Switch>
-        {indexRoutes.map((route, key) => {
-          return <Route to={route.path} component={route.component} key={key} />
-        })}
-      </Switch>
-    </HashRouter>
+    <CookiesProvider>
+      <HashRouter>
+        <Switch>
+          {indexRoutes.map((route, key) => {
+            return <Route to={route.path} component={route.component} key={key} />
+          })}
+        </Switch>
+      </HashRouter>
+    </CookiesProvider>
   </Provider>,
   document.getElementById('root')
 );
