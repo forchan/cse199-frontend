@@ -24,6 +24,7 @@ import {
   WARNING
 } from '../utils/NotificationUtils.js';
 import { upperCaseFirstLetterOnly, isNullOrEmpty } from '../utils/StringUtils.js';
+import { getSemesterObjectFromArrayByCourseId } from '../utils/ArrayUtils.js';
 import {
   COURSE_ID,
   COURSE_YEAR,
@@ -74,10 +75,10 @@ const Semester = ({
       displayNotification('You are already viewing the selected semester', WARNING);
       return;
     }
-    const selectedSemesterObjectInArray = semesters.filter(semester => (
-      semester.course_id === selectedSemesterCourseId
-    ));
-    const selectedSemesterObject = selectedSemesterObjectInArray[0];
+    const selectedSemesterObject = getSemesterObjectFromArrayByCourseId(
+      selectedSemesterCourseId,
+      semesters
+    );
     const { course_year, course_semester } = selectedSemesterObject;
     loadAllContent(selectedSemesterCourseId);
     setCourseDetails(selectedSemesterCourseId, course_year, course_semester);

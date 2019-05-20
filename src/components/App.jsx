@@ -3,7 +3,7 @@ import PropTypes, { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
-import Header from './Header/Header.jsx'
+import Header from '../containers/header/HeaderContainer.jsx'
 import Sidebar from './Sidebar/Sidebar.jsx'
 import appRoutes from '../routes/appRoutes.js';
 import { isNullOrEmpty } from '../utils/StringUtils.js';
@@ -15,8 +15,6 @@ import {
 } from '../constants/CookieConstants.js';
 
 const propTypes = {
-  courseSemester: PropTypes.string.isRequired,
-  courseYear: PropTypes.string.isRequired,
   loadAllContent: PropTypes.func.isRequired,
   setCourseDetails: PropTypes.func.isRequired,
   cookies: instanceOf(Cookies).isRequired
@@ -44,19 +42,12 @@ class App extends Component {
   };
 
   render() {
-    const { courseSemester, courseYear} = this.props;
-
     return (
       <div className="wrapper">
         <NotificationContainer />
         <Sidebar {...this.props} routes={appRoutes} />
         <div className="main-panel" ref="mainPanel">
-          <Header
-            {...this.props}
-            routes={appRoutes}
-            currentSemester={courseSemester}
-            currentYear={courseYear}
-          />
+          <Header {...this.props} routes={appRoutes} />
           <Switch>
             {appRoutes.map((route, key) => {
               if (route.redirect) {
@@ -72,7 +63,7 @@ class App extends Component {
       </div>
     );
   }
-};
+}
 
 App.propTypes = propTypes;
 

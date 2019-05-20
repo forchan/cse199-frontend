@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
+import { withCookies } from 'react-cookie';
 import {
   Collapse,
   Navbar,
@@ -14,12 +16,52 @@ import {
   DropdownItem,
   Container
 } from "reactstrap";
+import {
+  COURSE_ID,
+  COURSE_YEAR,
+  COURSE_SEMESTER
+} from '../../constants/CookieConstants.js';
+import {
+  displayNotification,
+  SUCCESS,
+  WARNING
+} from '../../utils/NotificationUtils.js';
+import { getSemesterObjectFromArrayByCourseId } from '../../utils/ArrayUtils.js';
+
+const propTypes = {
+  routes: PropTypes.array.isRequired,
+  location: PropTypes.object.isRequired,
+  courseYear: PropTypes.string.isRequired,
+  courseSemester: PropTypes.string.isRequired,
+  courseId: PropTypes.string.isRequired,
+  semesters: PropTypes.array.isRequired
+};
 
 class Header extends Component {
   state = {
     isOpen: false,
     dropdownOpen: false,
     color: "white"
+  }
+
+  switchSemester = (selectedSemesterCourseId) => {
+    const { cookies, courseId, loadAllContent, setCourseDetails, semesters } = this.props;
+
+    if (selectedSemesterCourseId === courseId) {
+      displayNotification('You are already viewing the selected semester', WARNING);
+      return;
+    }
+    const selectedSemesterObject = getSemesterObjectFromArrayByCourseId(
+      selectedSemesterCourseId,
+      semesters
+    );
+    const { course_year, course_semester } = selectedSemesterObject;
+    loadAllContent(selectedSemesterCourseId);
+    setCourseDetails(selectedSemesterCourseId, course_year, course_semester);
+    cookies.set(COURSE_ID, selectedSemesterCourseId, { path: '/' });
+    cookies.set(COURSE_YEAR, course_year, { path: '/' });
+    cookies.set(COURSE_SEMESTER, course_semester, { path: '/' });
+    displayNotification('Semester switched!', SUCCESS);
   }
 
   toggle = () => {
@@ -95,17 +137,19 @@ class Header extends Component {
   }
 
   render() {
+    const { courseSemester, courseYear, semesters, location } = this.props;
+
     return (
       // add or remove classes depending if we are on full-screen-maps page or not
       <Navbar
         color={
-          this.props.location.pathname.indexOf("full-screen-maps") !== -1
+          location.pathname.indexOf("full-screen-maps") !== -1
             ? "dark"
             : this.state.color
         }
         expand="lg"
         className={
-          this.props.location.pathname.indexOf("full-screen-maps") !== -1
+          location.pathname.indexOf("full-screen-maps") !== -1
             ? "navbar-absolute fixed-top"
             : "navbar-absolute fixed-top " +
               (this.state.color === "transparent" ? "navbar-transparent " : "")
@@ -138,7 +182,7 @@ class Header extends Component {
             className="justify-content-end"
           >
             <NavbarBrand>
-              {this.props.currentSemester} {this.props.currentYear}
+              {courseSemester} {courseYear}
             </NavbarBrand>
             <Nav navbar>
               <Dropdown
@@ -147,15 +191,25 @@ class Header extends Component {
                 toggle={e => this.dropdownToggle(e)}
               >
                 <DropdownToggle caret nav>
-                  <i className="nc-icon nc-bell-55" />
+                  <i className="nc-icon nc-umbrella-13" />
                   <p>
                     <span className="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem tag="a">Action</DropdownItem>
-                  <DropdownItem tag="a">Another Action</DropdownItem>
-                  <DropdownItem tag="a">Something else here</DropdownItem>
+                  {semesters.slice(0).reverse().map(semester => {
+                    return (
+                      <DropdownItem
+                        onClick={() => this.switchSemester(semester.course_id)}
+                        key={semester.course_id}
+                      >
+                        {semester.course_department}{' '}
+                        {semester.course_number} -{' '}
+                        {semester.course_semester}{' '}
+                        {semester.course_year}
+                      </DropdownItem>
+                    );
+                  })}
                 </DropdownMenu>
               </Dropdown>
               <NavItem>
@@ -186,4 +240,6 @@ class Header extends Component {
   }
 }
 
-export default Header;
+Header.propTypes = propTypes;
+
+export default withCookies(Header);
